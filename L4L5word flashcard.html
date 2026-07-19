@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Vocabulary Flashcards - Lesson 4 & 5</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500&display=swap');
+
+  :root{
+    --ink:#2b2620;
+    --paper:#f7f3ea;
+    --paper-2:#efe8d8;
+    --rule:#c9bfa4;
+    --accent:#8a5a3b;
+    --accent-2:#3b6e63;
+    --card-back:#fffdf8;
+    --shadow: 0 1px 0 rgba(43,38,32,0.06), 0 8px 24px rgba(43,38,32,0.12);
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #fbf7ee 0%, transparent 60%),
+      var(--paper);
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 16px 60px;
+  }
+
+  header{
+    width:100%;
+    max-width:640px;
+    text-align:center;
+    margin-bottom:18px;
+  }
+
+  h1{
+    font-family:'Noto Serif KR', serif;
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:-0.01em;
+    margin:0 0 4px;
+  }
+
+  .sub{
+    font-size:0.85rem;
+    color:#6b6355;
+    letter-spacing:0.02em;
+  }
+
+  .lesson-tabs{
+    display:flex;
+    gap:8px;
+    width:100%;
+    max-width:640px;
+    margin:18px 0 8px;
+  }
+
+  .lesson-tabs button{
+    flex:1;
+    padding:10px 8px;
+    border:1px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    font-weight:500;
+    font-size:0.9rem;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+
+  .lesson-tabs button.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fdf9f1;
+  }
+
+  .meta-row{
+    width:100%;
+    max-width:640px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:0.8rem;
+    color:#7a7263;
+    margin:6px 2px 14px;
+  }
+
+  .stage{
+    width:100%;
+    max-width:480px;
+    perspective:1400px;
+    margin-bottom:22px;
+  }
+
+  .card{
+    position:relative;
+    width:100%;
+    height:300px;
+    cursor:pointer;
+    transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+
+  .card.flipped{ transform:rotateY(180deg); }
+
+  .face{
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    backface-visibility:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 24px;
+    background:var(--card-back);
+    box-shadow:var(--shadow);
+    border:1px solid var(--rule);
+  }
+
+  .face::before{
+    content:"";
+    position:absolute;
+    top:14px; left:14px; right:14px; bottom:14px;
+    border:1px solid rgba(139,90,59,0.18);
+    border-radius:10px;
+    pointer-events:none;
+  }
+
+  .face .tag{
+    position:absolute;
+    top:16px;
+    left:20px;
+    font-size:0.68rem;
+    letter-spacing:0.12em;
+    color:var(--accent);
+    font-weight:700;
+    text-transform:uppercase;
+  }
+
+  .face .idx{
+    position:absolute;
+    top:16px;
+    right:20px;
+    font-size:0.72rem;
+    color:#9c9484;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .face.back{
+    transform:rotateY(180deg);
+    background:#fbf5e8;
+  }
+
+  .word-kr{
+    font-family:'Noto Serif KR', serif;
+    font-weight:700;
+    font-size:2.1rem;
+    text-align:center;
+    line-height:1.3;
+    word-break:keep-all;
+  }
+
+  .word-jp{
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:500;
+    font-size:1.7rem;
+    text-align:center;
+    color:var(--accent-2);
+    line-height:1.4;
+  }
+
+  .hint{
+    margin-top:16px;
+    font-size:0.75rem;
+    color:#a39a89;
+  }
+
+  .controls{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+
+  .controls button{
+    flex:1;
+    padding:14px 10px;
+    border-radius:10px;
+    border:1px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink);
+    font-size:0.95rem;
+    font-weight:500;
+    font-family:'Noto Sans KR', sans-serif;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+
+  .controls button:active{ background:var(--rule); }
+
+  .controls .primary{
+    background:var(--ink);
+    color:#fdf9f1;
+    border-color:var(--ink);
+  }
+
+  .toolbar{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+  }
+
+  .toolbar button{
+    flex:1;
+    padding:10px 8px;
+    border-radius:8px;
+    border:1px dashed var(--rule);
+    background:transparent;
+    color:#6b6355;
+    font-size:0.82rem;
+    cursor:pointer;
+  }
+
+  .check-row{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+  }
+
+  .check-btn{
+    flex:1;
+    padding:13px 10px;
+    border-radius:10px;
+    font-size:0.92rem;
+    font-weight:700;
+    font-family:'Noto Sans KR', sans-serif;
+    cursor:pointer;
+    border:1.5px solid transparent;
+    transition:all .15s ease;
+  }
+
+  .check-btn.dont-know{
+    background:#f8e9e2;
+    color:#a24a2a;
+    border-color:#e3b79e;
+  }
+
+  .check-btn.know{
+    background:#e3ede7;
+    color:#2f6b52;
+    border-color:#a9cdb9;
+  }
+
+  .check-btn.dont-know.active{
+    background:#c9502a;
+    color:#fff8f2;
+    border-color:#c9502a;
+  }
+
+  .check-btn.know.active{
+    background:#3b7d5c;
+    color:#f3fbf6;
+    border-color:#3b7d5c;
+  }
+
+  .status-row{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    justify-content:space-between;
+    font-size:0.78rem;
+    color:#7a7263;
+    margin-top:14px;
+  }
+
+  .status-row b{
+    color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .toolbar button.active-filter{
+    background:var(--accent);
+    color:#fdf9f1;
+    border-style:solid;
+  }
+
+  .reset-status-btn{
+    width:100%;
+    max-width:480px;
+    margin-top:10px;
+    padding:9px;
+    background:transparent;
+    border:none;
+    color:#b5473a;
+    font-size:0.78rem;
+    text-decoration:underline;
+    cursor:pointer;
+    font-family:'Noto Sans KR', sans-serif;
+    transition:all .15s ease;
+  }
+
+  .reset-status-btn.armed{
+    background:#b5473a;
+    color:#fff8f2;
+    text-decoration:none;
+    border-radius:8px;
+    padding:10px;
+    font-weight:700;
+  }
+
+  .progress-bar{
+    width:100%;
+    max-width:480px;
+    height:4px;
+    background:var(--paper-2);
+    border-radius:2px;
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    transition:width .3s ease;
+  }
+
+  @media (max-width:400px){
+    .card{ height:270px; }
+    .word-kr{ font-size:1.75rem; }
+    .word-jp{ font-size:1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Vocabulary Flashcards</h1>
+  <div class="sub">Lesson 4: Relationships · Lesson 5: Transportation</div>
+</header>
+
+<div class="lesson-tabs">
+  <button id="tab-4" class="active">Lesson 4 (29)</button>
+  <button id="tab-5">Lesson 5 (31)</button>
+</div>
+
+<div class="meta-row">
+  <span id="count-label">1 / 29</span>
+  <span id="mode-label">Tap card to flip</span>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="stage">
+  <div class="card" id="card">
+    <div class="face front">
+      <span class="tag">KOREAN</span>
+      <span class="idx" id="idxFront"></span>
+      <div class="word-kr" id="krWord"></div>
+      <div class="hint">Tap to reveal Japanese</div>
+    </div>
+    <div class="face back">
+      <span class="tag">JAPANESE</span>
+      <span class="idx" id="idxBack"></span>
+      <div class="word-jp" id="jpWord"></div>
+      <div class="hint">Tap to flip back</div>
+    </div>
+  </div>
+</div>
+
+<div class="check-row">
+  <button id="dontKnowBtn" class="check-btn dont-know">✗ Don't Know</button>
+  <button id="knowBtn" class="check-btn know">✓ Know It</button>
+</div>
+
+<div class="controls">
+  <button id="prevBtn">← Prev</button>
+  <button id="flipBtn" class="primary">Flip</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="toolbar">
+  <button id="shuffleBtn">🔀 Shuffle</button>
+  <button id="resetBtn">↺ Original Order</button>
+  <button id="reviewBtn">📌 Review Unknown</button>
+</div>
+
+<div class="status-row" id="statusRow">
+  <span class="status-known">✓ Known <b id="knownCount">0</b></span>
+  <span class="status-unknown">✗ To Review <b id="unknownCount">0</b></span>
+</div>
+
+<button id="resetStatusBtn" class="reset-status-btn">🗑 Reset Progress</button>
+
+<script>
+const data = {
+  4: [
+    ["말다툼","口げんか"],
+    ["불만","不満"],
+    ["상의","相談"],
+    ["의견","意見"],
+    ["진학","進学"],
+    ["데려오다","連れてくる"],
+    ["설득하다","説得する"],
+    ["없어지다","なくなる"],
+    ["오해하다","誤解する"],
+    ["풀리다","（誤解などが）解ける"],
+    ["요일을 정하다","曜日を決める"],
+    ["구체적","具体的"],
+    ["기술","技術"],
+    ["대안","代案"],
+    ["말투","言葉遣い、口調"],
+    ["선약","先約"],
+    ["심리학","心理学"],
+    ["업무","業務"],
+    ["연구소","研究所"],
+    ["작성","作成"],
+    ["대인 관계","対人関係"],
+    ["멀어지다","遠ざかる、疎遠になる"],
+    ["제출하다","提出する"],
+    ["허락하다","許す、許可する"],
+    ["곤란하다","困る、困難だ"],
+    ["명확하다","明確だ"],
+    ["확실하다","確実だ"],
+    ["기분이 상하다","気分を害する"],
+    ["시간을 갖다","時間を持つ"]
+  ],
+  5: [
+    ["객실","客室"],
+    ["노약자석","優先席（老弱者席）"],
+    ["뚜껑","ふた"],
+    ["시내버스","市内バス"],
+    ["임산부석","妊産婦席"],
+    ["일회용","使い捨て、一回用"],
+    ["텀블러","タンブラー"],
+    ["피해","被害"],
+    ["깜빡하다","うっかり忘れる"],
+    ["양보하다","譲る"],
+    ["옮기다","移す"],
+    ["흔들리다","揺れる"],
+    ["흘리다","こぼす"],
+    ["진동 모드","マナーモード（振動モード）"],
+    ["간격","間隔"],
+    ["멀미","乗り物酔い"],
+    ["목적지","目的地"],
+    ["셔틀버스","シャトルバス"],
+    ["소음","騒音"],
+    ["자가용","自家用車"],
+    ["좌석","座席"],
+    ["휴게소","休憩所（サービスエリア）"],
+    ["운행하다","運行する"],
+    ["절약하다","節約する"],
+    ["쾌적하다","快適だ"],
+    ["교통 체증","交通渋滞"],
+    ["배차 간격","配車間隔（運行間隔）"],
+    ["이동 시간","移動時間"],
+    ["차량 통제","車両統制（通行規制）"],
+    ["짐을 싣다","荷物を積む"],
+    ["차이가 나다","差が出る、違いがある"]
+  ]
+};
+
+let currentLesson = 4;
+let order = [...Array(data[currentLesson].length).keys()];
+let pos = 0;
+let flipped = false;
+let reviewMode = false;
+
+// status[lesson][wordIndex] = 'known' | 'unknown'
+const status = { 4: {}, 5: {} };
+
+const cardEl = document.getElementById('card');
+const krWord = document.getElementById('krWord');
+const jpWord = document.getElementById('jpWord');
+const idxFront = document.getElementById('idxFront');
+const idxBack = document.getElementById('idxBack');
+const countLabel = document.getElementById('count-label');
+const progressFill = document.getElementById('progressFill');
+const tab4 = document.getElementById('tab-4');
+const tab5 = document.getElementById('tab-5');
+const knowBtn = document.getElementById('knowBtn');
+const dontKnowBtn = document.getElementById('dontKnowBtn');
+const knownCount = document.getElementById('knownCount');
+const unknownCount = document.getElementById('unknownCount');
+const reviewBtn = document.getElementById('reviewBtn');
+const resetStatusBtn = document.getElementById('resetStatusBtn');
+
+function baseOrder(){
+  return [...Array(data[currentLesson].length).keys()];
+}
+
+function unknownOrder(){
+  return baseOrder().filter(i => status[currentLesson][i] === 'unknown');
+}
+
+function updateCounts(){
+  const st = status[currentLesson];
+  let k = 0, u = 0;
+  Object.values(st).forEach(v => { if(v==='known') k++; if(v==='unknown') u++; });
+  knownCount.textContent = k;
+  unknownCount.textContent = u;
+}
+
+function render(){
+  const list = data[currentLesson];
+
+  if(order.length === 0){
+    krWord.textContent = '🎉 All done!';
+    jpWord.textContent = '🎉 All words known!';
+    idxFront.textContent = '';
+    idxBack.textContent = '';
+    countLabel.textContent = '0 / 0';
+    progressFill.style.width = '100%';
+    knowBtn.classList.remove('active');
+    dontKnowBtn.classList.remove('active');
+    updateCounts();
+    return;
+  }
+
+  const realIdx = order[pos];
+  const [kr, jp] = list[realIdx];
+  krWord.textContent = kr;
+  jpWord.textContent = jp;
+  idxFront.textContent = (pos+1) + ' / ' + order.length;
+  idxBack.textContent = (pos+1) + ' / ' + order.length;
+  countLabel.textContent = (pos+1) + ' / ' + order.length;
+  progressFill.style.width = ((pos+1)/order.length*100) + '%';
+  cardEl.classList.remove('flipped');
+  flipped = false;
+
+  const cur = status[currentLesson][realIdx];
+  knowBtn.classList.toggle('active', cur === 'known');
+  dontKnowBtn.classList.toggle('active', cur === 'unknown');
+  updateCounts();
+}
+
+function goTo(newPos){
+  const len = order.length;
+  if(len === 0) return;
+  pos = ((newPos % len) + len) % len;
+  render();
+}
+
+function mark(state){
+  if(order.length === 0) return;
+  const realIdx = order[pos];
+  status[currentLesson][realIdx] = state;
+  if(reviewMode && state === 'known'){
+    // remove from current review queue
+    order.splice(pos, 1);
+    if(pos >= order.length) pos = 0;
+    render();
+  } else {
+    goTo(pos+1);
+  }
+}
+
+knowBtn.addEventListener('click', ()=> mark('known'));
+dontKnowBtn.addEventListener('click', ()=> mark('unknown'));
+
+reviewBtn.addEventListener('click', ()=>{
+  reviewMode = !reviewMode;
+  reviewBtn.classList.toggle('active-filter', reviewMode);
+  reviewBtn.textContent = reviewMode ? '📌 Show All' : '📌 Review Unknown';
+  order = reviewMode ? unknownOrder() : baseOrder();
+  pos = 0;
+  render();
+});
+
+let resetArmed = false;
+let resetTimer = null;
+
+function armReset(){
+  resetArmed = true;
+  resetStatusBtn.textContent = '⚠️ Tap again to confirm';
+  resetStatusBtn.classList.add('armed');
+  clearTimeout(resetTimer);
+  resetTimer = setTimeout(disarmReset, 3000);
+}
+
+function disarmReset(){
+  resetArmed = false;
+  resetStatusBtn.textContent = '🗑 Reset Progress';
+  resetStatusBtn.classList.remove('armed');
+  clearTimeout(resetTimer);
+}
+
+resetStatusBtn.addEventListener('click', ()=>{
+  if(!resetArmed){
+    armReset();
+    return;
+  }
+  clearTimeout(resetTimer);
+  status[currentLesson] = {};
+  reviewMode = false;
+  reviewBtn.classList.remove('active-filter');
+  reviewBtn.textContent = '📌 Review Unknown';
+  order = baseOrder();
+  pos = 0;
+  disarmReset();
+  render();
+});
+
+cardEl.addEventListener('click', ()=>{
+  flipped = !flipped;
+  cardEl.classList.toggle('flipped', flipped);
+});
+
+document.getElementById('flipBtn').addEventListener('click', ()=>{
+  flipped = !flipped;
+  cardEl.classList.toggle('flipped', flipped);
+});
+
+document.getElementById('nextBtn').addEventListener('click', ()=> goTo(pos+1));
+document.getElementById('prevBtn').addEventListener('click', ()=> goTo(pos-1));
+
+document.getElementById('shuffleBtn').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]] = [order[j],order[i]];
+  }
+  pos = 0;
+  render();
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  order = reviewMode ? unknownOrder() : baseOrder();
+  pos = 0;
+  render();
+});
+
+function switchLesson(n){
+  currentLesson = n;
+  reviewMode = false;
+  disarmReset();
+  reviewBtn.classList.remove('active-filter');
+  reviewBtn.textContent = '📌 Review Unknown';
+  order = baseOrder();
+  pos = 0;
+  tab4.classList.toggle('active', n===4);
+  tab5.classList.toggle('active', n===5);
+  render();
+}
+
+tab4.addEventListener('click', ()=> switchLesson(4));
+tab5.addEventListener('click', ()=> switchLesson(5));
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'ArrowRight') goTo(pos+1);
+  if(e.key === 'ArrowLeft') goTo(pos-1);
+  if(e.key === ' '){ e.preventDefault(); flipped=!flipped; cardEl.classList.toggle('flipped', flipped); }
+});
+
+render();
+</script>
+
+</body>
+</html>

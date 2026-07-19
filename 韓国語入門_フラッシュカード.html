@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韓国語入門 フラッシュカード｜IPA発音表記つき</title>
+<style>
+  :root{
+    --ink:#22335B; --blue:#4472C4; --blue-d:#33569E; --sky:#EAF1F9;
+    --pale:#DEEAF1; --orange:#ED7D31; --green:#4E9A51; --gray:#8B97AD;
+    --card-w:min(92vw,520px); --card-h:min(60vw,340px);
+    --kfont:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+    --jfont:"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+    --ipafont:"Charis SIL","Gentium Plus","Segoe UI","Noto Sans",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:var(--jfont); background:var(--sky); color:var(--ink);
+    min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--blue); color:#fff; padding:13px 16px 11px; text-align:center}
+  header h1{font-size:1.02rem; font-weight:700}
+  header p{font-size:.73rem; color:var(--pale); margin-top:2px}
+  main{flex:1; width:100%; max-width:660px; display:flex; flex-direction:column;
+    align-items:center; padding:14px 14px 28px; gap:14px}
+
+  /* set picker */
+  .sets{width:100%; display:flex; gap:8px; overflow-x:auto; padding:2px 2px 6px;
+    -webkit-overflow-scrolling:touch}
+  .sets::-webkit-scrollbar{height:4px}
+  .sets::-webkit-scrollbar-thumb{background:#c6d4e8; border-radius:99px}
+  .chip{flex:0 0 auto; font-family:var(--jfont); font-size:.8rem; font-weight:700;
+    padding:8px 13px; border-radius:99px; border:1.5px solid #c6d4e8;
+    background:#fff; color:var(--ink); cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--blue); border-color:var(--blue); color:#fff}
+  .chip:focus-visible{outline:3px solid var(--orange); outline-offset:2px}
+
+  /* progress */
+  .progress{width:var(--card-w)}
+  .progress .bar{height:8px; background:#fff; border-radius:99px; overflow:hidden;
+    box-shadow:inset 0 0 0 1px #d3dfef}
+  .progress .fill{height:100%; width:0%; background:var(--blue); border-radius:99px;
+    transition:width .35s ease}
+  .progress .nums{display:flex; justify-content:space-between; font-size:.78rem;
+    color:var(--gray); margin-top:5px}
+  .nums .ok{color:var(--green); font-weight:700}
+  .nums .again{color:var(--orange); font-weight:700}
+
+  /* card */
+  .stage{perspective:1200px; position:relative}
+  .stage::before,.stage::after{content:""; position:absolute; inset:0; border-radius:18px;
+    background:#fff; box-shadow:0 2px 6px rgba(34,51,91,.10)}
+  .stage::before{transform:translate(7px,9px) rotate(1.4deg); z-index:0}
+  .stage::after{transform:translate(-6px,7px) rotate(-1.1deg); z-index:0}
+  .card{position:relative; z-index:2; width:var(--card-w); height:var(--card-h);
+    cursor:pointer; transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+  .card.flipped{transform:rotateX(180deg)}
+  .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    background:#fff; border-radius:18px; box-shadow:0 10px 24px rgba(34,51,91,.16);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-bottom:6px solid var(--blue); overflow:hidden; padding:20px}
+  .face.back{transform:rotateX(180deg); border-bottom-color:var(--orange)}
+  .face::before{content:""; position:absolute; top:14px; left:16px; width:16px; height:16px;
+    border-radius:50%; background:var(--sky); box-shadow:inset 0 1px 3px rgba(34,51,91,.35)}
+  .face .tag{position:absolute; top:13px; right:16px; font-size:.7rem; color:var(--gray);
+    letter-spacing:.06em}
+  .word-ko{font-family:var(--kfont); font-weight:800; color:var(--ink); text-align:center;
+    font-size:clamp(2.2rem,11vw,4.2rem); line-height:1.15; word-break:keep-all}
+  .word-ja{font-weight:800; text-align:center; font-size:clamp(1.5rem,7vw,2.4rem); line-height:1.25}
+  .ipa{font-family:var(--ipafont); color:var(--blue-d); background:var(--sky);
+    border-radius:8px; padding:3px 12px; margin-top:12px;
+    font-size:clamp(1rem,4vw,1.35rem); letter-spacing:.02em}
+  .hint{position:absolute; bottom:12px; font-size:.7rem; color:var(--gray)}
+
+  /* controls */
+  .row{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap}
+  button{font-family:var(--jfont); border:none; border-radius:12px; cursor:pointer;
+    font-size:.95rem; font-weight:700; padding:12px 18px; color:#fff;
+    background:var(--blue); box-shadow:0 3px 0 var(--blue-d);
+    transition:transform .08s ease}
+  button:active{transform:translateY(2px); box-shadow:0 1px 0 var(--blue-d)}
+  button:focus-visible{outline:3px solid var(--orange); outline-offset:2px}
+  button.ghost{background:#fff; color:var(--ink); box-shadow:0 3px 0 #ccd6e6}
+  button.ok{background:var(--green); box-shadow:0 3px 0 #38713B}
+  button.again{background:var(--orange); box-shadow:0 3px 0 #B85E20}
+  button.small{font-size:.82rem; padding:9px 14px}
+  button:disabled{filter:grayscale(.6) opacity(.55); cursor:default}
+  .judge{min-height:52px}
+
+  .done{display:none; flex-direction:column; align-items:center; gap:14px;
+    background:#fff; border-radius:18px; padding:28px 24px; width:var(--card-w);
+    box-shadow:0 10px 24px rgba(34,51,91,.16); text-align:center;
+    border-bottom:6px solid var(--green)}
+  .done h2{font-size:1.35rem}
+  .done .score{font-size:1rem; color:var(--gray)}
+  .done .score b{font-size:1.3rem}
+
+  footer{font-size:.68rem; color:var(--gray); padding:10px 14px 16px; text-align:center}
+
+  @media (prefers-reduced-motion: reduce){
+    .card{transition:none}
+    .progress .fill{transition:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>韓国語入門 フラッシュカード 🇰🇷</h1>
+  <p>IPA発音表記つき｜カードをタップすると裏返ります</p>
+</header>
+
+<main>
+  <div class="sets" id="sets" role="tablist" aria-label="単語セットを選ぶ"></div>
+
+  <div class="progress">
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <div class="nums">
+      <span id="pos">1 / 0</span>
+      <span><span class="ok" id="okN">○ 0</span>　<span class="again" id="agN">△ 0</span></span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="card" id="card" role="button" tabindex="0" aria-label="カードをめくる">
+      <div class="face front">
+        <span class="tag" id="tagF">韓国語</span>
+        <div id="frontWord" class="word-ko"></div>
+        <div class="ipa" id="frontIpa"></div>
+        <div class="hint">タップ / スペースキーでめくる</div>
+      </div>
+      <div class="face back">
+        <span class="tag" id="tagB">意味</span>
+        <div id="backWord" class="word-ja"></div>
+        <div class="ipa" id="backIpa" style="display:none"></div>
+        <div class="hint">覚えたら ○、まだなら △</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row judge" id="judge" style="visibility:hidden">
+    <button class="ok" id="btnOk">○ 覚えた！</button>
+    <button class="again" id="btnAgain">△ もう一度</button>
+  </div>
+
+  <div class="row">
+    <button class="ghost small" id="btnDir">🔁 日本語 → 韓国語 に切替</button>
+    <button class="ghost small" id="btnShuffle">🔀 シャッフル</button>
+  </div>
+
+  <div class="done" id="done">
+    <h2>🎉 １周おつかれさま！</h2>
+    <div class="score">覚えた <b id="doneOk" style="color:var(--green)">0</b> 語 ／
+      もう一度 <b id="doneAg" style="color:var(--orange)">0</b> 語</div>
+    <div class="row">
+      <button id="btnRetryAgain" class="again">△ の単語だけ復習</button>
+      <button id="btnRestart">はじめから</button>
+    </div>
+  </div>
+</main>
+
+<footer>韓国語入門テキスト（한국어）準拠｜発音表記はテキストの方式に基づくIPA（語中の有声音化・濃音化などを反映）</footer>
+
+<script>
+const SETS = [
+  "p.117・119 母音",
+  "p.122 子音（平音・激音）",
+  "p.123 書く練習",
+  "p.125 濃音",
+  "p.127 合成母音(2)",
+  "p.132 パッチム",
+  "p.137 数字",
+  "p.138 自己紹介①",
+  "p.139 自己紹介②",
+];
+
+// s: index into SETS
+const WORDS = [
+  // ===== p.117・119 母音 =====
+  {s:0, ko:"이",   ipa:"i",     ja:"２（に）"},
+  {s:0, ko:"오",   ipa:"o",     ja:"５（ご）"},
+  {s:0, ko:"요",   ipa:"jo",    ja:"敷布団"},
+  {s:0, ko:"아이", ipa:"ai",    ja:"こども"},
+  {s:0, ko:"오이", ipa:"oi",    ja:"キュウリ"},
+  {s:0, ko:"아야", ipa:"aja",   ja:"痛い！"},
+  {s:0, ko:"여우", ipa:"jɔu",   ja:"キツネ"},
+  {s:0, ko:"여유", ipa:"jɔju",  ja:"余裕"},
+  {s:0, ko:"우유", ipa:"uju",   ja:"牛乳"},
+  {s:0, ko:"유아", ipa:"jua",   ja:"乳幼児"},
+  {s:0, ko:"에이", ipa:"ei",    ja:"Ａ（エー）"},
+  {s:0, ko:"예요", ipa:"ejo",   ja:"〜です"},
+  // ===== p.122 子音（平音・激音）=====
+  {s:1, ko:"가구",   ipa:"kagu",      ja:"家具"},
+  {s:1, ko:"고기",   ipa:"kogi",      ja:"肉"},
+  {s:1, ko:"나무",   ipa:"namu",      ja:"木"},
+  {s:1, ko:"누나",   ipa:"nuna",      ja:"姉"},
+  {s:1, ko:"다리",   ipa:"tari",      ja:"橋"},
+  {s:1, ko:"가다",   ipa:"kada",      ja:"行く"},
+  {s:1, ko:"나라",   ipa:"nara",      ja:"国"},
+  {s:1, ko:"라디오", ipa:"radio",     ja:"ラジオ"},
+  {s:1, ko:"메모",   ipa:"memo",      ja:"メモ"},
+  {s:1, ko:"머리",   ipa:"mɔri",      ja:"頭"},
+  {s:1, ko:"부모",   ipa:"pumo",      ja:"父母"},
+  {s:1, ko:"부부",   ipa:"pubu",      ja:"夫婦"},
+  {s:1, ko:"소리",   ipa:"sori",      ja:"音"},
+  {s:1, ko:"소나기", ipa:"sonagi",    ja:"にわか雨"},
+  {s:1, ko:"어머니", ipa:"ɔmɔni",     ja:"母"},
+  {s:1, ko:"아버지", ipa:"abɔdʒi",    ja:"父"},
+  {s:1, ko:"주스",   ipa:"tʃusɯ",     ja:"ジュース"},
+  {s:1, ko:"소주",   ipa:"sodʒu",     ja:"焼酎"},
+  {s:1, ko:"고추",   ipa:"kotʃʰu",    ja:"とうがらし"},
+  {s:1, ko:"치마",   ipa:"tʃʰima",    ja:"スカート"},
+  {s:1, ko:"커피",   ipa:"kʰɔpʰi",    ja:"コーヒー"},
+  {s:1, ko:"카메라", ipa:"kʰamera",   ja:"カメラ"},
+  {s:1, ko:"토마토", ipa:"tʰomatʰo",  ja:"トマト"},
+  {s:1, ko:"기타",   ipa:"kitʰa",     ja:"ギター"},
+  {s:1, ko:"파티",   ipa:"pʰatʰi",    ja:"パーティー"},
+  {s:1, ko:"피아노", ipa:"pʰiano",    ja:"ピアノ"},
+  {s:1, ko:"하마",   ipa:"hama",      ja:"カバ"},
+  {s:1, ko:"지하",   ipa:"tʃiha",     ja:"地下"},
+  // ===== p.123 書く練習 =====
+  {s:2, ko:"가수",   ipa:"kasu",      ja:"歌手"},
+  {s:2, ko:"도시",   ipa:"toʃi",      ja:"都市"},
+  {s:2, ko:"매미",   ipa:"mɛmi",      ja:"せみ"},
+  {s:2, ko:"버스",   ipa:"pɔsɯ",      ja:"バス"},
+  {s:2, ko:"요리",   ipa:"jori",      ja:"料理"},
+  {s:2, ko:"자리",   ipa:"tʃari",     ja:"席"},
+  {s:2, ko:"기차",   ipa:"kitʃʰa",    ja:"汽車"},
+  {s:2, ko:"코",     ipa:"kʰo",       ja:"鼻"},
+  {s:2, ko:"테니스", ipa:"tʰenisɯ",   ja:"テニス"},
+  {s:2, ko:"파리",   ipa:"pʰari",     ja:"ハエ／パリ"},
+  {s:2, ko:"모자",   ipa:"modʒa",     ja:"帽子"},
+  {s:2, ko:"야구",   ipa:"jagu",      ja:"野球"},
+  {s:2, ko:"시계",   ipa:"ʃige",      ja:"時計"},
+  {s:2, ko:"저고리", ipa:"tʃɔgori",   ja:"チョゴリ"},
+  {s:2, ko:"주부",   ipa:"tʃubu",     ja:"主婦"},
+  {s:2, ko:"바지",   ipa:"padʒi",     ja:"ズボン"},
+  {s:2, ko:"포도",   ipa:"pʰodo",     ja:"ぶどう"},
+  {s:2, ko:"구두",   ipa:"kudu",      ja:"くつ"},
+  {s:2, ko:"타다",   ipa:"tʰada",     ja:"乗る"},
+  {s:2, ko:"수저",   ipa:"sudʒɔ",     ja:"スプーンとはし"},
+  {s:2, ko:"나비",   ipa:"nabi",      ja:"ちょうちょ"},
+  {s:2, ko:"후배",   ipa:"hubɛ",      ja:"後輩"},
+  // ===== p.125 濃音 =====
+  {s:3, ko:"아까",     ipa:"aˀka",        ja:"さっき"},
+  {s:3, ko:"어때요?",  ipa:"ɔˀtɛjo",      ja:"どうですか？"},
+  {s:3, ko:"예쁘다",   ipa:"jeˀpɯda",     ja:"かわいい"},
+  {s:3, ko:"비싸다",   ipa:"piˀsada",     ja:"（値段が）高い"},
+  {s:3, ko:"싸다",     ipa:"ˀsada",       ja:"安い"},
+  {s:3, ko:"찌개",     ipa:"ˀtʃigɛ",      ja:"チゲ"},
+  {s:3, ko:"버찌",     ipa:"pɔˀtʃi",      ja:"さくらんぼ"},
+  {s:3, ko:"따로따로", ipa:"ˀtaroˀtaro",  ja:"別々に"},
+  {s:3, ko:"뽀뽀",     ipa:"ˀpoˀpo",      ja:"キス"},
+  {s:3, ko:"누구",     ipa:"nugu",        ja:"だれ"},
+  {s:3, ko:"뭐",       ipa:"mwɔ",         ja:"何"},
+  {s:3, ko:"아빠",     ipa:"aˀpa",        ja:"パパ"},
+  {s:3, ko:"오빠",     ipa:"oˀpa",        ja:"（妹から見た）おにいさん"},
+  {s:3, ko:"까치",     ipa:"ˀkatʃʰi",     ja:"かささぎ"},
+  {s:3, ko:"토끼",     ipa:"tʰoˀki",      ja:"うさぎ"},
+  {s:3, ko:"코끼리",   ipa:"kʰoˀkiri",    ja:"ぞう"},
+  // ===== p.127 合成母音(2) =====
+  {s:4, ko:"가위",   ipa:"kawi",         ja:"はさみ"},
+  {s:4, ko:"사과",   ipa:"sagwa",        ja:"リンゴ"},
+  {s:4, ko:"귀",     ipa:"kwi",          ja:"耳"},
+  {s:4, ko:"돼지",   ipa:"twɛdʒi",       ja:"ブタ"},
+  {s:4, ko:"교과서", ipa:"kjogwasɔ",     ja:"教科書"},
+  {s:4, ko:"의자",   ipa:"ɯidʒa",        ja:"いす"},
+  {s:4, ko:"취미",   ipa:"tʃʰwimi",      ja:"趣味"},
+  {s:4, ko:"회사",   ipa:"hwesa",        ja:"会社"},
+  {s:4, ko:"추워요", ipa:"tʃʰuwɔjo",     ja:"寒いです"},
+  {s:4, ko:"스웨터", ipa:"sɯwetʰɔ",      ja:"セーター"},
+  {s:4, ko:"왜",     ipa:"wɛ",           ja:"なぜ"},
+  // ===== p.132 パッチム =====
+  {s:5, ko:"한국", ipa:"hanguᵏ",    ja:"韓国"},
+  {s:5, ko:"일본", ipa:"ilbon",     ja:"日本"},
+  {s:5, ko:"남자", ipa:"namdʒa",    ja:"男"},
+  {s:5, ko:"친구", ipa:"tʃʰingu",   ja:"友だち"},
+  {s:5, ko:"전공", ipa:"tʃɔngoŋ",   ja:"専攻"},
+  {s:5, ko:"경제", ipa:"kjɔŋdʒe",   ja:"経済"},
+  {s:5, ko:"학교", ipa:"hakˀkjo",   ja:"学校"},
+  {s:5, ko:"잡지", ipa:"tʃapˀtʃi",  ja:"雑誌"},
+  {s:5, ko:"학생", ipa:"hakˀsɛŋ",   ja:"学生"},
+  {s:5, ko:"옷장", ipa:"otˀtʃaŋ",   ja:"タンス"},
+  {s:5, ko:"낮잠", ipa:"natˀtʃam",  ja:"昼寝"},
+  {s:5, ko:"떡국", ipa:"ˀtɔkˀkuᵏ",  ja:"雑煮（トックク）"},
+  // ===== p.137 数字（固有数詞）=====
+  {s:6, ko:"하나",   ipa:"hana",   ja:"１つ"},
+  {s:6, ko:"둘",     ipa:"tul",    ja:"２つ"},
+  {s:6, ko:"셋",     ipa:"seᵗ",    ja:"３つ"},
+  {s:6, ko:"넷",     ipa:"neᵗ",    ja:"４つ"},
+  {s:6, ko:"다섯",   ipa:"tasɔᵗ",  ja:"５つ"},
+  {s:6, ko:"여섯",   ipa:"jɔsɔᵗ",  ja:"６つ"},
+  {s:6, ko:"일곱",   ipa:"ilgoᵖ",  ja:"７つ"},
+  {s:6, ko:"여덟",   ipa:"jɔdɔl",  ja:"８つ"},
+  {s:6, ko:"아홉",   ipa:"ahoᵖ",   ja:"９つ"},
+  {s:6, ko:"열",     ipa:"jɔl",    ja:"１０"},
+  // ===== p.138 自己紹介① =====
+  {s:7, ko:"저",        ipa:"tʃɔ",            ja:"私"},
+  {s:7, ko:"대학생",    ipa:"tɛhakˀsɛŋ",      ja:"大学生"},
+  {s:7, ko:"여기",      ipa:"jɔgi",           ja:"ここ"},
+  {s:7, ko:"교실",      ipa:"kjoʃil",         ja:"教室"},
+  {s:7, ko:"한국 사람", ipa:"hanguᵏ ˀsaram",  ja:"韓国人"},
+  {s:7, ko:"일본 사람", ipa:"ilbon saram",    ja:"日本人"},
+  {s:7, ko:"이것",      ipa:"igɔᵗ",           ja:"これ"},
+  {s:7, ko:"선물",      ipa:"sɔnmul",         ja:"プレゼント"},
+  {s:7, ko:"회사원",    ipa:"hwesawɔn",       ja:"会社員"},
+  {s:7, ko:"선생님",    ipa:"sɔnsɛŋnim",      ja:"先生"},
+  {s:7, ko:"우리",      ipa:"uri",            ja:"私たち"},
+  // ===== p.139 自己紹介② =====
+  {s:8, ko:"연필",     ipa:"jɔnpʰil",       ja:"鉛筆"},
+  {s:8, ko:"숙제",     ipa:"sukˀtʃe",       ja:"宿題"},
+  {s:8, ko:"화장실",   ipa:"hwadʒaŋʃil",    ja:"トイレ"},
+  {s:8, ko:"핸드폰",   ipa:"hɛndɯpʰon",     ja:"携帯"},
+  {s:8, ko:"식당",     ipa:"ʃikˀtaŋ",       ja:"食堂"},
+  {s:8, ko:"지하철",   ipa:"tʃihatʃʰɔl",    ja:"地下鉄"},
+  {s:8, ko:"편의점",   ipa:"pʰjɔnidʒɔm",    ja:"コンビニ"},
+  {s:8, ko:"이름",     ipa:"irɯm",          ja:"名前"},
+  {s:8, ko:"집",       ipa:"tʃiᵖ",          ja:"家"},
+  {s:8, ko:"고향",     ipa:"kohjaŋ",        ja:"故郷"},
+  {s:8, ko:"일본문학", ipa:"ilbonmunhaᵏ",   ja:"日本文学"},
+  {s:8, ko:"영문학",   ipa:"jɔŋmunhaᵏ",     ja:"英文学"},
+  {s:8, ko:"음악",     ipa:"ɯmaᵏ",          ja:"音楽"},
+  {s:8, ko:"법학",     ipa:"pɔpʰaᵏ",        ja:"法学"},
+  {s:8, ko:"경제학",   ipa:"kjɔŋdʒehaᵏ",    ja:"経済学"},
+  {s:8, ko:"사회학",   ipa:"sahwehaᵏ",      ja:"社会学"},
+  {s:8, ko:"커뮤니케이션학", ipa:"kʰɔmjunikʰeiʃɔnhaᵏ", ja:"コミュニケーション学"},
+  {s:8, ko:"독서",     ipa:"tokˀsɔ",        ja:"読書"},
+  {s:8, ko:"영화감상", ipa:"jɔŋhwagamsaŋ",  ja:"映画鑑賞"},
+  {s:8, ko:"댄스",     ipa:"tɛnsɯ",         ja:"ダンス"},
+  {s:8, ko:"음악감상", ipa:"ɯmaᵏˀkamsaŋ",   ja:"音楽鑑賞"},
+  {s:8, ko:"노래",     ipa:"norɛ",          ja:"歌"},
+  {s:8, ko:"스포츠 관전", ipa:"sɯpʰotʃʰɯ gwandʒɔn", ja:"スポーツ観戦"},
+  {s:8, ko:"인터넷",   ipa:"intʰɔneᵗ",      ja:"インターネット"},
+];
+
+let curSet = 0;            // -1 = 全部
+let pool = [];             // word objects of the active set
+let deck = [];             // indices into pool
+let cur = 0, flipped = false, dirKoFirst = true;
+let okSet = new Set(), againSet = new Set();
+const $ = id => document.getElementById(id);
+const card = $("card");
+
+function buildChips(){
+  const box = $("sets");
+  const all = document.createElement("button");
+  all.className = "chip"; all.textContent = "すべて (" + WORDS.length + ")";
+  all.setAttribute("aria-pressed", curSet === -1);
+  all.addEventListener("click", ()=>selectSet(-1));
+  box.appendChild(all);
+  SETS.forEach((name, i)=>{
+    const n = WORDS.filter(w=>w.s===i).length;
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = name + " (" + n + ")";
+    b.setAttribute("aria-pressed", curSet === i);
+    b.addEventListener("click", ()=>selectSet(i));
+    box.appendChild(b);
+  });
+}
+function refreshChips(){
+  [...$("sets").children].forEach((b, idx)=>{
+    b.setAttribute("aria-pressed", (idx-1) === curSet || (idx===0 && curSet===-1));
+  });
+}
+function selectSet(i){
+  curSet = i;
+  refreshChips();
+  pool = curSet === -1 ? WORDS.slice() : WORDS.filter(w=>w.s===curSet);
+  restart(pool.map((_,k)=>k));
+}
+
+function render(){
+  $("fill").style.width = pool.length ? ((okSet.size + againSet.size) / pool.length * 100) + "%" : "0%";
+  $("pos").textContent = Math.min(cur+1, deck.length) + " / " + deck.length;
+  $("okN").textContent = "○ " + okSet.size;
+  $("agN").textContent = "△ " + againSet.size;
+  if(cur >= deck.length){ showDone(); return; }
+  const w = pool[deck[cur]];
+  if(dirKoFirst){
+    $("tagF").textContent = "韓国語";
+    $("frontWord").className = "word-ko"; $("frontWord").textContent = w.ko;
+    $("frontIpa").style.display = ""; $("frontIpa").textContent = "[" + w.ipa + "]";
+    $("tagB").textContent = "意味";
+    $("backWord").className = "word-ja"; $("backWord").textContent = w.ja;
+    $("backIpa").style.display = "none";
+  }else{
+    $("tagF").textContent = "意味";
+    $("frontWord").className = "word-ja"; $("frontWord").textContent = w.ja;
+    $("frontIpa").style.display = "none";
+    $("tagB").textContent = "韓国語";
+    $("backWord").className = "word-ko"; $("backWord").textContent = w.ko;
+    $("backIpa").style.display = ""; $("backIpa").textContent = "[" + w.ipa + "]";
+  }
+  flipped = false;
+  card.classList.remove("flipped");
+  $("judge").style.visibility = "hidden";
+}
+
+function flip(){
+  if(cur >= deck.length) return;
+  flipped = !flipped;
+  card.classList.toggle("flipped", flipped);
+  if(flipped) $("judge").style.visibility = "visible";
+}
+function next(judgeOk){
+  const idx = deck[cur];
+  if(judgeOk){ okSet.add(idx); againSet.delete(idx); }
+  else{ againSet.add(idx); okSet.delete(idx); }
+  cur++;
+  render();
+}
+function showDone(){
+  $("stage").style.display = "none";
+  $("judge").style.display = "none";
+  $("done").style.display = "flex";
+  $("doneOk").textContent = okSet.size;
+  $("doneAg").textContent = againSet.size;
+  $("btnRetryAgain").disabled = againSet.size === 0;
+}
+function restart(indices){
+  deck = indices.slice();
+  cur = 0; okSet = new Set(); againSet = new Set();
+  $("stage").style.display = "";
+  $("judge").style.display = "";
+  $("done").style.display = "none";
+  render();
+}
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+card.addEventListener("click", flip);
+card.addEventListener("keydown", e=>{ if(e.key===" "||e.key==="Enter"){e.preventDefault(); flip();} });
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowRight" && flipped) next(true);
+  if(e.key==="ArrowLeft"  && flipped) next(false);
+});
+$("btnOk").addEventListener("click", ()=>next(true));
+$("btnAgain").addEventListener("click", ()=>next(false));
+$("btnShuffle").addEventListener("click", ()=>restart(shuffle(pool.map((_,k)=>k))));
+$("btnDir").addEventListener("click", function(){
+  dirKoFirst = !dirKoFirst;
+  this.textContent = dirKoFirst ? "🔁 日本語 → 韓国語 に切替" : "🔁 韓国語 → 日本語 に切替";
+  render();
+});
+$("btnRestart").addEventListener("click", ()=>restart(pool.map((_,k)=>k)));
+$("btnRetryAgain").addEventListener("click", ()=>restart(shuffle([...againSet])));
+
+buildChips();
+selectSet(0);
+</script>
+</body>
+</html>
