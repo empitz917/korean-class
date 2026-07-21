@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>みんなの韓国語 6・7・8課 フラッシュカード</title>
+<style>
+  :root{
+    --ink:#22335B; --blue:#4472C4; --blue-d:#33569E; --sky:#EAF1F9;
+    --pale:#DEEAF1; --orange:#ED7D31; --green:#4E9A51; --gray:#8B97AD;
+    --card-w:min(92vw,520px); --card-h:min(60vw,340px);
+    --kfont:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+    --jfont:"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:var(--jfont); background:var(--sky); color:var(--ink);
+    min-height:100vh; display:flex; flex-direction:column; align-items:center}
+  header{width:100%; background:var(--blue); color:#fff; padding:13px 16px 11px; text-align:center}
+  header h1{font-size:1.02rem; font-weight:700}
+  header p{font-size:.73rem; color:var(--pale); margin-top:2px}
+  main{flex:1; width:100%; max-width:660px; display:flex; flex-direction:column;
+    align-items:center; padding:14px 14px 28px; gap:14px}
+
+  .sets{width:100%; display:flex; gap:8px; overflow-x:auto; padding:2px 2px 6px;
+    -webkit-overflow-scrolling:touch; justify-content:center}
+  .chip{flex:0 0 auto; font-family:var(--jfont); font-size:.85rem; font-weight:700;
+    padding:8px 14px; border-radius:99px; border:1.5px solid #c6d4e8;
+    background:#fff; color:var(--ink); cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--blue); border-color:var(--blue); color:#fff}
+  .chip:focus-visible{outline:3px solid var(--orange); outline-offset:2px}
+
+  .progress{width:var(--card-w)}
+  .progress .bar{height:8px; background:#fff; border-radius:99px; overflow:hidden;
+    box-shadow:inset 0 0 0 1px #d3dfef}
+  .progress .fill{height:100%; width:0%; background:var(--green); border-radius:99px;
+    transition:width .35s ease}
+  .progress .nums{display:flex; justify-content:space-between; font-size:.78rem;
+    color:var(--gray); margin-top:5px}
+  .nums .ok{color:var(--green); font-weight:700}
+  .nums .again{color:var(--orange); font-weight:700}
+
+  .stage{perspective:1200px; position:relative}
+  .stage::before,.stage::after{content:""; position:absolute; inset:0; border-radius:18px;
+    background:#fff; box-shadow:0 2px 6px rgba(34,51,91,.10)}
+  .stage::before{transform:translate(7px,9px) rotate(1.4deg); z-index:0}
+  .stage::after{transform:translate(-6px,7px) rotate(-1.1deg); z-index:0}
+  .card{position:relative; z-index:2; width:var(--card-w); height:var(--card-h);
+    cursor:pointer; transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+  .card.flipped{transform:rotateX(180deg)}
+  .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    background:#fff; border-radius:18px; box-shadow:0 10px 24px rgba(34,51,91,.16);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-bottom:6px solid var(--blue); overflow:hidden; padding:20px}
+  .face.back{transform:rotateX(180deg); border-bottom-color:var(--orange)}
+  .face::before{content:""; position:absolute; top:14px; left:16px; width:16px; height:16px;
+    border-radius:50%; background:var(--sky); box-shadow:inset 0 1px 3px rgba(34,51,91,.35)}
+  .face .tag{position:absolute; top:13px; right:16px; font-size:.7rem; color:var(--gray);
+    letter-spacing:.06em}
+  .again-mark{position:absolute; top:36px; right:16px; font-size:.68rem; color:var(--orange);
+    font-weight:700; display:none}
+  .word-ko{font-family:var(--kfont); font-weight:800; color:var(--ink); text-align:center;
+    font-size:clamp(2rem,10vw,4rem); line-height:1.15; word-break:keep-all}
+  .word-ja{font-weight:800; text-align:center; font-size:clamp(1.4rem,6.5vw,2.3rem); line-height:1.3}
+  .hint{position:absolute; bottom:12px; font-size:.7rem; color:var(--gray)}
+
+  .row{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap}
+  button{font-family:var(--jfont); border:none; border-radius:12px; cursor:pointer;
+    font-size:.95rem; font-weight:700; padding:12px 18px; color:#fff;
+    background:var(--blue); box-shadow:0 3px 0 var(--blue-d);
+    transition:transform .08s ease}
+  button:active{transform:translateY(2px); box-shadow:0 1px 0 var(--blue-d)}
+  button:focus-visible{outline:3px solid var(--orange); outline-offset:2px}
+  button.ghost{background:#fff; color:var(--ink); box-shadow:0 3px 0 #ccd6e6}
+  button.ok{background:var(--green); box-shadow:0 3px 0 #38713B}
+  button.again{background:var(--orange); box-shadow:0 3px 0 #B85E20}
+  button.small{font-size:.82rem; padding:9px 14px}
+  button:disabled{filter:grayscale(.6) opacity(.55); cursor:default}
+  .judge{min-height:52px}
+
+  .done{display:none; flex-direction:column; align-items:center; gap:14px;
+    background:#fff; border-radius:18px; padding:28px 24px; width:var(--card-w);
+    box-shadow:0 10px 24px rgba(34,51,91,.16); text-align:center;
+    border-bottom:6px solid var(--green)}
+  .done h2{font-size:1.35rem}
+  .done .score{font-size:.95rem; color:var(--gray); line-height:1.7}
+  .done .score b{font-size:1.25rem}
+
+  footer{font-size:.68rem; color:var(--gray); padding:10px 14px 16px; text-align:center}
+
+  @media (prefers-reduced-motion: reduce){
+    .card{transition:none}
+    .progress .fill{transition:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>みんなの韓国語 6・7・8課 フラッシュカード 🇰🇷</h1>
+</header>
+
+<main>
+  <div class="sets" id="sets" aria-label="課を選ぶ"></div>
+
+  <div id="modeBadge" style="display:none; background:var(--orange); color:#fff; font-size:.8rem; font-weight:700; padding:6px 16px; border-radius:99px;">△ 復習モード</div>
+
+  <div class="progress">
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <div class="nums">
+      <span id="pos">残り 0枚</span>
+      <span><span class="ok" id="okN">○ 0</span>　<span class="again" id="agN">△ 0</span></span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="card" id="card" role="button" tabindex="0" aria-label="カードをめくる">
+      <div class="face front">
+        <span class="tag" id="tagF">韓国語</span>
+        <span class="again-mark" id="markF">△ もう一度</span>
+        <div id="frontWord" class="word-ko"></div>
+        <div class="hint">タップ / スペースキーでめくる</div>
+      </div>
+      <div class="face back">
+        <span class="tag" id="tagB">意味</span>
+        <div id="backWord" class="word-ja"></div>
+        <div class="hint">覚えたら ○、まだなら △（あとでまた出ます）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row judge" id="judge" style="visibility:hidden">
+    <button class="ok" id="btnOk">○ 覚えた！</button>
+    <button class="again" id="btnAgain">△ もう一度</button>
+  </div>
+
+  <div class="row">
+    <button class="ghost small" id="btnDir">🔁 日本語 → 韓国語 に切替</button>
+    <button class="ghost small" id="btnShuffle">🔀 シャッフル</button>
+  </div>
+
+  <div class="done" id="done">
+    <h2 id="doneTitle">🎉 全部 ○ になりました！</h2>
+    <div class="score">
+      一発で覚えた単語 <b id="doneFirst" style="color:var(--green)">0</b> 語<br>
+      くり返して覚えた単語 <b id="doneMissed" style="color:var(--orange)">0</b> 語
+    </div>
+    <div class="row">
+      <button id="btnRetryMissed" class="again">つまずいた単語だけもう一周</button>
+      <button id="btnRestart">はじめから</button>
+    </div>
+  </div>
+</main>
+
+<script>
+const SETS = ["6課", "7課", "8課"];
+
+const WORDS = [
+  // ================= 6課 (65) =================
+  {s:0, ko:"카카오톡", ja:"カカオトーク"},
+  {s:0, ko:"ID", ja:"SNSなどのID"},
+  {s:0, ko:"있어요(?)", ja:"あります（か？）"},
+  {s:0, ko:"라인", ja:"LINE"},
+  {s:0, ko:"~도", ja:"〜も（助詞）"},
+  {s:0, ko:"이거", ja:"これ"},
+  {s:0, ko:"제", ja:"私の（←저의）"},
+  {s:0, ko:"QR코드", ja:"QRコード"},
+  {s:0, ko:"근데", ja:"でも（←그런데）"},
+  {s:0, ko:"지금", ja:"今"},
+  {s:0, ko:"시간", ja:"時間"},
+  {s:0, ko:"~가/이", ja:"〜が（助詞）"},
+  {s:0, ko:"없어요", ja:"ありません"},
+  {s:0, ko:"그럼", ja:"じゃあ"},
+  {s:0, ko:"명함", ja:"名刺"},
+  {s:0, ko:"꼭", ja:"必ず、ぜひ"},
+  {s:0, ko:"연락 주세요", ja:"連絡ください"},
+  {s:0, ko:"일", ja:"仕事"},
+  {s:0, ko:"약속", ja:"約束"},
+  {s:0, ko:"자전거", ja:"自転車"},
+  {s:0, ko:"주스", ja:"ジュース"},
+  {s:0, ko:"수업", ja:"授業"},
+  {s:0, ko:"교통카드", ja:"交通カード（T-money）"},
+  {s:0, ko:"고양이", ja:"猫"},
+  {s:0, ko:"티켓", ja:"チケット"},
+  {s:0, ko:"지우개", ja:"消しゴム"},
+  {s:0, ko:"여동생", ja:"妹"},
+  {s:0, ko:"숙제", ja:"宿題"},
+  {s:0, ko:"아르바이트", ja:"アルバイト"},
+  {s:0, ko:"우산", ja:"傘"},
+  {s:0, ko:"돈", ja:"お金"},
+  {s:0, ko:"남자 친구", ja:"彼氏"},
+  {s:0, ko:"여자 친구", ja:"彼女"},
+  {s:0, ko:"편의점", ja:"コンビニ"},
+  {s:0, ko:"물", ja:"水"},
+  {s:0, ko:"메뉴", ja:"メニュー"},
+  {s:0, ko:"돈가스", ja:"とんかつ"},
+  {s:0, ko:"집", ja:"家"},
+  {s:0, ko:"마당", ja:"庭"},
+  {s:0, ko:"방", ja:"部屋"},
+  {s:0, ko:"텔레비전", ja:"テレビ"},
+  {s:0, ko:"교과서", ja:"教科書"},
+  {s:0, ko:"지갑", ja:"財布"},
+  {s:0, ko:"옷", ja:"服"},
+  {s:0, ko:"핸드폰", ja:"携帯電話"},
+  {s:0, ko:"가방", ja:"カバン"},
+  {s:0, ko:"모자", ja:"帽子"},
+  {s:0, ko:"노트북", ja:"ノートパソコン"},
+  {s:0, ko:"복사기", ja:"コピー機"},
+  {s:0, ko:"약국", ja:"薬局"},
+  {s:0, ko:"감기약", ja:"風邪薬"},
+  {s:0, ko:"마스크", ja:"マスク"},
+  {s:0, ko:"멀미약", ja:"酔い止め薬"},
+  {s:0, ko:"선생님", ja:"先生"},
+  {s:0, ko:"형제", ja:"兄弟"},
+  {s:0, ko:"좋아하는", ja:"好きな"},
+  {s:0, ko:"아이돌", ja:"アイドル"},
+  {s:0, ko:"취미", ja:"趣味"},
+  {s:0, ko:"뭐", ja:"何"},
+  {s:0, ko:"침대", ja:"ベッド"},
+  {s:0, ko:"책상", ja:"机"},
+  {s:0, ko:"남동생", ja:"弟"},
+  {s:0, ko:"소파", ja:"ソファー"},
+  {s:0, ko:"게임기", ja:"ゲーム機"},
+  {s:0, ko:"빨래", ja:"洗濯物"},
+  // ================= 7課 (74) =================
+  {s:1, ko:"웬일", ja:"どうしたこと、何ごと"},
+  {s:1, ko:"지금", ja:"今"},
+  {s:1, ko:"뭐", ja:"何（←무엇の縮約形）"},
+  {s:1, ko:"해요?", ja:"していますか？"},
+  {s:1, ko:"도와주세요", ja:"手伝ってください"},
+  {s:1, ko:"쇼핑해요", ja:"買い物します"},
+  {s:1, ko:"그래요?", ja:"そうですか？"},
+  {s:1, ko:"또", ja:"また、もっと"},
+  {s:1, ko:"방", ja:"部屋"},
+  {s:1, ko:"커튼", ja:"カーテン"},
+  {s:1, ko:"필요해요", ja:"必要です"},
+  {s:1, ko:"젓가락", ja:"お箸"},
+  {s:1, ko:"~하고", ja:"〜と（助詞）"},
+  {s:1, ko:"물컵", ja:"コップ"},
+  {s:1, ko:"쓰레기봉투", ja:"ゴミ袋"},
+  {s:1, ko:"갈게요", ja:"行きます"},
+  {s:1, ko:"같이", ja:"いっしょに"},
+  {s:1, ko:"이마트", ja:"「e-Mart」（マートの名称）"},
+  {s:1, ko:"앞에서", ja:"前で（앞＋에서）"},
+  {s:1, ko:"만나요", ja:"会いましょう"},
+  {s:1, ko:"세수하다", ja:"洗顔する"},
+  {s:1, ko:"화장하다", ja:"化粧する"},
+  {s:1, ko:"일하다", ja:"仕事する"},
+  {s:1, ko:"아르바이트하다", ja:"アルバイトする"},
+  {s:1, ko:"운동해요", ja:"運動する"},
+  {s:1, ko:"유명하다", ja:"有名だ"},
+  {s:1, ko:"친절하다", ja:"親切だ"},
+  {s:1, ko:"아버지", ja:"お父さん"},
+  {s:1, ko:"청소하다", ja:"掃除する"},
+  {s:1, ko:"어머니", ja:"お母さん"},
+  {s:1, ko:"나", ja:"わたし"},
+  {s:1, ko:"남동생", ja:"弟"},
+  {s:1, ko:"파마하다", ja:"パーマをかける"},
+  {s:1, ko:"야구하다", ja:"野球する"},
+  {s:1, ko:"침대", ja:"ベッド"},
+  {s:1, ko:"소파", ja:"ソファー"},
+  {s:1, ko:"밥그릇", ja:"茶碗"},
+  {s:1, ko:"국그릇", ja:"汁碗"},
+  {s:1, ko:"슬리퍼", ja:"スリッパ"},
+  {s:1, ko:"방석", ja:"座布団"},
+  {s:1, ko:"비누", ja:"石鹸"},
+  {s:1, ko:"샴푸", ja:"シャンプー"},
+  {s:1, ko:"스테이크", ja:"ステーキ"},
+  {s:1, ko:"맥주", ja:"ビール"},
+  {s:1, ko:"카드", ja:"カード"},
+  {s:1, ko:"영수증", ja:"レシート"},
+  {s:1, ko:"강아지", ja:"子犬"},
+  {s:1, ko:"나무", ja:"木"},
+  {s:1, ko:"물", ja:"水"},
+  {s:1, ko:"콜라", ja:"コーラ"},
+  {s:1, ko:"역", ja:"駅"},
+  {s:1, ko:"백화점", ja:"デパート"},
+  {s:1, ko:"공항", ja:"空港"},
+  {s:1, ko:"스타벅스", ja:"スターバックス"},
+  {s:1, ko:"앞", ja:"前"},
+  {s:1, ko:"옆", ja:"横"},
+  {s:1, ko:"뒤", ja:"後ろ"},
+  {s:1, ko:"위", ja:"上"},
+  {s:1, ko:"아래", ja:"下"},
+  {s:1, ko:"오른쪽", ja:"右"},
+  {s:1, ko:"왼쪽", ja:"左"},
+  {s:1, ko:"안", ja:"中"},
+  {s:1, ko:"밖", ja:"外"},
+  {s:1, ko:"주말", ja:"週末"},
+  {s:1, ko:"캠핑하다", ja:"キャンプする"},
+  {s:1, ko:"숟가락", ja:"スプーン"},
+  {s:1, ko:"냄비", ja:"鍋"},
+  {s:1, ko:"텐트", ja:"テント"},
+  {s:1, ko:"파티", ja:"パーティー"},
+  {s:1, ko:"그런데", ja:"ところで"},
+  {s:1, ko:"안주", ja:"つまみ"},
+  {s:1, ko:"슈퍼", ja:"スーパー"},
+  {s:1, ko:"아", ja:"あ！"},
+  {s:1, ko:"풍선", ja:"風船"},
+  // ================= 8課 (61) =================
+  {s:2, ko:"메뉴", ja:"メニュー"},
+  {s:2, ko:"진짜", ja:"ほんとうに"},
+  {s:2, ko:"많아요", ja:"多いです"},
+  {s:2, ko:"와!", ja:"わぁ〜"},
+  {s:2, ko:"다", ja:"全部"},
+  {s:2, ko:"맛있겠다", ja:"美味しそう"},
+  {s:2, ko:"좋아요(?)", ja:"いいです。いいですか。"},
+  {s:2, ko:"제육볶음", ja:"ピリ辛の豚肉炒め"},
+  {s:2, ko:"이거", ja:"これ"},
+  {s:2, ko:"매워요", ja:"辛いです"},
+  {s:2, ko:"별로", ja:"別に"},
+  {s:2, ko:"안 -아/어요", ja:"〜ません"},
+  {s:2, ko:"맛있어요", ja:"美味しいです"},
+  {s:2, ko:"선배", ja:"先輩"},
+  {s:2, ko:"같이", ja:"いっしょに"},
+  {s:2, ko:"먹어요", ja:"食べましょう"},
+  {s:2, ko:"여기", ja:"ここ"},
+  {s:2, ko:"추천메뉴", ja:"おすすめメニュー"},
+  {s:2, ko:"사진", ja:"写真"},
+  {s:2, ko:"고기", ja:"肉"},
+  {s:2, ko:"만들다", ja:"作る"},
+  {s:2, ko:"김치", ja:"キムチ"},
+  {s:2, ko:"공포영화", ja:"ホラー映画"},
+  {s:2, ko:"발가락양말", ja:"五本指靴下"},
+  {s:2, ko:"신다", ja:"履く"},
+  {s:2, ko:"생선", ja:"魚"},
+  {s:2, ko:"좋아하다", ja:"好きだ"},
+  {s:2, ko:"회사", ja:"会社"},
+  {s:2, ko:"멀다", ja:"遠い"},
+  {s:2, ko:"오늘", ja:"今日"},
+  {s:2, ko:"날씨", ja:"天気"},
+  {s:2, ko:"한국어", ja:"韓国語"},
+  {s:2, ko:"어렵다", ja:"難しい"},
+  {s:2, ko:"점심", ja:"昼、昼ご飯"},
+  {s:2, ko:"언제나", ja:"いつも"},
+  {s:2, ko:"근처", ja:"近所"},
+  {s:2, ko:"냉면", ja:"冷麺"},
+  {s:2, ko:"가게", ja:"店"},
+  {s:2, ko:"인기", ja:"人気"},
+  {s:2, ko:"자리", ja:"席"},
+  {s:2, ko:"토요일", ja:"土曜日"},
+  {s:2, ko:"일요일", ja:"日曜日"},
+  {s:2, ko:"한복", ja:"韓服"},
+  {s:2, ko:"음식", ja:"食べ物、料理"},
+  {s:2, ko:"선물", ja:"プレゼント"},
+  {s:2, ko:"많이", ja:"たくさん"},
+  {s:2, ko:"입다", ja:"着る"},
+  {s:2, ko:"숙제하다", ja:"宿題する"},
+  {s:2, ko:"책", ja:"本"},
+  {s:2, ko:"공원", ja:"公園"},
+  {s:2, ko:"강아지", ja:"子犬、犬"},
+  {s:2, ko:"일하다", ja:"仕事する"},
+  {s:2, ko:"카페", ja:"カフェ"},
+  {s:2, ko:"운동하다", ja:"運動する"},
+  {s:2, ko:"밤", ja:"夜"},
+  {s:2, ko:"만화", ja:"漫画"},
+  {s:2, ko:"늦게까지", ja:"遅くまで"},
+  {s:2, ko:"빵", ja:"パン"},
+  {s:2, ko:"청소하다", ja:"掃除する"},
+  {s:2, ko:"주말", ja:"週末"},
+  {s:2, ko:"기분", ja:"気分"},
+];
+
+let curSet = 0;
+let pool = [];          // words of the active set
+let deck = [];          // queue of indices into pool (△ re-queues to the end)
+let cur = 0, flipped = false, dirKoFirst = true;
+let okSet = new Set();      // learned
+let roundTotal = 0, reviewMode = false;
+let missedEver = new Set(); // marked △ at least once (for stats & retry)
+const $ = id => document.getElementById(id);
+const card = $("card");
+
+function buildChips(){
+  const box = $("sets");
+  const mk = (label, idx)=>{
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = label;
+    b.setAttribute("aria-pressed", curSet === idx);
+    b.addEventListener("click", ()=>selectSet(idx));
+    box.appendChild(b);
+  };
+  mk("すべて (" + WORDS.length + ")", -1);
+  SETS.forEach((name,i)=> mk(name + " (" + WORDS.filter(w=>w.s===i).length + ")", i));
+}
+function refreshChips(){
+  [...$("sets").children].forEach((b, i)=>{
+    b.setAttribute("aria-pressed", (i-1) === curSet || (i===0 && curSet===-1));
+  });
+}
+function selectSet(i){
+  curSet = i;
+  refreshChips();
+  pool = curSet === -1 ? WORDS.slice() : WORDS.filter(w=>w.s===curSet);
+  restart(pool.map((_,k)=>k));
+}
+
+function render(){
+  $("fill").style.width = roundTotal ? (okSet.size / roundTotal * 100) + "%" : "0%";
+  $("pos").textContent = "残り " + (deck.length - cur) + "枚";
+  $("okN").textContent = "○ " + okSet.size + " / " + roundTotal;
+  $("agN").textContent = "△ " + missedEver.size;
+  if(cur >= deck.length){ showDone(); return; }
+  const idx = deck[cur], w = pool[idx];
+  $("markF").style.display = missedEver.has(idx) ? "" : "none";
+  if(dirKoFirst){
+    $("tagF").textContent = "韓国語";
+    $("frontWord").className = "word-ko"; $("frontWord").textContent = w.ko;
+    $("tagB").textContent = "意味";
+    $("backWord").className = "word-ja"; $("backWord").textContent = w.ja;
+  }else{
+    $("tagF").textContent = "意味";
+    $("frontWord").className = "word-ja"; $("frontWord").textContent = w.ja;
+    $("tagB").textContent = "韓国語";
+    $("backWord").className = "word-ko"; $("backWord").textContent = w.ko;
+  }
+  flipped = false;
+  card.classList.remove("flipped");
+  $("judge").style.visibility = "hidden";
+}
+
+function flip(){
+  if(cur >= deck.length) return;
+  flipped = !flipped;
+  card.classList.toggle("flipped", flipped);
+  if(flipped) $("judge").style.visibility = "visible";
+}
+function next(judgeOk){
+  const idx = deck[cur];
+  if(judgeOk){
+    okSet.add(idx);
+  }else{
+    missedEver.add(idx);
+    okSet.delete(idx);
+    deck.push(idx);          // ← △のカードはデッキの最後に自動で戻る
+  }
+  cur++;
+  render();
+}
+function showDone(){
+  $("stage").style.display = "none";
+  $("judge").style.display = "none";
+  $("done").style.display = "flex";
+  $("doneTitle").textContent = reviewMode ? "🎉 復習した単語も全部 ○！" : "🎉 全部 ○ になりました！";
+  $("doneFirst").textContent = roundTotal - missedEver.size;
+  $("doneMissed").textContent = missedEver.size;
+  $("btnRetryMissed").disabled = missedEver.size === 0;
+}
+function restart(indices, isReview){
+  deck = indices.slice();
+  roundTotal = indices.length;
+  reviewMode = !!isReview;
+  $("modeBadge").style.display = reviewMode ? "" : "none";
+  if(reviewMode) $("modeBadge").textContent = "△ 復習モード（" + roundTotal + "語だけ出題中）";
+  cur = 0; okSet = new Set(); missedEver = new Set();
+  $("stage").style.display = "";
+  $("judge").style.display = "";
+  $("done").style.display = "none";
+  render();
+}
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+card.addEventListener("click", flip);
+card.addEventListener("keydown", e=>{ if(e.key===" "||e.key==="Enter"){e.preventDefault(); flip();} });
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowRight" && flipped) next(true);
+  if(e.key==="ArrowLeft"  && flipped) next(false);
+});
+$("btnOk").addEventListener("click", ()=>next(true));
+$("btnAgain").addEventListener("click", ()=>next(false));
+$("btnShuffle").addEventListener("click", ()=>restart(shuffle(pool.map((_,k)=>k))));
+$("btnDir").addEventListener("click", function(){
+  dirKoFirst = !dirKoFirst;
+  this.textContent = dirKoFirst ? "🔁 日本語 → 韓国語 に切替" : "🔁 韓国語 → 日本語 に切替";
+  render();
+});
+$("btnRestart").addEventListener("click", ()=>restart(pool.map((_,k)=>k)));
+$("btnRetryMissed").addEventListener("click", ()=>restart(shuffle([...missedEver]), true));
+
+buildChips();
+selectSet(0);
+</script>
+</body>
+</html>
