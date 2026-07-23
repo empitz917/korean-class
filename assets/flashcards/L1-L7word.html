@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국어 단어 플래시카드 1~7과</title>
+<style>
+:root{
+  --paper:#FBF8F2;
+  --ink:#22303E;
+  --sub:#7A8694;
+  --accent:#2F7E77;      /* 청록 */
+  --accent-soft:#E3F0EE;
+  --warn:#C96A50;        /* 감빛 */
+  --warn-soft:#F8E8E2;
+  --card:#FFFFFF;
+  --line:#E7E1D6;
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:"Hiragino Sans","Yu Gothic","Noto Sans KR","Malgun Gothic",sans-serif;
+  background:var(--paper);color:var(--ink);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:20px 16px 40px;
+}
+.wrap{width:100%;max-width:520px}
+header{text-align:center;margin-bottom:20px}
+h1{font-size:1.35rem;letter-spacing:.02em}
+h1 .ko{color:var(--accent)}
+header p{color:var(--sub);font-size:.82rem;margin-top:6px}
+
+/* deck menu */
+.deck-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.deck-btn{
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);
+  padding:16px 14px;text-align:left;cursor:pointer;transition:transform .12s,border-color .12s;
+  font-family:inherit;
+}
+.deck-btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+.deck-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.deck-btn .name{font-size:1.05rem;font-weight:700}
+.deck-btn .meta{font-size:.75rem;color:var(--sub);margin-top:6px}
+.deck-btn .bar{height:6px;background:var(--line);border-radius:3px;margin-top:10px;overflow:hidden}
+.deck-btn .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.deck-btn .remain{display:inline-block;margin-top:8px;font-size:.72rem;color:var(--warn);background:var(--warn-soft);padding:2px 8px;border-radius:10px}
+.deck-btn .done-badge{display:inline-block;margin-top:8px;font-size:.72rem;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:10px}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}
+.toolbar button{background:none;border:none;color:var(--sub);font-size:.85rem;cursor:pointer;font-family:inherit;padding:6px}
+.toolbar button:hover{color:var(--ink)}
+
+/* study view */
+.study-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.study-head .title{font-weight:700;font-size:1.05rem}
+.chip{font-size:.75rem;color:var(--sub)}
+.chip.review{color:var(--warn);font-weight:700}
+
+.progress{height:6px;background:var(--line);border-radius:3px;margin-bottom:18px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .25s;border-radius:3px}
+
+.card{
+  perspective:1200px;cursor:pointer;height:290px;margin-bottom:16px;
+}
+.card-inner{
+  position:relative;width:100%;height:100%;transition:transform .45s;
+  transform-style:preserve-3d;
+}
+.card.flipped .card-inner{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;text-align:center;box-shadow:0 4px 14px rgba(34,48,62,.06);
+}
+.face.back{transform:rotateY(180deg);background:var(--accent-soft);border-color:var(--accent)}
+.hangul{font-size:2.6rem;font-weight:800;letter-spacing:.02em;line-height:1.25;word-break:keep-all}
+.kata{font-size:1.05rem;color:var(--accent);margin-top:12px;font-weight:600}
+.jp{font-size:1.7rem;font-weight:700;line-height:1.4}
+.jp-sub{font-size:1rem;color:var(--sub);margin-top:12px}
+.hint{position:absolute;bottom:12px;font-size:.7rem;color:var(--sub)}
+
+.grade{display:flex;gap:12px}
+.grade button{
+  flex:1;padding:15px 0;border-radius:var(--radius);border:none;cursor:pointer;
+  font-size:1rem;font-weight:700;font-family:inherit;transition:transform .1s;
+}
+.grade button:active{transform:scale(.97)}
+.grade .no{background:var(--warn-soft);color:var(--warn);border:1.5px solid var(--warn)}
+.grade .yes{background:var(--accent);color:#fff}
+.grade button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+/* result view */
+.result{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:28px 22px;text-align:center}
+.result .big{font-size:1.2rem;font-weight:800;margin-bottom:8px}
+.result .nums{color:var(--sub);font-size:.9rem;margin-bottom:20px}
+.result .nums b.ok{color:var(--accent)}
+.result .nums b.ng{color:var(--warn)}
+.result-btns{display:flex;flex-direction:column;gap:10px}
+.result-btns button{
+  padding:13px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);
+  font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;
+}
+.result-btns .primary{background:var(--warn);border-color:var(--warn);color:#fff}
+.result-btns .ghost{color:var(--sub)}
+.miss-list{margin-top:20px;text-align:left;border-top:1px dashed var(--line);padding-top:14px}
+.miss-list h3{font-size:.8rem;color:var(--warn);margin-bottom:8px}
+.miss-list ul{list-style:none;max-height:180px;overflow-y:auto}
+.miss-list li{font-size:.85rem;padding:5px 0;border-bottom:1px solid #F2EEE5;display:flex;justify-content:space-between;gap:10px}
+.miss-list li .k{font-weight:700}
+.miss-list li .j{color:var(--sub);text-align:right}
+
+.prev-btn{background:none;border:1.5px dashed var(--line);border-radius:12px;padding:8px 18px;color:var(--sub);font-size:.85rem;font-family:inherit;cursor:pointer}
+.prev-btn:hover:not(:disabled){color:var(--ink);border-color:var(--sub)}
+.prev-btn:disabled{opacity:.35;cursor:default}
+.hidden{display:none}
+@media (prefers-reduced-motion: reduce){
+  .card-inner{transition:none}
+  .deck-btn{transition:none}
+}
+@media (max-width:380px){
+  .hangul{font-size:2.1rem}
+  .deck-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📚 <span class="ko">한국어</span> 단어 플래시카드</h1>
+    <p>Lesson 1–7 ＋ Greetings｜Tap the card to flip 👆</p>
+  </header>
+
+  <!-- ===== deck menu ===== -->
+  <div id="menu">
+    <div class="deck-grid" id="deckGrid"></div>
+    <div class="toolbar">
+      <span class="chip" id="totalChip"></span>
+      <button id="resetAll">Reset progress</button>
+    </div>
+  </div>
+
+  <!-- ===== study ===== -->
+  <div id="study" class="hidden">
+    <div class="study-head">
+      <button id="backBtn" style="background:none;border:none;font-size:.9rem;color:var(--sub);cursor:pointer;font-family:inherit">← Menu</button>
+      <span class="title" id="deckTitle"></span>
+      <span class="chip" id="modeChip"></span>
+    </div>
+    <div class="progress"><i id="progBar"></i></div>
+
+    <div class="card" id="card" role="button" tabindex="0" aria-label="カードをめくる">
+      <div class="card-inner">
+        <div class="face front">
+          <div class="hangul" id="frontMain"></div>
+          <div class="kata" id="frontSub"></div>
+          <div class="hint">👆 Tap to see meaning</div>
+        </div>
+        <div class="face back">
+          <div class="jp" id="backMain"></div>
+          <div class="jp-sub" id="backSub"></div>
+          <div class="hint">👆 Tap to flip back</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grade">
+      <button class="no" id="btnNo">✗ Not yet</button>
+      <button class="yes" id="btnYes">✓ Got it!</button>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <button id="btnPrev" class="prev-btn">↩ Previous card</button>
+    </div>
+  </div>
+
+  <!-- ===== result ===== -->
+  <div id="result" class="hidden">
+    <div class="result">
+      <div class="big" id="resTitle"></div>
+      <div class="nums" id="resNums"></div>
+      <div class="result-btns">
+        <button class="primary hidden" id="btnReview">✗ Review missed only</button>
+        <button id="btnRestart">↻ Restart all cards</button>
+        <button class="ghost" id="btnMenu">← Back to menu</button>
+      </div>
+      <div class="miss-list hidden" id="missList">
+        <h3>✗ Missed words</h3>
+        <ul id="missUl"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------- DATA  [한국어, 가타카나, 일본어] ---------------- */
+const DECKS = [
+{id:"L1",name:"Lesson 1",sub:"母音・基本",words:[
+["아이","アイ","子ども"],["우유","ウユ","牛乳"],["요요","ヨヨ","ヨーヨー"],["오이","オイ","きゅうり"],
+["여우","ヨウ","キツネ"],["이","イ","歯"],["유아","ユア","幼児"],["우아","ウア","優雅"],
+["이유","イユ","理由"],["여유","ヨユ","余裕"],["예요","エヨ・イェヨ","〜です"],["아야!","アヤ!","痛っ！"]
+]},
+{id:"L2",name:"Lesson 2",sub:"平音・激音",words:[
+["모자","モジャ","帽子"],["구두","クドゥ","靴"],["가구","カグ","家具"],["허리","ホリ","腰"],
+["가수","カス","歌手"],["나비","ナビ","蝶"],["라디오","ラディオ","ラジオ"],["누나","ヌナ","姉（弟から）"],
+["아버지","アボジ","父"],["어머니","オモニ","母"],["부모","プモ","父母・両親"],["지하","チハ","地下"],
+["휴지","ヒュジ","ティッシュ"],["하나","ハナ","一つ"],["세수","セス","洗顔"],["코","コ","鼻"],
+["파리","パリ","ハエ／パリ"],["토마토","トマト","トマト"],["치즈","チジュ","チーズ"],["크리스마스","クリスマス","クリスマス"],
+["차","チャ","お茶・車"],["카메라","カメラ","カメラ"],["커피","コピ","コーヒー"],["코코아","ココア","ココア"],
+["수프","スプ","スープ"],["치마","チマ","スカート"],["고추","コチュ","唐辛子"],["기타","キタ","ギター"],
+["피자","ピジャ","ピザ"],["타요","タヨ","乗ります"]
+]},
+{id:"L3",name:"Lesson 3",sub:"濃音・複合母音",words:[
+["오빠","オッパ","兄（妹から）"],["토끼","トッキ","ウサギ"],["쓰레기","ッスレギ","ゴミ"],["예쁘다","イェップダ","きれいだ"],
+["아빠","アッパ","パパ"],["꼬리","ッコリ","しっぽ"],["어때요?","オッテヨ?","どうですか？"],["비싸다","ピッサダ","（値段が）高い"],
+["이따가","イッタガ","後で"],["코끼리","コッキリ","象"],["어깨","オッケ","肩"],["찌개","ッチゲ","チゲ（鍋料理）"],
+["와요","ワヨ","来ます"],["왜요?","ウェヨ?","なぜですか？"],["사과","サグァ","りんご"],["뭐?","ムォ?","何？"],
+["샤워","シャウォ","シャワー"],["돼지","トェジ","豚"],["귀여워","クィヨウォ","かわいい"],["뇌","ヌェ","脳"],
+["쥐","チュィ","ネズミ"],["의자","ウィジャ","椅子"],["웨이터","ウェイト","ウェイター"],["해외","ヘウェ","海外"],
+["회사","フェサ","会社"],["예외","イェウェ","例外"],["가위","カウィ","ハサミ"]
+]},
+{id:"L4",name:"Lesson 4",sub:"パッチム",words:[
+["사람","サラム","人"],["섬","ソム","島"],["컴퓨터","コムピュト","パソコン"],["눈","ヌン","目・雪"],
+["손","ソン","手"],["레몬","レモン","レモン"],["친구","チング","友達"],["공","コン","ボール"],
+["가방","カバン","カバン"],["빵","ッパン","パン"],["냉장고","ネンジャンゴ","冷蔵庫"],["물","ムル","水"],
+["불","プル","火"],["달","タル","月"],["별","ピョル","星"],["집","チプ","家"],
+["잎","イプ","葉"],["지갑","チガプ","財布"],["무릎","ムルプ","ひざ"],["옷","オッ","服"],
+["빗","ピッ","くし"],["낮","ナッ","昼"],["꽃","ッコッ","花"],["숟가락","スッカラク","スプーン"],
+["젓가락","チョッカラク","箸"],["히읗","ヒウッ","ヒウッ（字母名）"],["밑","ミッ","下"],["책","チェク","本"],
+["부엌","プオク","台所"],["국","クク","スープ・汁"]
+]},
+{id:"GR",name:"Greetings",sub:"인사・あいさつ",words:[
+["안녕하세요?","アンニョンハセヨ?","こんにちは"],["만나서 반갑습니다","マンナソ パンガプスムニダ","お会いできてうれしいです（丁寧）"],
+["만나서 반가워요","マンナソ パンガウォヨ","お会いできてうれしいです"],["잘 먹겠습니다","チャル モッケッスムニダ","いただきます"],
+["잘 먹었습니다","チャル モゴッスムニダ","ごちそうさまでした"],["안녕히 가세요","アンニョンヒ カセヨ","さようなら（去る人へ）"],
+["안녕히 계세요","アンニョンヒ ケセヨ","さようなら（残る人へ）"],["미안합니다","ミアナムニダ","ごめんなさい"],
+["괜찮아요","クェンチャナヨ","大丈夫です"],["죄송합니다","チェソンハムニダ","申し訳ありません"],
+["감사합니다","カムサハムニダ","ありがとうございます"],["고맙습니다","コマプスムニダ","ありがとうございます"],
+["축하합니다","チュカハムニダ","おめでとうございます"],["수고하셨습니다","スゴハショッスムニダ","お疲れさまでした"],
+["어서 오세요","オソ オセヨ","いらっしゃいませ"],["안녕","アンニョン","やあ／バイバイ"],
+["잘 가","チャル ガ","じゃあね（見送る側）"],["또 봐","ット ブァ","またね"],
+["어서 와","オソ ワ","いらっしゃい（タメ口）"],["미안해","ミアネ","ごめん"],
+["미안 미안","ミアン ミアン","ごめんごめん"],["괜찮아?","クェンチャナ?","大丈夫？"],
+["괜찮아","クェンチャナ","大丈夫"],["축하해","チュカヘ","おめでとう"],
+["축하 축하","チュカ チュカ","おめでとー"],["수고","スゴ","お疲れ"],
+["가","カ","じゃ、行くね／バイバイ"],["밥 먹었어?","パプ モゴッソ?","ご飯食べた？"],
+["먹었어","モゴッソ","食べた"],["파이팅!","パイティン!","ファイト！"],["너도 파이팅!","ノド パイティン!","君もファイト！"]
+]},
+{id:"L5",name:"Lesson 5",sub:"自己紹介",words:[
+["저기…","チョギ…","あの…"],["한국분","ハングップン","韓国の方"],["-(이)세요?","(イ)セヨ?","〜でいらっしゃいますか？"],
+["네","ネ","はい"],["한국 사람","ハングク サラム","韓国人"],["-이에요","イエヨ","〜です（パッチム有）"],
+["-(이)라고 합니다","(イ)ラゴ ハムニダ","〜と申します"],["저는","チョヌン","私は"],["-예요","エヨ・イェヨ","〜です（パッチム無）"],
+["일본 사람","イルボン サラム","日本人"],["씨","ッシ","〜さん"],["회사원","フェサウォン","会社員"],
+["아니요","アニヨ","いいえ"],["학생","ハクセン","学生"],
+["아버지","アボジ","父"],["어머니","オモニ","母"],["취미","チュィミ","趣味"],["꿈","ックム","夢"],
+["서울","ソウル","ソウル"],["이름","イルム","名前"],["공무원","コンムウォン","公務員"],["간호사","カノサ","看護師"],
+["게임","ケイム","ゲーム"],["만화가","マヌァガ","漫画家"],["처음","チョウム","初めて"],["친구","チング","友達"],
+["여권","ヨックォン","パスポート"],["김치","キムチ","キムチ"],["물","ムル","水"],["컴퓨터","コムピュト","パソコン"],
+["기자","キジャ","記者"],["초등학생","チョドゥンハクセン","小学生"],["중학생","チュンハクセン","中学生"],
+["유튜버","ユテュボ","ユーチューバー"],["미용사","ミヨンサ","美容師"],["요리사","ヨリサ","調理師"],
+["파스타","パスタ","パスタ"],["비빔국수","ピビムククス","ビビムククス（混ぜ素麺）"],["오늘","オヌル","今日"],
+["저녁밥","チョニョッパプ","夕ご飯"],["간식","カンシク","間食・おやつ"],["집","チプ","家"],
+["부산","プサン","プサン（釜山）"],["직업","チゴプ","職業"],["스키","スキ","スキー"],
+["테니스","テニス","テニス"],["요가","ヨガ","ヨガ"],["네일리스트","ネイルリスト","ネイリスト"]
+]},
+{id:"L6",name:"Lesson 6",sub:"あります／ありません",words:[
+["카카오톡","カカオトク","カカオトーク"],["아이디","アイディ","（SNSなどの）ID"],["있어요(?)","イッソヨ(?)","あります（か？）"],
+["라인","ライン","LINE"],["~도","ド","〜も（助詞）"],["이거","イゴ","これ"],["제","チェ","私の（←저의）"],
+["큐알코드","キュアルコドゥ","QRコード"],["근데","クンデ","でも（←그런데）"],["지금","チグム","今"],
+["시간","シガン","時間"],["~가/이","ガ/イ","〜が（助詞）"],["없어요","オプソヨ","ありません"],
+["그럼","クロム","じゃあ"],["명함","ミョンハム","名刺"],["꼭","ッコク","必ず・ぜひ"],
+["연락 주세요","ヨルラク チュセヨ","連絡ください"],
+["일","イル","仕事"],["약속","ヤクソク","約束"],["자전거","チャジョンゴ","自転車"],["주스","チュス","ジュース"],
+["수업","スオプ","授業"],["교통카드","キョトンカドゥ","交通カード（T-money）"],["고양이","コヤンイ","猫"],
+["티켓","ティケッ","チケット"],["지우개","チウゲ","消しゴム"],["여동생","ヨドンセン","妹"],
+["숙제","スクッチェ","宿題"],["아르바이트","アルバイトゥ","アルバイト"],
+["우산","ウサン","傘"],["돈","トン","お金"],["남자 친구","ナムジャ チング","彼氏"],["여자 친구","ヨジャ チング","彼女"],
+["편의점","ピョニジョム","コンビニ"],["물","ムル","水"],["메뉴","メニュ","メニュー"],["돈가스","トンカス","とんかつ"],
+["집","チプ","家"],["마당","マダン","庭"],["방","パン","部屋"],["텔레비전","テルレビジョン","テレビ"],
+["교과서","キョグァソ","教科書"],["지갑","チガプ","財布"],["옷","オッ","服"],["핸드폰","ヘンドゥポン","携帯電話"],
+["가방","カバン","カバン"],["모자","モジャ","帽子"],["노트북","ノトゥブク","ノートパソコン"],
+["복사기","ポクサギ","コピー機"],["약국","ヤックク","薬局"],["감기약","カムギヤク","風邪薬"],
+["마스크","マスク","マスク"],["멀미약","モルミヤク","酔い止め薬"],["선생님","ソンセンニム","先生"],
+["형제","ヒョンジェ","兄弟"],["좋아하는","チョアハヌン","好きな"],["아이돌","アイドル","アイドル"],
+["취미","チュィミ","趣味"],["뭐","ムォ","何"],
+["침대","チムデ","ベッド"],["책상","チェクッサン","机"],["남동생","ナムドンセン","弟"],["소파","ソパ","ソファー"],
+["게임기","ケイムギ","ゲーム機"],["빨래","ッパルレ","洗濯物"]
+]},
+{id:"L7",name:"Lesson 7",sub:"하다動詞・位置",words:[
+["웬일","ウェンニル","どうしたこと・何ごと"],["해요?","ヘヨ?","していますか？"],["도와주세요","トワジュセヨ","手伝ってください"],
+["쇼핑해요","ショピンヘヨ","買い物します"],["그래요?","クレヨ?","そうですか？"],["또","ット","また・もっと"],
+["커튼","コトゥン","カーテン"],["필요해요","ピリョヘヨ","必要です"],["~하고","ハゴ","〜と（助詞）"],
+["물컵","ムルコプ","コップ"],["쓰레기봉투","ッスレギボントゥ","ゴミ袋"],["갈게요","カルッケヨ","行きます"],
+["같이","カチ","いっしょに"],["이마트","イマトゥ","e-Mart（マートの名称）"],["앞에서","アペソ","前で"],
+["만나요","マンナヨ","会いましょう"],
+["세수하다","セスハダ","洗顔する"],["화장하다","ファジャンハダ","化粧する"],["일하다","イラダ","仕事する"],
+["아르바이트하다","アルバイトゥハダ","アルバイトする"],["운동해요","ウンドンヘヨ","運動します"],
+["유명하다","ユミョンハダ","有名だ"],["친절하다","チンジョラダ","親切だ"],
+["청소하다","チョンソハダ","掃除する"],["나","ナ","わたし"],["남동생","ナムドンセン","弟"],
+["파마하다","パマハダ","パーマをかける"],["야구하다","ヤグハダ","野球する"],["침대","チムデ","ベッド"],
+["소파","ソパ","ソファー"],["밥그릇","パプックルッ","茶碗"],["국그릇","クックルッ","汁椀"],
+["슬리퍼","スルリポ","スリッパ"],["방석","パンソク","座布団"],["비누","ピヌ","石鹸"],
+["샴푸","シャムプ","シャンプー"],["스테이크","ステイク","ステーキ"],["맥주","メクッチュ","ビール"],
+["카드","カドゥ","カード"],["영수증","ヨンスジュン","レシート"],["강아지","カンアジ","子犬"],
+["나무","ナム","木"],["물","ムル","水"],["콜라","コルラ","コーラ"],
+["역","ヨク","駅"],["백화점","ペクァジョム","デパート"],["공항","コンハン","空港"],
+["스타벅스","スタボクス","スターバックス"],["앞","アプ","前"],["옆","ヨプ","横"],["뒤","トゥィ","後ろ"],
+["위","ウィ","上"],["아래","アレ","下"],["오른쪽","オルンッチョク","右"],["왼쪽","ウェンッチョク","左"],
+["안","アン","中"],["밖","パク","外"],
+["주말","チュマル","週末"],["캠핑하다","ケムピンハダ","キャンプする"],["젓가락","チョッカラク","お箸"],
+["숟가락","スッカラク","スプーン"],["냄비","ネムビ","鍋"],["텐트","テントゥ","テント"],
+["필요하다","ピリョハダ","必要だ"],["파티","パティ","パーティー"],["그런데","クロンデ","ところで"],
+["안주","アンジュ","おつまみ"],["슈퍼","シュポ","スーパー"],["풍선","プンソン","風船"]
+]}
+];
+
+/* ---------------- STATE ---------------- */
+// saved = { deckId: { missed:[indices], learned:[indices] } }
+let saved = {};
+let cur = null;          // {deck, queue:[idx...], pos, missed:[], learnedCount, mode}
+const $ = id => document.getElementById(id);
+
+async function loadSaved(){
+  try{
+    const r = await window.storage.get("kr-flashcards-v1");
+    if(r && r.value) saved = JSON.parse(r.value);
+  }catch(e){ saved = {}; }
+}
+async function persist(){
+  try{ await window.storage.set("kr-flashcards-v1", JSON.stringify(saved)); }catch(e){}
+}
+
+/* ---------------- MENU ---------------- */
+function renderMenu(){
+  const grid = $("deckGrid");
+  grid.innerHTML = "";
+  let total=0;
+  DECKS.forEach(d=>{
+    total += d.words.length;
+    const s = saved[d.id] || {missed:[],learned:[]};
+    const learned = s.learned.length, missed = s.missed.length;
+    const pct = Math.round(learned / d.words.length * 100);
+    const btn = document.createElement("button");
+    btn.className = "deck-btn";
+    let badge = "";
+    if(missed>0) badge = `<span class="remain review-jump">✗ Review ${missed} missed →</span>`;
+    else if(learned === d.words.length) badge = `<span class="done-badge">✓ Complete!</span>`;
+    btn.innerHTML = `
+      <div class="name">${d.name}</div>
+      <div class="meta">${d.sub} ・ ${d.words.length} words</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      ${badge}`;
+    btn.addEventListener("click", (e)=>{
+      if(missed>0 && e.target.classList.contains("review-jump")){
+        beginSession(d, (saved[d.id].missed).slice(), "review");
+      } else {
+        startDeck(d, true);
+      }
+    });
+    grid.appendChild(btn);
+  });
+  $("totalChip").textContent = `Total ${total} words`;
+}
+
+function startDeck(deck, forceAll){
+  beginSession(deck, deck.words.map((_,i)=>i), "all");
+}
+
+function beginSession(deck, indices, mode){
+  cur = { deck, queue: indices, pos: 0, missed: [], learnedCount: 0, mode, history: [] };
+  $("menu").classList.add("hidden");
+  $("result").classList.add("hidden");
+  $("study").classList.remove("hidden");
+  $("deckTitle").textContent = deck.name + (deck.id==="GR" ? "" : "");
+  const chip = $("modeChip");
+  chip.textContent = mode==="review" ? "Review" : "All cards";
+  chip.className = "chip" + (mode==="review" ? " review" : "");
+  showCard();
+}
+
+/* ---------------- CARD ---------------- */
+function showCard(){
+  const {deck, queue, pos} = cur;
+  const w = deck.words[queue[pos]];
+  const card = $("card");
+  const wasFlipped = card.classList.contains("flipped");
+  card.classList.remove("flipped");
+  $("frontMain").textContent = w[0];
+  $("frontSub").textContent = w[1];
+  // 뒷면은 플립백 애니메이션이 끝난 뒤 갱신 (다음 답이 미리 보이는 것 방지)
+  setTimeout(()=>{
+    $("backMain").textContent = w[2];
+    $("backSub").textContent = w[0] + "（" + w[1] + "）";
+  }, wasFlipped ? 250 : 0);
+  $("progBar").style.width = (pos / queue.length * 100) + "%";
+  $("btnPrev").disabled = (pos === 0);
+  $("modeChip").textContent = (cur.mode==="review"?"Review ":"") + (pos+1) + " / " + queue.length;
+}
+
+function grade(known){
+  const idx = cur.queue[cur.pos];
+  if(known) cur.learnedCount++;
+  else cur.missed.push(idx);
+  cur.history.push(known);
+  cur.pos++;
+  if(cur.pos >= cur.queue.length) finish();
+  else showCard();
+}
+
+async function finish(){
+  const d = cur.deck;
+  const s = saved[d.id] || {missed:[],learned:[]};
+  if(cur.mode === "all"){
+    s.missed = cur.missed.slice();
+    s.learned = d.words.map((_,i)=>i).filter(i=>!cur.missed.includes(i));
+  } else {
+    // review: 이번에 맞은 것은 missed에서 제거
+    const stillMissed = cur.missed.slice();
+    s.missed = stillMissed;
+    s.learned = d.words.map((_,i)=>i).filter(i=>!stillMissed.includes(i));
+  }
+  saved[d.id] = s;
+  await persist();
+
+  $("study").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  const ok = cur.queue.length - cur.missed.length;
+  $("resTitle").textContent = cur.missed.length===0 ? "🎉 Perfect! All clear!" : "Good job! 👏";
+  $("resNums").innerHTML = `${d.name}｜✓ Got it <b class="ok">${ok}</b>　✗ Not yet <b class="ng">${cur.missed.length}</b>`;
+
+  const btnReview = $("btnReview");
+  const missList = $("missList");
+  if(cur.missed.length>0){
+    btnReview.classList.remove("hidden");
+    btnReview.textContent = `✗ Review ${cur.missed.length} missed`;
+    missList.classList.remove("hidden");
+    const ul = $("missUl"); ul.innerHTML = "";
+    cur.missed.forEach(i=>{
+      const w = d.words[i];
+      const li = document.createElement("li");
+      li.innerHTML = `<span class="k">${w[0]}<span style="color:var(--accent);font-weight:400;font-size:.78em"> ${w[1]}</span></span><span class="j">${w[2]}</span>`;
+      ul.appendChild(li);
+    });
+  } else {
+    btnReview.classList.add("hidden");
+    missList.classList.add("hidden");
+  }
+}
+
+/* ---------------- EVENTS ---------------- */
+const cardEl = $("card");
+cardEl.addEventListener("click", ()=> cardEl.classList.toggle("flipped"));
+cardEl.addEventListener("keydown", e=>{
+  if(e.key===" "||e.key==="Enter"){ e.preventDefault(); cardEl.classList.toggle("flipped"); }
+});
+function goBack(){
+  if(!cur || cur.pos === 0) return;
+  cur.pos--;
+  const wasKnown = cur.history.pop();
+  if(wasKnown) cur.learnedCount--;
+  else cur.missed.pop();
+  showCard();
+}
+$("btnPrev").addEventListener("click", goBack);
+$("btnYes").addEventListener("click", ()=> grade(true));
+$("btnNo").addEventListener("click", ()=> grade(false));
+$("backBtn").addEventListener("click", ()=>{ $("study").classList.add("hidden"); renderMenu(); $("menu").classList.remove("hidden"); });
+$("btnMenu").addEventListener("click", ()=>{ $("result").classList.add("hidden"); renderMenu(); $("menu").classList.remove("hidden"); });
+$("btnRestart").addEventListener("click", ()=> startDeck(cur.deck, true));
+$("btnReview").addEventListener("click", ()=> beginSession(cur.deck, cur.missed.slice(), "review"));
+$("resetAll").addEventListener("click", async ()=>{
+  const btn = $("resetAll");
+  if(btn.dataset.arm !== "1"){
+    btn.dataset.arm = "1";
+    btn.textContent = "Really reset? Click again";
+    btn.style.color = "var(--warn)";
+    setTimeout(()=>{ btn.dataset.arm=""; btn.textContent="Reset progress"; btn.style.color=""; }, 3000);
+    return;
+  }
+  saved = {}; await persist();
+  btn.dataset.arm=""; btn.textContent="Reset progress"; btn.style.color="";
+  renderMenu();
+});
+
+/* keyboard shortcuts: ←못외움 →외움 */
+document.addEventListener("keydown", e=>{
+  if($("study").classList.contains("hidden")) return;
+  if(e.key==="ArrowRight") grade(true);
+  if(e.key==="ArrowLeft") grade(false);
+  if(e.key==="Backspace"){ e.preventDefault(); goBack(); }
+});
+
+/* ---------------- INIT ---------------- */
+(async ()=>{ await loadSaved(); renderMenu(); })();
+</script>
+</body>
+</html>
