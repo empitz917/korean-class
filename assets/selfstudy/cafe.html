@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>단어 격파 · 음식・요리</title>
+<title>단어 격파 · 카페</title>
 <style>
   :root{
     --sky-top:#AEE3FF;
@@ -416,12 +416,12 @@
 (function(){
   "use strict";
 
-  /* ---------------- DATA (음식・요리) ---------------- */
+  /* ---------------- DATA (카페) ---------------- */
   const WORDS = [
-    ["밥","ご飯"],["고기","肉"],["생선","魚"],["야채","野菜"],["과일","果物"],
-    ["계란","卵"],["두부","豆腐"],["김치","キムチ"],["라면","ラーメン"],["국","スープ"],
-    ["반찬","おかず"],["요리해요","料理します"],["먹어요","食べます"],["많아요","多いです"],["잘라요","切ります"],
-    ["소금","塩"],["설탕","砂糖"],["치킨","チキン"],["매워요","辛いです"],["맛있어요","おいしいです"]
+    ["커피","コーヒー"],["아메리카노","アメリカーノ"],["라떼","ラテ"],["녹차","緑茶"],["주스","ジュース"],
+    ["케이크","ケーキ"],["빵","パン"],["샷추가","ショット追加"],["얼음","氷"],["뜨거워요","熱いです"],
+    ["차가워요","冷たいです"],["달아요","甘いです"],["사이즈","サイズ"],["포장","テイクアウト"],["매장","店内"],
+    ["영수증","レシート"],["진동벨","呼び出しベル"],["주문해요","注文します"],["시켜요","頼みます"],["와이파이","Wi-Fi"]
   ];
   const TOTAL = WORDS.length;
 
@@ -921,35 +921,41 @@
   makeCloud(34, 0.8, 110, -45);
   makeCloud(55, 0.5, 140, -100);
 
-  /* cute Korean foods floating in the sky — 말랑 파스텔 style (original hand-drawn SVG) */
+  /* cute cafe items floating in the sky — 말랑 파스텔 style (original hand-drawn SVG) */
   const FOOD_SVGS = [
-    /* 김밥 */
-    '<svg width="40" height="40" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="#7C9A6C"/><circle cx="24" cy="24" r="15.5" fill="#FFFDF7"/><circle cx="18" cy="16.5" r="2.7" fill="#F4C98C"/><circle cx="24" cy="15" r="2.7" fill="#AFD394"/><circle cx="30" cy="16.5" r="2.7" fill="#F4BDCB"/><circle cx="19.5" cy="25" r="1.6" fill="#5A4A42"/><circle cx="28.5" cy="25" r="1.6" fill="#5A4A42"/><path d="M22.5 28.5 Q24 30 25.5 28.5" stroke="#5A4A42" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="15.5" cy="28" r="1.9" fill="#F6C6CE" opacity=".8"/><circle cx="32.5" cy="28" r="1.9" fill="#F6C6CE" opacity=".8"/></svg>',
-    /* 떡볶이 */
-    '<svg width="46" height="36" viewBox="0 0 46 36"><rect x="3" y="17" width="40" height="11" rx="5.5" fill="#FBF4E6"/><path d="M5 20 Q10 9 16 17 Q22 7 28 16 Q34 8 41 19 L41 22 Q23 27 5 23 Z" fill="#EE8B84"/><circle cx="14" cy="14.5" r="1" fill="#FFF3F1"/><circle cx="27" cy="13" r="1" fill="#FFF3F1"/><circle cx="35" cy="16" r="1" fill="#FFF3F1"/><circle cx="18" cy="21" r="1.4" fill="#5A4A42"/><circle cx="27" cy="21" r="1.4" fill="#5A4A42"/><path d="M20.5 23.5 Q22.5 25.2 24.5 23.5" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="13.5" cy="23" r="1.7" fill="#F6C6CE" opacity=".85"/><circle cx="31.5" cy="23" r="1.7" fill="#F6C6CE" opacity=".85"/></svg>',
-    /* 만두 */
-    '<svg width="42" height="34" viewBox="0 0 42 34"><path d="M6 27 Q6 9 21 9 Q36 9 36 27 Z" fill="#F9EDD6"/><path d="M12 12.5 Q14 9 16 11.5 M18 10.5 Q20 7 22 10.5 M24 11.5 Q26 9 28 12.5" stroke="#E8D3AC" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M14.5 19.5 Q16 18 17.5 19.5" stroke="#5A4A42" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M24.5 19.5 Q26 18 27.5 19.5" stroke="#5A4A42" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M19 23 Q21 24.8 23 23" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="12.5" cy="22.5" r="1.9" fill="#F6C6CE" opacity=".85"/><circle cx="29.5" cy="22.5" r="1.9" fill="#F6C6CE" opacity=".85"/></svg>',
-    /* 붕어빵 */
-    '<svg width="50" height="32" viewBox="0 0 56 36"><path d="M4 18 Q11 5 26 5 Q41 5 46 13 L53 7 Q50 18 53 29 L46 23 Q41 31 26 31 Q11 31 4 18 Z" fill="#F3D091"/><path d="M20 12 L30 12 M18 18 L32 18 M20 24 L30 24" stroke="#E2B76F" stroke-width="1.5" stroke-linecap="round"/><path d="M11.5 15 Q13 13.4 14.5 15" stroke="#5A4A42" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M9 19.5 Q11 21 13 19.5" stroke="#5A4A42" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="16.5" cy="20.5" r="1.9" fill="#F6C6CE" opacity=".8"/></svg>',
-    /* 부침개 */
-    '<svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="#F1D49C"/><circle cx="13" cy="12" r="4" fill="#F7E4BC" opacity=".9"/><circle cx="31" cy="30" r="5" fill="#F7E4BC" opacity=".8"/><circle cx="30" cy="11" r="3" fill="#F7E4BC" opacity=".85"/><path d="M10 20 l5 -3 M27 7.5 l5 2 M8 30 l5 2 M33 20 l4 -3 M20 36 l5 -2" stroke="#9BC287" stroke-width="2.2" stroke-linecap="round"/><rect x="15" y="8" width="3.4" height="2.3" rx="1" fill="#F0A968"/><rect x="34" y="27" width="3.4" height="2.3" rx="1" fill="#F0A968"/><rect x="9" y="25" width="3.2" height="2.2" rx="1" fill="#F0A968"/><circle cx="18" cy="20.5" r="1.6" fill="#5A4A42"/><circle cx="26" cy="20.5" r="1.6" fill="#5A4A42"/><path d="M20 24 Q22 25.8 24 24" stroke="#5A4A42" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="14" cy="23.5" r="1.9" fill="#F6C6CE" opacity=".85"/><circle cx="30" cy="23.5" r="1.9" fill="#F6C6CE" opacity=".85"/></svg>',
-    /* 갈비 */
-    '<svg width="58" height="36" viewBox="0 0 60 36"><rect x="3" y="15.5" width="54" height="5.5" rx="2.75" fill="#FBF7EF"/><circle cx="3.5" cy="13.5" r="3.4" fill="#FBF7EF"/><circle cx="3.5" cy="23" r="3.4" fill="#FBF7EF"/><circle cx="56.5" cy="13.5" r="3.4" fill="#FBF7EF"/><circle cx="56.5" cy="23" r="3.4" fill="#FBF7EF"/><ellipse cx="30" cy="18" rx="12" ry="11.5" fill="#D49877"/><path d="M23 11.5 Q27.5 8.5 33 10" stroke="#E4B191" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="25.5" cy="17.5" r="1.5" fill="#5A4A42"/><circle cx="34.5" cy="17.5" r="1.5" fill="#5A4A42"/><path d="M27.8 21 Q30 22.8 32.2 21" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="22" cy="21" r="1.8" fill="#F6C6CE" opacity=".85"/><circle cx="38" cy="21" r="1.8" fill="#F6C6CE" opacity=".85"/></svg>',
-    /* 냉면 */
-    '<svg width="46" height="42" viewBox="0 0 48 42"><ellipse cx="24" cy="16" rx="17.5" ry="7.5" fill="#EFE3CC"/><path d="M12 14 Q16 11 20 14 M22 12.5 Q26 10 30 13 M14 17.5 Q19 15 24 17.5" stroke="#DECBA4" stroke-width="1.4" fill="none" stroke-linecap="round"/><circle cx="32" cy="13" r="4.6" fill="#FFFDF5"/><circle cx="32" cy="13" r="2.2" fill="#F2CE5A"/><path d="M5 19 Q5 38 24 38 Q43 38 43 19 Z" fill="#C7D3E0"/><circle cx="18.5" cy="27" r="1.6" fill="#5A4A42"/><circle cx="29.5" cy="27" r="1.6" fill="#5A4A42"/><path d="M21.5 30.5 Q24 32.3 26.5 30.5" stroke="#5A4A42" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="13.5" cy="30" r="1.9" fill="#F6C6CE" opacity=".85"/><circle cx="34.5" cy="30" r="1.9" fill="#F6C6CE" opacity=".85"/></svg>',
-    /* 치킨 */
-    '<svg width="36" height="48" viewBox="0 0 40 52"><circle cx="20" cy="18" r="15" fill="#EDB980"/><circle cx="13" cy="12" r="2" fill="#F6D2A4" opacity=".9"/><circle cx="26" cy="9.5" r="1.7" fill="#F6D2A4" opacity=".9"/><circle cx="30" cy="20" r="1.8" fill="#F6D2A4" opacity=".9"/><rect x="17" y="31" width="6" height="12" rx="3" fill="#FBF7EF"/><circle cx="16.8" cy="45" r="3.4" fill="#FBF7EF"/><circle cx="23.2" cy="45" r="3.4" fill="#FBF7EF"/><circle cx="15" cy="18" r="1.5" fill="#5A4A42"/><circle cx="25" cy="18" r="1.5" fill="#5A4A42"/><path d="M18 21.5 Q20 23.3 22 21.5" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="11" cy="21.5" r="1.8" fill="#F6C6CE" opacity=".85"/><circle cx="29" cy="21.5" r="1.8" fill="#F6C6CE" opacity=".85"/></svg>'
+    /* 테이크아웃 컵 */
+    '<svg width="40" height="52" viewBox="0 0 40 52"><ellipse cx="20" cy="9" rx="13" ry="4" fill="#D9C4B0"/><rect x="7" y="7" width="26" height="5" rx="2.5" fill="#D9C4B0"/><path d="M9 12 L31 12 L28 48 Q20 51 12 48 Z" fill="#FFFDF7"/><rect x="10.5" y="22" width="19" height="12" fill="#F4D9C9"/><rect x="18" y="0" width="3.5" height="8" rx="1.7" fill="#EE9FB0" transform="rotate(14 20 4)"/><circle cx="16.5" cy="27" r="1.5" fill="#5A4A42"/><circle cx="23.5" cy="27" r="1.5" fill="#5A4A42"/><path d="M18.5 30 Q20 31.6 21.5 30" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="13" cy="29.5" r="1.6" fill="#F6C6CE" opacity=".85"/><circle cx="27" cy="29.5" r="1.6" fill="#F6C6CE" opacity=".85"/></svg>',
+    /* 라떼 */
+    '<svg width="48" height="42" viewBox="0 0 48 42"><path d="M6 14 Q6 36 22 36 Q38 36 38 14 Z" fill="#FFFDF7" stroke="#EDE3D2" stroke-width="1"/><path d="M38 17 Q45 18 44 23 Q43 28 37 27" fill="none" stroke="#EDE3D2" stroke-width="3"/><ellipse cx="22" cy="14" rx="16" ry="5.5" fill="#D8B08A"/><path d="M22 11.5 C20.5 9.8 17.5 10.8 17.5 13 C17.5 15 20 16.3 22 17.6 C24 16.3 26.5 15 26.5 13 C26.5 10.8 23.5 9.8 22 11.5 Z" fill="#F4E6D2"/><circle cx="17" cy="24" r="1.5" fill="#5A4A42"/><circle cx="27" cy="24" r="1.5" fill="#5A4A42"/><path d="M20 27.5 Q22 29.2 24 27.5" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="13" cy="27" r="1.7" fill="#F6C6CE" opacity=".85"/><circle cx="31" cy="27" r="1.7" fill="#F6C6CE" opacity=".85"/></svg>',
+    /* 딸기 케이크 */
+    '<svg width="46" height="42" viewBox="0 0 46 42"><path d="M8 20 L38 20 L36 38 L10 38 Z" fill="#FBF2E4"/><path d="M8 20 L38 20 L37.4 26 L8.6 26 Z" fill="#F4BDCB"/><path d="M9 31 L37 31 L36.7 34 L9.3 34 Z" fill="#F4BDCB"/><circle cx="23" cy="14" r="5.5" fill="#EE8B95"/><path d="M23 8.5 Q24 6 25.5 5.5" stroke="#8FAF7E" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="18.5" cy="29" r="1.4" fill="#5A4A42"/><circle cx="27.5" cy="29" r="1.4" fill="#5A4A42"/><path d="M21 32 Q23 33.6 25 32" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="14.5" cy="31.5" r="1.7" fill="#F6C6CE" opacity=".85"/><circle cx="31.5" cy="31.5" r="1.7" fill="#F6C6CE" opacity=".85"/></svg>',
+    /* 도넛 */
+    '<svg width="46" height="42" viewBox="0 0 46 42"><circle cx="23" cy="21" r="18" fill="#F0D2A8"/><path d="M23 4 A17 17 0 0 1 40 21 A17 17 0 0 1 23 38 A17 17 0 0 1 6 21 A17 17 0 0 1 23 4 Z M23 14 A7 7 0 0 0 16 21 A7 7 0 0 0 23 28 A7 7 0 0 0 30 21 A7 7 0 0 0 23 14 Z" fill="#F4BDCB" fill-rule="evenodd"/><rect x="12" y="10" width="4" height="1.8" rx=".9" fill="#8CCFC3" transform="rotate(24 14 11)"/><rect x="29" y="8.5" width="4" height="1.8" rx=".9" fill="#F2CE5A" transform="rotate(-18 31 9.4)"/><rect x="35" y="24" width="4" height="1.8" rx=".9" fill="#AFA9EC" transform="rotate(40 37 25)"/><rect x="8" y="25" width="4" height="1.8" rx=".9" fill="#8CCFC3" transform="rotate(-30 10 26)"/><circle cx="17" cy="33" r="1.4" fill="#5A4A42"/><circle cx="29" cy="33" r="1.4" fill="#5A4A42"/><path d="M21 35 Q23 36.6 25 35" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>',
+    /* 마카롱 */
+    '<svg width="46" height="36" viewBox="0 0 46 36"><path d="M8 13 Q8 5 23 5 Q38 5 38 13 Q38 16 34 16 L12 16 Q8 16 8 13 Z" fill="#C9E8DB"/><rect x="10" y="16" width="26" height="4" rx="2" fill="#FBF2E4"/><path d="M8 23 Q8 20 12 20 L34 20 Q38 20 38 23 Q38 31 23 31 Q8 31 8 23 Z" fill="#C9E8DB"/><circle cx="18" cy="11" r="1.4" fill="#5A4A42"/><circle cx="28" cy="11" r="1.4" fill="#5A4A42"/><path d="M21 13 Q23 14.6 25 13" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="14" cy="13" r="1.6" fill="#F6C6CE" opacity=".85"/><circle cx="32" cy="13" r="1.6" fill="#F6C6CE" opacity=".85"/></svg>',
+    /* 크루아상 */
+    '<svg width="50" height="36" viewBox="0 0 50 36"><path d="M25 8 Q34 8 42 14 Q47 18 44 24 Q41 29 36 26 Q31 30 25 30 Q19 30 14 26 Q9 29 6 24 Q3 18 8 14 Q16 8 25 8 Z" fill="#F0CB93"/><path d="M16 10.5 Q18 18 16 25.5 M25 8.5 Q27 19 25 29.5 M34 10.5 Q32 18 34 25.5" stroke="#DFAF6E" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="21" cy="18" r="1.4" fill="#5A4A42"/><circle cx="29" cy="18" r="1.4" fill="#5A4A42"/><path d="M23 21 Q25 22.6 27 21" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>',
+    /* 진동벨 */
+    '<svg width="46" height="34" viewBox="0 0 46 34"><ellipse cx="23" cy="24" rx="19" ry="8" fill="#E4E9F2"/><path d="M4 22 Q4 10 23 10 Q42 10 42 22 L42 24 Q42 16 23 16 Q4 16 4 24 Z" fill="#C7D3E0"/><circle cx="12" cy="13.5" r="1.8" fill="#F0999B"/><circle cx="23" cy="12.5" r="1.8" fill="#F2CE5A"/><circle cx="34" cy="13.5" r="1.8" fill="#8CCFC3"/><circle cx="18" cy="23" r="1.4" fill="#5A4A42"/><circle cx="28" cy="23" r="1.4" fill="#5A4A42"/><path d="M21 26 Q23 27.6 25 26" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M6 4 Q8 2 10 4 M36 4 Q38 2 40 4" stroke="#B4BFCE" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+    /* 티포트 */
+    '<svg width="50" height="40" viewBox="0 0 50 40"><circle cx="26" cy="24" r="14" fill="#D6C7F0"/><path d="M13 18 Q5 18 4 24 Q5 28 12 28" fill="none" stroke="#D6C7F0" stroke-width="4" stroke-linecap="round"/><path d="M37 16 Q44 12 46 8" stroke="#D6C7F0" stroke-width="4.5" fill="none" stroke-linecap="round"/><ellipse cx="26" cy="11.5" rx="7" ry="2.8" fill="#C0ACE4"/><circle cx="26" cy="8.5" r="2.4" fill="#C0ACE4"/><circle cx="21" cy="23" r="1.5" fill="#5A4A42"/><circle cx="31" cy="23" r="1.5" fill="#5A4A42"/><path d="M24 26.5 Q26 28.2 28 26.5" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="17" cy="26" r="1.7" fill="#F6C6CE" opacity=".85"/><circle cx="35" cy="26" r="1.7" fill="#F6C6CE" opacity=".85"/></svg>',
+    /* 텀블러 */
+    '<svg width="34" height="52" viewBox="0 0 34 52"><rect x="8" y="4" width="18" height="6" rx="3" fill="#8CCFC3"/><rect x="6" y="10" width="22" height="7" rx="2" fill="#A8DCD2"/><path d="M8 17 L26 17 L24 48 Q17 50.5 10 48 Z" fill="#C9E8E1"/><circle cx="14" cy="29" r="1.5" fill="#5A4A42"/><circle cx="20" cy="29" r="1.5" fill="#5A4A42"/><path d="M15.5 32.5 Q17 34 18.5 32.5" stroke="#5A4A42" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="11" cy="31.5" r="1.5" fill="#F6C6CE" opacity=".85"/><circle cx="23" cy="31.5" r="1.5" fill="#F6C6CE" opacity=".85"/></svg>',
+    /* 커피콩 */
+    '<svg width="46" height="36" viewBox="0 0 46 36"><ellipse cx="16" cy="20" rx="10" ry="13" transform="rotate(-18 16 20)" fill="#C79B72"/><path d="M11 10 Q18 20 12 31" stroke="#A87C52" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse cx="33" cy="17" rx="8" ry="10.5" transform="rotate(16 33 17)" fill="#D8B08A"/><path d="M36 7.5 Q30 17 35 27" stroke="#B98F62" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="13" cy="18" r="1.3" fill="#5A4A42"/><circle cx="19" cy="20" r="1.3" fill="#5A4A42"/><path d="M14.5 22.5 Q16.3 24 18 22.8" stroke="#5A4A42" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>'
   ];
   function makeFoods(){
     const spots = [
-      {l:'8%',  t:'6%',  dur:4.4, dl:0},
-      {l:'85%', t:'8%',  dur:5.2, dl:1.1},
-      {l:'14%', t:'30%', dur:4.8, dl:0.6},
-      {l:'88%', t:'32%', dur:5.6, dl:1.8},
+      {l:'8%',  t:'5%',  dur:4.4, dl:0},
+      {l:'85%', t:'7%',  dur:5.2, dl:1.1},
+      {l:'14%', t:'28%', dur:4.8, dl:0.6},
+      {l:'88%', t:'30%', dur:5.6, dl:1.8},
       {l:'52%', t:'4%',  dur:5.0, dl:2.4},
-      {l:'8%',  t:'56%', dur:5.4, dl:0.9, rot:45},
-      {l:'87%', t:'58%', dur:4.6, dl:2.0},
-      {l:'60%', t:'44%', dur:5.8, dl:1.4}
+      {l:'8%',  t:'52%', dur:5.4, dl:0.9, rot:-12},
+      {l:'87%', t:'54%', dur:4.6, dl:2.0},
+      {l:'62%', t:'42%', dur:5.8, dl:1.4},
+      {l:'30%', t:'58%', dur:5.1, dl:2.8, rot:10},
+      {l:'70%', t:'15%', dur:4.9, dl:0.4}
     ];
     spots.forEach((sp,i)=>{
       const f = document.createElement('div');
