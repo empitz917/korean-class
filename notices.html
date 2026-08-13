@@ -35,17 +35,126 @@
       <div class="section-head">
         <span class="jp">お知らせ一覧</span>
         <span class="kr">공지 목록</span>
-        <span class="count">0/∞</span>
+        <span class="count" id="itemCount">-</span>
       </div>
-      <div class="coming-soon">
-        <div class="cs-icon">📢</div>
-        <div class="cs-text">
-          <div class="jp">お知らせはまだありません</div>
-          <div class="kr">새 소식이 있으면 여기에 올라와요</div>
+
+      <div class="admin-panel" id="adminPanel">
+        <h3>✎ 新しいお知らせを追加</h3>
+        <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="発音特訓ワークショップ 参加者募集中！"></div>
+        <div class="admin-field">
+          <label>タグ</label>
+          <select id="fTag">
+            <option value="NEW">NEW</option>
+            <option value="お知らせ">お知らせ</option>
+          </select>
         </div>
+        <button class="admin-submit-btn" id="submitBtn">投稿する</button>
+      </div>
+      <div class="admin-login-row" id="adminLoginRow" style="display:none;">
+        <a id="adminLoginLink">管理者ログイン</a>
+      </div>
+
+      <div class="notice-list" id="itemList">
+        <div class="board-empty">読み込み中...</div>
       </div>
     </div>
   </div>
+
+  <button class="admin-toggle" id="adminToggleBtn" style="display:none;" title="管理者メニュー">✎</button>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="admin-config.js"></script>
+<script>
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const provider = new firebase.auth.GoogleAuthProvider();
+
+const adminPanel = document.getElementById('adminPanel');
+const adminLoginRow = document.getElementById('adminLoginRow');
+const adminToggleBtn = document.getElementById('adminToggleBtn');
+const itemList = document.getElementById('itemList');
+const itemCount = document.getElementById('itemCount');
+
+let isAdmin = false;
+
+document.getElementById('adminLoginLink').addEventListener('click', () => {
+  auth.signInWithPopup(provider).catch(err => alert('ログイン失敗: ' + err.message));
+});
+
+adminToggleBtn.addEventListener('click', () => {
+  adminPanel.classList.toggle('open');
+});
+
+auth.onAuthStateChanged(user => {
+  isAdmin = !!(user && user.uid === ADMIN_UID);
+  adminToggleBtn.style.display = isAdmin ? 'flex' : 'none';
+  adminLoginRow.style.display = (!user) ? 'block' : 'none';
+  if (!isAdmin) adminPanel.classList.remove('open');
+});
+
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  if (!isAdmin) return;
+  const title = document.getElementById('fTitle').value.trim();
+  const tag = document.getElementById('fTag').value;
+
+  if (!title) { alert('タイトルを入力してください。'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  try {
+    await db.collection('notices').add({
+      title, tag,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('fTitle').value = '';
+    adminPanel.classList.remove('open');
+  } catch (err) {
+    alert('投稿失敗: ' + err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+db.collection('notices').orderBy('createdAt', 'desc').limit(100)
+  .onSnapshot(snapshot => {
+    if (snapshot.empty) {
+      itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📢</div><div class="cs-text"><div class="jp">お知らせはまだありません</div></div></div>';
+      itemCount.textContent = '0';
+      return;
+    }
+    itemCount.textContent = snapshot.size + '/∞';
+    itemList.innerHTML = '';
+    snapshot.forEach((doc, i) => {
+      const d = doc.data();
+      const date = d.createdAt ? d.createdAt.toDate() : new Date();
+      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+      const div = document.createElement('div');
+      div.className = 'notice-item';
+      const tagClass = (i === 0 && d.tag === 'NEW') ? '' : 'muted';
+      div.innerHTML = `
+        <span class="tag ${tagClass}">${escapeHtml(d.tag || 'お知らせ')}</span>
+        <div class="notice-item-body">
+          <div class="jp">${escapeHtml(d.title)}</div>
+          <div class="date">${dateStr}</div>
+        </div>
+      `;
+      itemList.appendChild(div);
+    });
+  }, err => {
+    itemList.innerHTML = '<div class="board-empty">読み込みに失敗しました。</div>';
+    console.error(err);
+  });
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マンガ | 韓国語遊びラボ、「コアラ」</title>
+<link href="https://fonts.googleapis.com/css2?family=Single+Day&family=Noto+Sans+JP:wght@400;500;700&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="detail-header">
+    <a class="back" href="manga.html">‹</a>
+    <div class="detail-title">
+      <div class="jp">マンガ</div>
+      <div class="kr">만화</div>
+    </div>
+  </div>
+
+  <div class="breadcrumb"><a href="manga.html">マンガ</a> <span class="sep">›</span> <span id="bcTitle">...</span></div>
+
+  <div class="content" id="mainContent">
+    <div class="board-empty" style="padding:60px 20px;">読み込み中...</div>
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id');
+const mainContent = document.getElementById('mainContent');
+
+if (!id) {
+  mainContent.innerHTML = '<div class="board-empty" style="padding:60px 20px;">エピソードが見つかりません。</div>';
+} else {
+  db.collection('manga').doc(id).get().then(doc => {
+    if (!doc.exists) {
+      mainContent.innerHTML = '<div class="board-empty" style="padding:60px 20px;">エピソードが見つかりません。</div>';
+      return;
+    }
+    const d = doc.data();
+    document.getElementById('bcTitle').textContent = '#' + (d.ep || '') + ' ' + d.title;
+    document.title = '#' + (d.ep || '') + ' ' + d.title + ' | 韓国語遊びラボ、「コアラ」';
+
+    const opts = d.opts || [];
+    const letters = ['A','B','C','D'];
+    let optsHtml = '';
+    opts.forEach((opt, i) => {
+      if (!opt) return;
+      optsHtml += `<div class="quiz-opt" data-correct="${i === d.correctIdx}" onclick="answerQuiz(this)"><span class="letter">${letters[i]}</span>${escapeHtml(opt)}</div>`;
+    });
+
+    mainContent.innerHTML = `
+      <div class="toon-title">
+        <div class="ep">#${escapeHtml(d.ep || '')}</div>
+        <div class="jp">${escapeHtml(d.title)}</div>
+      </div>
+
+      <div class="toon-frame">
+        ${d.bubble ? `<div class="speech-bubble">${escapeHtml(d.bubble)}</div>` : ''}
+        <img src="${d.img || 'koara_logo.png'}" alt="" onerror="this.src='koara_logo.png'">
+      </div>
+
+      ${d.quizQ ? `
+      <div class="quiz-block">
+        <div class="quiz-q">Q. ${escapeHtml(d.quizQ)}</div>
+        <div class="quiz-options" id="quizOptions">${optsHtml}</div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+      </div>` : ''}
+
+      ${d.chat ? `
+      <div class="chat-block">
+        <img src="koara_logo.png" alt="코아라">
+        <div>
+          <div class="label2">コアラ先生のひとこと</div>
+          <div class="jp">${escapeHtml(d.chat)}</div>
+        </div>
+      </div>` : ''}
+    `;
+  }).catch(err => {
+    mainContent.innerHTML = '<div class="board-empty" style="padding:60px 20px;">読み込みに失敗しました。</div>';
+    console.error(err);
+  });
+}
+
+function answerQuiz(el) {
+  const opts = document.querySelectorAll('#quizOptions .quiz-opt');
+  const isCorrect = el.getAttribute('data-correct') === 'true';
+  opts.forEach(o => {
+    o.classList.add('disabled');
+    if (o.getAttribute('data-correct') === 'true') {
+      o.classList.add('correct');
+    } else if (o === el) {
+      o.classList.add('wrong');
+    }
+  });
+  document.getElementById('quizFeedback').textContent = isCorrect ? '정답이에요! 🎉' : '아쉬워요, 다시 도전해보세요!';
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
+</body>
+</html>
