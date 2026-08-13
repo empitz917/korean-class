@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>資料室 | 韓国語遊びラボ、「コアラ」</title>
+<title>フラッシュカード | 韓国語遊びラボ、「コアラ」</title>
 <link href="https://fonts.googleapis.com/css2?family=Single+Day&family=Noto+Sans+JP:wght@400;500;700&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -25,8 +25,8 @@
   <div class="tabbar">
     <a class="tab" href="index.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
     <a class="tab" href="manga.html"><span class="jp">マンガ</span><span class="kr">만화</span></a>
-    <a class="tab active" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
-    <a class="tab" href="flashcards.html"><span class="jp">カード</span><span class="kr">카드</span></a>
+    <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
+    <a class="tab active" href="flashcards.html"><span class="jp">カード</span><span class="kr">카드</span></a>
     <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
     <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
   </div>
@@ -34,16 +34,21 @@
   <div class="content">
     <div class="section">
       <div class="section-head">
-        <span class="jp">資料室</span>
-        <span class="kr">자료실</span>
+        <span class="jp">フラッシュカード</span>
+        <span class="kr">플래시카드</span>
         <span class="count" id="itemCount">-</span>
       </div>
 
       <div class="admin-panel" id="adminPanel" style="display:none;">
-        <h3>✎ 新しい資料を追加</h3>
-        <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="母音プリント"></div>
-        <div class="admin-field"><label>説明</label><textarea id="fDesc" placeholder="韓国語の基本母音10個をなぞって書く練習プリントです。"></textarea></div>
-        <div class="admin-field"><label>リンク（PDF・Google Driveなど）</label><input type="text" id="fLink" placeholder="https://..."></div>
+        <h3>✎ 新しい単語セットを追加</h3>
+        <div class="admin-field"><label>セットのタイトル</label><input type="text" id="fTitle" placeholder="음식 단어 20개"></div>
+        <div class="admin-field"><label>説明</label><input type="text" id="fDesc" placeholder="식당·요리 관련 기초 단어"></div>
+        <div class="admin-field">
+          <label>単語カード（一括入力）</label>
+          <textarea id="fCards" style="min-height:140px;" placeholder="김치 | キムチ | 김치는 맵고 맛있어요.
+비빔밥 | ビビンバ | 비빔밥을 자주 먹어요."></textarea>
+          <div class="hint">한 줄에 카드 1개씩, <b>한국어 | 일본어 | 예문</b> 형식으로 " | "(파이프)로 구분해서 입력하세요. 예문은 생략 가능해요.</div>
+        </div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
       </div>
       <div class="admin-login-row" id="adminLoginRow" style="display:none;">
@@ -98,18 +103,26 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
   if (!isAdmin) return;
   const title = document.getElementById('fTitle').value.trim();
   const desc = document.getElementById('fDesc').value.trim();
-  const link = document.getElementById('fLink').value.trim();
+  const raw = document.getElementById('fCards').value.trim();
 
   if (!title) { alert('タイトルを入力してください。'); return; }
+  if (!raw) { alert('カードを最低1つ入力してください。'); return; }
+
+  const cards = raw.split('\n').map(line => line.trim()).filter(Boolean).map(line => {
+    const parts = line.split('|').map(p => p.trim());
+    return { front: parts[0] || '', back: parts[1] || '', example: parts[2] || '' };
+  });
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   try {
-    await db.collection('materials').add({
-      title, desc, link,
+    await db.collection('flashcardSets').add({
+      title, desc, cards,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    ['fTitle','fDesc','fLink'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('fTitle').value = '';
+    document.getElementById('fDesc').value = '';
+    document.getElementById('fCards').value = '';
     adminPanel.style.display = 'none';
   } catch (err) {
     alert('投稿失敗: ' + err.message);
@@ -118,10 +131,10 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
   }
 });
 
-db.collection('materials').orderBy('createdAt', 'desc').limit(100)
+db.collection('flashcardSets').orderBy('createdAt', 'desc').limit(100)
   .onSnapshot(snapshot => {
     if (snapshot.empty) {
-      itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📂</div><div class="cs-text"><div class="jp">準備中です</div></div></div>';
+      itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">🗂️</div><div class="cs-text"><div class="jp">準備中です</div></div></div>';
       itemCount.textContent = '0';
       return;
     }
@@ -129,18 +142,17 @@ db.collection('materials').orderBy('createdAt', 'desc').limit(100)
     itemList.innerHTML = '';
     snapshot.forEach(doc => {
       const d = doc.data();
-      const date = d.createdAt ? d.createdAt.toDate() : new Date();
-      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+      const count = (d.cards || []).length;
       const a = document.createElement('a');
-      a.className = 'toon-item';
-      a.href = d.link || '#';
-      a.target = '_blank';
+      a.className = 'fc-set-card';
+      a.href = 'flashcards-detail.html?id=' + doc.id;
       a.innerHTML = `
-        <div class="thumb placeholder">📄</div>
-        <div class="toon-item-body">
+        <div class="fc-icon">🗂️</div>
+        <div class="fc-info">
           <div class="jp">${escapeHtml(d.title)}</div>
-          <div class="date">${escapeHtml(d.desc || '')}</div>
+          <div class="kr">${escapeHtml(d.desc || '')}</div>
         </div>
+        <div class="fc-count">${count}枚</div>
       `;
       itemList.appendChild(a);
     });
