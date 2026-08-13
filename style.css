@@ -298,8 +298,14 @@ a { color:inherit; }
   padding:10px 18px; border-radius:20px; cursor:pointer; margin-top:6px;
 }
 .admin-submit-btn:disabled { background:#e3d6c6; cursor:not-allowed; }
-.admin-login-row { font-size:10px; color:#c2b5a6; text-align:center; padding:10px 0; }
-.admin-login-row a { color:#a8795f; text-decoration:underline; cursor:pointer; }
+.admin-login-row { padding:14px 18px; }
+.admin-login-row a {
+  display:inline-flex; align-items:center; gap:6px;
+  background:#fff; border:1.5px solid #E3D6C6; border-radius:20px;
+  padding:8px 16px; font-size:11px; font-weight:700; color:#a8795f;
+  text-decoration:none; cursor:pointer;
+}
+.admin-login-row a::before { content:"🔑"; font-size:12px; }
 
 .board-list { display:flex; flex-direction:column; gap:8px; clear:both; }
 .board-post {
