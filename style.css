@@ -1,0 +1,279 @@
+/* ===================================================
+   韓国語遊びラボ、「コアラ」 - 공통 스타일시트
+   =================================================== */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:"Noto Sans JP", sans-serif;
+  background:#EFEAE0;
+  color:#4a3a30;
+  min-height:100vh;
+}
+
+a { color:inherit; }
+
+.page {
+  max-width:480px;
+  margin:0 auto;
+  background:#fff;
+  min-height:100vh;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* ==== 헤더 ==== */
+.site-header {
+  display:flex; align-items:center; gap:10px;
+  background:#FFD9C0;
+  padding:14px 18px;
+}
+.site-header a.logo-link { display:flex; align-items:center; gap:10px; text-decoration:none; flex:1; }
+.site-header img { width:38px; height:38px; object-fit:contain; }
+.site-header .jp { font-family:"Single Day", cursive; font-size:17px; color:#C25B3E; line-height:1.2; }
+
+.mail-btn {
+  flex:0 0 auto;
+  width:34px; height:34px;
+  border-radius:50%;
+  background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px;
+  text-decoration:none;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ==== 공지 배너 ==== */
+.notice-banner {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#FFF3E6;
+  border-bottom:1px solid #F5E3D0;
+  padding:9px 16px;
+  text-decoration:none;
+}
+.notice-banner .badge {
+  flex:0 0 auto;
+  background:#C25B3E;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  padding:3px 7px;
+  border-radius:20px;
+  letter-spacing:0.5px;
+}
+.notice-banner .text {
+  flex:1;
+  font-size:11px;
+  color:#7A4C3A;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.notice-banner .more { flex:0 0 auto; font-size:10px; color:#a8795f; }
+
+/* ==== 탭바 ==== */
+.tabbar { display:flex; background:#fff; border-bottom:1px solid #F0EDE4; }
+.tabbar a.tab {
+  flex:1;
+  text-align:center;
+  padding:11px 4px;
+  font-size:11px;
+  color:#8A5A45;
+  border-bottom:3px solid transparent;
+  text-decoration:none;
+}
+.tabbar a.tab.active { color:#C25B3E; border-bottom:3px solid #FFD9C0; font-weight:700; }
+.tabbar a.tab .jp { font-size:12px; display:block; }
+.tabbar a.tab .kr { font-size:9px; opacity:0.75; }
+
+/* ==== 섹션 / 카드 그리드 ==== */
+.content { background:#FFF8F0; padding:6px 0 4px; min-height:60vh; }
+.section { padding:14px 18px 6px; }
+.section-head { display:flex; align-items:baseline; gap:6px; margin-bottom:10px; }
+.section-head .jp { font-size:13px; font-weight:700; color:#5c4636; }
+.section-head .kr { font-size:10px; color:#a89a8c; }
+.section-head .count { margin-left:auto; font-size:9px; color:#c2b5a6; }
+
+.cards-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.cards-grid.cols-5 { grid-template-columns:repeat(5,1fr); }
+
+.corner-card, .letter-card {
+  background:#fff;
+  border-radius:14px;
+  padding:12px 6px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  text-decoration:none;
+  display:block;
+}
+.corner-card .dot { width:34px; height:34px; border-radius:50%; margin:0 auto 6px; }
+.corner-card .jp { font-size:11px; color:#4a3a30; font-weight:500; }
+.corner-card .kr { font-size:9px; color:#a89a8c; }
+
+.letter-card .ch { font-size:16px; color:#C25B3E; font-weight:700; }
+.letter-card .ipa { font-size:8px; color:#c2b5a6; }
+
+.corner-card.add-new {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  border:1.5px dashed #E3D6C6;
+  box-shadow:none;
+  color:#c2b5a6;
+  font-size:10px;
+}
+.corner-card.add-new .plus { font-size:18px; line-height:1; margin-bottom:4px; }
+
+.footer-mini { padding:16px 18px 26px; background:#FFF8F0; text-align:center; font-size:10px; color:#b8ab9e; }
+
+/* ==== 준비 중 ==== */
+.coming-soon {
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px;
+  padding:34px 20px; background:#fff; border:1.5px dashed #E3D6C6; border-radius:14px;
+}
+.coming-soon .cs-icon { font-size:26px; opacity:0.7; }
+.coming-soon .cs-text .jp { font-size:13px; font-weight:700; color:#7A5C4C; }
+.coming-soon .cs-text .kr { font-size:10px; color:#c2b5a6; margin-top:4px; line-height:1.5; }
+
+/* ==== 공지 목록 ==== */
+.notice-list, .toon-list { display:flex; flex-direction:column; gap:8px; }
+.notice-item {
+  display:flex; align-items:center; gap:10px;
+  background:#fff; border-radius:12px; padding:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  text-decoration:none;
+}
+.notice-item .tag {
+  flex:0 0 auto; background:#C25B3E; color:#fff; font-size:9px; font-weight:700;
+  padding:3px 7px; border-radius:20px;
+}
+.notice-item .tag.muted { background:#EFE6DA; color:#a8907a; }
+.notice-item-body .jp { font-size:11px; color:#4a3a30; font-weight:500; line-height:1.4; }
+.notice-item-body .date { font-size:9px; color:#c2b5a6; margin-top:3px; }
+
+/* ==== 만화 리스트 ==== */
+.toon-item {
+  display:flex; align-items:center; gap:12px;
+  background:#fff; border-radius:12px; padding:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  text-decoration:none;
+}
+.toon-item .thumb { width:54px; height:54px; border-radius:10px; object-fit:contain; background:#FFE8D6; flex:0 0 auto; }
+.toon-item .thumb.placeholder {
+  display:flex; align-items:center; justify-content:center;
+  background:#F7F2EA; border:1.5px dashed #E3D6C6; color:#d8cdc0; font-size:18px;
+}
+.toon-item-body .ep-tag { font-size:9px; color:#C25B3E; font-weight:700; }
+.toon-item-body .jp { font-size:12px; color:#4a3a30; font-weight:500; margin-top:1px; }
+.toon-item-body .date { font-size:9px; color:#c2b5a6; margin-top:3px; }
+.toon-item.next-placeholder { opacity:0.7; }
+
+/* ==== 상세 페이지 헤더 (뒤로가기형) ==== */
+.detail-header { display:flex; align-items:center; gap:10px; background:#FFD9C0; padding:14px 18px; }
+.detail-header a.back { font-size:20px; color:#C25B3E; font-weight:700; line-height:1; text-decoration:none; }
+.detail-title .jp { font-family:"Single Day", cursive; font-size:16px; color:#C25B3E; line-height:1.2; }
+.detail-title .kr { font-size:9px; color:#8A5A45; }
+
+.breadcrumb { padding:9px 18px; font-size:10px; color:#a89a8c; background:#fff; border-bottom:1px solid #F0EDE4; }
+.breadcrumb .sep { margin:0 4px; color:#d8cdc0; }
+.breadcrumb a { text-decoration:none; color:inherit; }
+
+.detail-desc { font-size:11px; color:#7A5C4C; line-height:1.6; padding:0 18px; margin-bottom:14px; }
+.cta-btn {
+  display:block; margin:0 18px 4px; background:#C25B3E; color:#fff; text-align:center;
+  font-size:12px; font-weight:700; padding:11px; border-radius:24px; text-decoration:none;
+}
+
+/* ==== 웹툰형 만화 상세 ==== */
+.toon-title { padding:14px 18px 4px; }
+.toon-title .ep { font-size:10px; color:#C25B3E; font-weight:700; letter-spacing:0.5px; }
+.toon-title .jp { font-family:"Single Day", cursive; font-size:19px; color:#4a3a30; margin-top:2px; }
+
+.toon-frame {
+  margin:10px 18px 0;
+  background:linear-gradient(160deg,#FFE8D6,#F6D9E8);
+  border-radius:14px; padding:26px 16px 20px; position:relative;
+  min-height:200px; display:flex; align-items:flex-end; justify-content:center;
+}
+.toon-frame img { width:110px; height:110px; object-fit:contain; }
+
+.speech-bubble {
+  position:absolute; top:18px; left:50%; transform:translateX(-50%);
+  background:#fff; border-radius:16px; padding:8px 14px;
+  font-size:11px; color:#4a3a30; font-weight:500;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08); white-space:nowrap;
+}
+.speech-bubble::after {
+  content:""; position:absolute; bottom:-7px; left:50%; transform:translateX(-50%);
+  border-width:7px 6px 0 6px; border-style:solid; border-color:#fff transparent transparent transparent;
+}
+
+.quiz-block { padding:16px 18px 4px; }
+.quiz-q { font-size:12px; color:#5c4636; font-weight:700; margin-bottom:10px; }
+.quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.quiz-opt {
+  background:#fff; border:1.5px solid #F0E6D8; border-radius:10px; padding:9px 8px;
+  font-size:10.5px; color:#7A5C4C; display:flex; align-items:center; gap:6px; cursor:pointer;
+  transition:all .15s;
+}
+.quiz-opt .letter {
+  flex:0 0 auto; width:16px; height:16px; border-radius:50%;
+  background:#F6E9D9; color:#a8795f; font-size:9px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.quiz-opt.correct { border-color:#C8E8DD; background:#F2FBF7; }
+.quiz-opt.correct .letter { background:#C8E8DD; color:#3f8f74; }
+.quiz-opt.wrong { border-color:#F6D9D9; background:#FDF3F3; }
+.quiz-opt.wrong .letter { background:#F6D9D9; color:#c25b5b; }
+.quiz-opt.disabled { pointer-events:none; }
+.quiz-feedback { margin-top:10px; font-size:11px; color:#a8795f; min-height:14px; }
+
+.chat-block {
+  margin:18px 18px 4px; background:#FFF3E6; border-radius:14px; padding:12px 14px; display:flex; gap:9px;
+}
+.chat-block img { width:30px; height:30px; object-fit:contain; flex:0 0 auto; }
+.chat-block .label2 { font-size:9px; color:#a8795f; font-weight:700; margin-bottom:3px; }
+.chat-block .jp { font-size:11px; color:#7A5C4C; line-height:1.6; }
+
+/* ==== 게시판 ==== */
+.board-write {
+  margin:14px 18px 4px;
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.login-prompt { display:flex; flex-direction:column; align-items:center; gap:10px; padding:8px 0; }
+.login-prompt .jp { font-size:11px; color:#a8795f; text-align:center; line-height:1.6; }
+.google-btn {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  background:#fff; border:1.5px solid #E3D6C6; border-radius:24px;
+  padding:10px 18px; font-size:12px; font-weight:700; color:#5c4636;
+  cursor:pointer;
+}
+.google-btn img { width:16px; height:16px; }
+
+.board-userbar { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.board-userbar img { width:24px; height:24px; border-radius:50%; }
+.board-userbar .name { font-size:11px; color:#5c4636; font-weight:700; flex:1; }
+.board-userbar .logout { font-size:9px; color:#c2b5a6; cursor:pointer; text-decoration:underline; }
+
+.board-write textarea {
+  width:100%; border:1.5px solid #F0E6D8; border-radius:10px; padding:10px 12px;
+  font-size:12px; font-family:inherit; color:#4a3a30; resize:vertical; min-height:70px;
+}
+.board-write .post-btn {
+  margin-top:8px; border:none; background:#C25B3E; color:#fff; font-size:12px; font-weight:700;
+  padding:9px 16px; border-radius:20px; cursor:pointer; float:right;
+}
+.board-write .post-btn:disabled { background:#e3d6c6; cursor:not-allowed; }
+
+.board-list { display:flex; flex-direction:column; gap:8px; clear:both; }
+.board-post {
+  background:#fff; border-radius:12px; padding:12px 14px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.board-post .meta { display:flex; align-items:center; gap:7px; margin-bottom:6px; }
+.board-post .meta img { width:20px; height:20px; border-radius:50%; }
+.board-post .meta .name { font-size:10.5px; font-weight:700; color:#5c4636; }
+.board-post .meta .date { font-size:9px; color:#c2b5a6; margin-left:auto; }
+.board-post .body { font-size:11.5px; color:#4a3a30; line-height:1.6; white-space:pre-wrap; }
+.board-empty { text-align:center; font-size:11px; color:#c2b5a6; padding:30px 0; }

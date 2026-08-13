@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>掲示板 | 韓国語遊びラボ、「コアラ」</title>
+<link href="https://fonts.googleapis.com/css2?family=Single+Day&family=Noto+Sans+JP:wght@400;500;700&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="site-header">
+    <a class="logo-link" href="index.html">
+      <img src="koara_logo.png" alt="코아라">
+      <div class="jp">韓国語遊びラボ、「コアラ」</div>
+    </a>
+  </div>
+
+  <div class="notice-banner" style="opacity:0.6;">
+    <span class="badge" style="background:#c2b5a6;">-</span>
+    <span class="text">お知らせは準備中です</span>
+  </div>
+
+  <div class="tabbar">
+    <a class="tab" href="index.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
+    <a class="tab" href="manga.html"><span class="jp">マンガ</span><span class="kr">만화</span></a>
+    <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
+    <a class="tab active" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
+    <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-head">
+        <span class="jp">掲示板</span>
+        <span class="kr">게시판</span>
+        <span class="count" id="postCount">-</span>
+      </div>
+
+      <!-- 글쓰기 영역 -->
+      <div class="board-write" id="writeArea">
+        <div class="login-prompt" id="loginPrompt">
+          <div class="jp">書き込むにはGoogleログインが必要です</div>
+          <button class="google-btn" id="loginBtn">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+            Googleでログイン
+          </button>
+        </div>
+
+        <div id="writeBox" style="display:none;">
+          <div class="board-userbar">
+            <img id="userPhoto" src="" alt="">
+            <span class="name" id="userName"></span>
+            <span class="logout" id="logoutBtn">ログアウト</span>
+          </div>
+          <textarea id="postBody" placeholder="자유롭게 글을 남겨주세요 (한국어/일본어 모두 OK)"></textarea>
+          <button class="post-btn" id="postBtn">投稿する</button>
+        </div>
+      </div>
+
+      <!-- 글 목록 -->
+      <div class="board-list" id="boardList">
+        <div class="board-empty">読み込み中...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK (compat 버전 - 별도 빌드 도구 없이 바로 사용 가능) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const provider = new firebase.auth.GoogleAuthProvider();
+
+const loginPrompt = document.getElementById('loginPrompt');
+const writeBox = document.getElementById('writeBox');
+const userPhoto = document.getElementById('userPhoto');
+const userName = document.getElementById('userName');
+const postBody = document.getElementById('postBody');
+const postBtn = document.getElementById('postBtn');
+const boardList = document.getElementById('boardList');
+const postCount = document.getElementById('postCount');
+
+let lastPostTime = 0;
+
+document.getElementById('loginBtn').addEventListener('click', () => {
+  auth.signInWithPopup(provider).catch(err => alert('ログインに失敗しました: ' + err.message));
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  auth.signOut();
+});
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    loginPrompt.style.display = 'none';
+    writeBox.style.display = 'block';
+    userPhoto.src = user.photoURL || '';
+    userName.textContent = user.displayName || '匿名ユーザー';
+  } else {
+    loginPrompt.style.display = 'flex';
+    writeBox.style.display = 'none';
+  }
+});
+
+postBtn.addEventListener('click', async () => {
+  const text = postBody.value.trim();
+  if (!text) return;
+
+  // 간단한 도배 방지: 10초에 1개
+  const now = Date.now();
+  if (now - lastPostTime < 10000) {
+    alert('少し時間をおいてから投稿してください。');
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) return;
+
+  postBtn.disabled = true;
+  try {
+    await db.collection('posts').add({
+      body: text,
+      authorName: user.displayName || '匿名ユーザー',
+      authorPhoto: user.photoURL || '',
+      uid: user.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    postBody.value = '';
+    lastPostTime = now;
+  } catch (err) {
+    alert('投稿に失敗しました: ' + err.message);
+  } finally {
+    postBtn.disabled = false;
+  }
+});
+
+// 실시간 목록 구독 (최신순, 최대 100개)
+db.collection('posts').orderBy('createdAt', 'desc').limit(100)
+  .onSnapshot(snapshot => {
+    if (snapshot.empty) {
+      boardList.innerHTML = '<div class="board-empty">まだ投稿がありません。最初の投稿をしてみましょう！</div>';
+      postCount.textContent = '0';
+      return;
+    }
+    postCount.textContent = snapshot.size + '/∞';
+    boardList.innerHTML = '';
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      const date = p.createdAt ? p.createdAt.toDate() : new Date();
+      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+      const div = document.createElement('div');
+      div.className = 'board-post';
+      div.innerHTML = `
+        <div class="meta">
+          <img src="${p.authorPhoto || ''}" alt="">
+          <span class="name">${escapeHtml(p.authorName || '匿名ユーザー')}</span>
+          <span class="date">${dateStr}</span>
+        </div>
+        <div class="body">${escapeHtml(p.body)}</div>
+      `;
+      boardList.appendChild(div);
+    });
+  }, err => {
+    boardList.innerHTML = '<div class="board-empty">読み込みに失敗しました。firebase-config.jsの設定を確認してください。</div>';
+    console.error(err);
+  });
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
+</body>
+</html>

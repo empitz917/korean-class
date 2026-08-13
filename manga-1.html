@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>#1 人懐っこいね | 韓国語遊びラボ、「コアラ」</title>
+<link href="https://fonts.googleapis.com/css2?family=Single+Day&family=Noto+Sans+JP:wght@400;500;700&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="detail-header">
+    <a class="back" href="manga.html">‹</a>
+    <div class="detail-title">
+      <div class="jp">マンガ</div>
+      <div class="kr">만화</div>
+    </div>
+  </div>
+
+  <div class="breadcrumb"><a href="manga.html">マンガ</a> <span class="sep">›</span> #1 人懐っこいね</div>
+
+  <div class="content">
+
+    <div class="toon-title">
+      <div class="ep">#1</div>
+      <div class="jp">人懐っこいね</div>
+    </div>
+
+    <div class="toon-frame">
+      <div class="speech-bubble">어? 저 처음 봐요!</div>
+      <img src="koara_logo.png" alt="코아라">
+    </div>
+
+    <div class="quiz-block">
+      <div class="quiz-q">Q. 말풍선 속 대사, 무슨 뜻일까요?</div>
+      <div class="quiz-options" id="quizOptions">
+        <div class="quiz-opt" data-correct="false" onclick="answerQuiz(this)"><span class="letter">A</span>또 만났네요</div>
+        <div class="quiz-opt" data-correct="true" onclick="answerQuiz(this)"><span class="letter">B</span>어? 처음 뵙는데요!</div>
+        <div class="quiz-opt" data-correct="false" onclick="answerQuiz(this)"><span class="letter">C</span>이제 그만 가볼게요</div>
+        <div class="quiz-opt" data-correct="false" onclick="answerQuiz(this)"><span class="letter">D</span>같이 밥 먹을래요?</div>
+      </div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+    </div>
+
+    <div class="chat-block">
+      <img src="koara_logo.png" alt="코아라">
+      <div>
+        <div class="label2">コアラ先生のひとこと</div>
+        <div class="jp">「처음 봬요」는 처음 만난 사람에게 아주 자연스럽게 쓰는 인사예요. 일본어 「はじめまして」랑 비슷한 뉘앙스지만, 좀 더 캐주얼한 자리에서도 편하게 쓸 수 있어요！</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function answerQuiz(el) {
+  var opts = document.querySelectorAll('#quizOptions .quiz-opt');
+  var isCorrect = el.getAttribute('data-correct') === 'true';
+  opts.forEach(function(o){
+    o.classList.add('disabled');
+    if (o.getAttribute('data-correct') === 'true') {
+      o.classList.add('correct');
+    } else if (o === el) {
+      o.classList.add('wrong');
+    }
+  });
+  document.getElementById('quizFeedback').textContent = isCorrect
+    ? '정답이에요! 🎉'
+    : '아쉬워요, 정답은 B예요.';
+}
+</script>
+</body>
+</html>
