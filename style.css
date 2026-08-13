@@ -266,6 +266,41 @@ a { color:inherit; }
 }
 .board-write .post-btn:disabled { background:#e3d6c6; cursor:not-allowed; }
 
+/* ==== 관리자 글쓰기 폼 (마화/자료실/공지 공통) ==== */
+.admin-toggle {
+  position:fixed; bottom:18px; right:18px;
+  width:44px; height:44px; border-radius:50%;
+  background:#C25B3E; color:#fff; font-size:18px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  cursor:pointer; z-index:50; border:none;
+}
+.admin-panel {
+  display:none;
+  margin:14px 18px; background:#fff; border-radius:14px; padding:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  border:1.5px solid #FFD9C0;
+}
+.admin-panel.open { display:block; }
+.admin-panel h3 { font-size:12px; color:#C25B3E; font-weight:700; margin-bottom:12px; }
+.admin-field { margin-bottom:10px; }
+.admin-field label { font-size:10px; color:#a8795f; font-weight:700; margin-bottom:4px; display:block; }
+.admin-field input, .admin-field textarea, .admin-field select {
+  width:100%; border:1.5px solid #F0E6D8; border-radius:10px; padding:9px 11px;
+  font-size:12px; font-family:inherit; color:#4a3a30; background:#fff;
+}
+.admin-field textarea { resize:vertical; min-height:60px; }
+.admin-field.quiz-row { display:flex; gap:6px; align-items:center; }
+.admin-field.quiz-row input[type="text"] { flex:1; }
+.admin-field.quiz-row input[type="radio"] { flex:0 0 auto; width:16px; height:16px; }
+.admin-submit-btn {
+  border:none; background:#C25B3E; color:#fff; font-size:12px; font-weight:700;
+  padding:10px 18px; border-radius:20px; cursor:pointer; margin-top:6px;
+}
+.admin-submit-btn:disabled { background:#e3d6c6; cursor:not-allowed; }
+.admin-login-row { font-size:10px; color:#c2b5a6; text-align:center; padding:10px 0; }
+.admin-login-row a { color:#a8795f; text-decoration:underline; cursor:pointer; }
+
 .board-list { display:flex; flex-direction:column; gap:8px; clear:both; }
 .board-post {
   background:#fff; border-radius:12px; padding:12px 14px;
