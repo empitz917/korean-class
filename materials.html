@@ -38,7 +38,7 @@
         <span class="count" id="itemCount">-</span>
       </div>
 
-      <div class="admin-panel" id="adminPanel">
+      <div class="admin-panel" id="adminPanel" style="display:none;">
         <h3>✎ 新しい資料を追加</h3>
         <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="母音プリント"></div>
         <div class="admin-field"><label>説明</label><textarea id="fDesc" placeholder="韓国語の基本母音10個をなぞって書く練習プリントです。"></textarea></div>
@@ -82,14 +82,14 @@ document.getElementById('adminLoginLink').addEventListener('click', () => {
 });
 
 adminToggleBtn.addEventListener('click', () => {
-  adminPanel.classList.toggle('open');
+  adminPanel.style.display = (adminPanel.style.display === 'block') ? 'none' : 'block';
 });
 
 auth.onAuthStateChanged(user => {
   isAdmin = !!(user && user.uid === ADMIN_UID);
   adminToggleBtn.style.display = isAdmin ? 'flex' : 'none';
   adminLoginRow.style.display = (!user) ? 'block' : 'none';
-  if (!isAdmin) adminPanel.classList.remove('open');
+  if (!isAdmin) adminPanel.style.display = 'none';
 });
 
 document.getElementById('submitBtn').addEventListener('click', async () => {
@@ -108,7 +108,7 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     ['fTitle','fDesc','fLink'].forEach(id => document.getElementById(id).value = '');
-    adminPanel.classList.remove('open');
+    adminPanel.style.display = 'none';
   } catch (err) {
     alert('投稿失敗: ' + err.message);
   } finally {
