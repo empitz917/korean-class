@@ -455,6 +455,9 @@ a { color:inherit; }
 .flashcard-hint { font-size:10px; color:#c2915f; margin-top:10px; }
 .flashcard-meaning { font-size:19px; font-weight:700; color:#4a3a30; }
 .flashcard-example { font-size:12px; color:#7A5C4C; margin-top:10px; line-height:1.6; }
+.flashcard-example .ex-line { }
+.flashcard-example .ex-kr { color:#5c4636; font-weight:500; }
+.flashcard-example .ex-jp { color:#a8907a; font-size:11px; margin-top:2px; }
 
 .fc-nav { display:flex; align-items:center; justify-content:center; gap:16px; margin-top:22px; }
 .fc-nav button {

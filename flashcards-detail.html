@@ -101,7 +101,10 @@ function render() {
   const c = cards[idx];
   document.getElementById('fcFront').textContent = c.front;
   document.getElementById('fcBack').textContent = c.back;
-  document.getElementById('fcExample').textContent = c.example || '';
+  const exampleLines = (c.example || '').split('/').map(s => s.trim()).filter(Boolean);
+  document.getElementById('fcExample').innerHTML = exampleLines
+    .map((line, i) => `<div class="ex-line ${i === 0 ? 'ex-kr' : 'ex-jp'}">${escapeHtml(line)}</div>`)
+    .join('');
   document.getElementById('fcProgress').textContent = (idx + 1) + ' / ' + cards.length;
   document.getElementById('prevBtn').disabled = (idx === 0);
   document.getElementById('nextBtn').disabled = (idx === cards.length - 1);
