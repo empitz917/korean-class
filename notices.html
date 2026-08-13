@@ -40,7 +40,7 @@
       </div>
 
       <div class="admin-panel" id="adminPanel" style="display:none;">
-        <h3>✎ 新しいお知らせを追加</h3>
+        <h3 id="panelTitle">✎ 新しいお知らせを追加</h3>
         <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="発音特訓ワークショップ 参加者募集中！"></div>
         <div class="admin-field">
           <label>タグ</label>
@@ -50,6 +50,7 @@
           </select>
         </div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
+        <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;">編集をキャンセル</button>
       </div>
       <div class="admin-login-row" id="adminLoginRow" style="display:none;">
         <a id="adminLoginLink">管理者としてログイン</a>
@@ -81,76 +82,134 @@ const adminLoginRow = document.getElementById('adminLoginRow');
 const adminToggleBtn = document.getElementById('adminToggleBtn');
 const itemList = document.getElementById('itemList');
 const itemCount = document.getElementById('itemCount');
+const panelTitle = document.getElementById('panelTitle');
+const submitBtn = document.getElementById('submitBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
 
 let isAdmin = false;
+let lastDocs = [];
+let editingId = null;
 
 document.getElementById('adminLoginLink').addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログイン失敗: ' + err.message));
 });
 
 adminToggleBtn.addEventListener('click', () => {
-  adminPanel.style.display = (adminPanel.style.display === 'block') ? 'none' : 'block';
+  const willOpen = adminPanel.style.display !== 'block';
+  adminPanel.style.display = willOpen ? 'block' : 'none';
+  if (!willOpen) resetForm();
+});
+
+cancelEditBtn.addEventListener('click', () => {
+  resetForm();
+  adminPanel.style.display = 'none';
 });
 
 auth.onAuthStateChanged(user => {
   isAdmin = !!(user && user.uid === ADMIN_UID);
   adminToggleBtn.style.display = isAdmin ? 'flex' : 'none';
   adminLoginRow.style.display = (!user) ? 'block' : 'none';
-  if (!isAdmin) adminPanel.style.display = 'none';
+  if (!isAdmin) { adminPanel.style.display = 'none'; resetForm(); }
+  renderList();
 });
 
-document.getElementById('submitBtn').addEventListener('click', async () => {
+function resetForm() {
+  editingId = null;
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fTag').value = 'NEW';
+  panelTitle.textContent = '✎ 新しいお知らせを追加';
+  submitBtn.textContent = '投稿する';
+  cancelEditBtn.style.display = 'none';
+}
+
+function startEdit(id) {
+  const d = lastDocs.find(x => x.id === id);
+  if (!d) return;
+  editingId = id;
+  document.getElementById('fTitle').value = d.title || '';
+  document.getElementById('fTag').value = d.tag || 'NEW';
+  panelTitle.textContent = '✎ お知らせを編集';
+  submitBtn.textContent = '更新する';
+  cancelEditBtn.style.display = 'inline';
+  adminPanel.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function deleteItem(id) {
+  if (!confirm('本当に削除しますか？')) return;
+  try {
+    await db.collection('notices').doc(id).delete();
+  } catch (err) {
+    alert('削除失敗: ' + err.message);
+  }
+}
+
+submitBtn.addEventListener('click', async () => {
   if (!isAdmin) return;
   const title = document.getElementById('fTitle').value.trim();
   const tag = document.getElementById('fTag').value;
 
   if (!title) { alert('タイトルを入力してください。'); return; }
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
+  const data = { title, tag };
+  submitBtn.disabled = true;
   try {
-    await db.collection('notices').add({
-      title, tag,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    document.getElementById('fTitle').value = '';
+    if (editingId) {
+      await db.collection('notices').doc(editingId).update(data);
+    } else {
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('notices').add(data);
+    }
+    resetForm();
     adminPanel.style.display = 'none';
   } catch (err) {
-    alert('投稿失敗: ' + err.message);
+    alert('保存失敗: ' + err.message);
   } finally {
-    btn.disabled = false;
+    submitBtn.disabled = false;
   }
 });
 
 db.collection('notices').orderBy('createdAt', 'desc').limit(100)
   .onSnapshot(snapshot => {
-    if (snapshot.empty) {
-      itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📢</div><div class="cs-text"><div class="jp">お知らせはまだありません</div></div></div>';
-      itemCount.textContent = '0';
-      return;
-    }
-    itemCount.textContent = snapshot.size + '/∞';
-    itemList.innerHTML = '';
-    snapshot.forEach((doc, i) => {
-      const d = doc.data();
-      const date = d.createdAt ? d.createdAt.toDate() : new Date();
-      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
-      const div = document.createElement('div');
-      div.className = 'notice-item';
-      const tagClass = (i === 0 && d.tag === 'NEW') ? '' : 'muted';
-      div.innerHTML = `
-        <span class="tag ${tagClass}">${escapeHtml(d.tag || 'お知らせ')}</span>
-        <div class="notice-item-body">
-          <div class="jp">${escapeHtml(d.title)}</div>
-          <div class="date">${dateStr}</div>
-        </div>
-      `;
-      itemList.appendChild(div);
-    });
+    lastDocs = snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()));
+    renderList();
   }, err => {
     itemList.innerHTML = '<div class="board-empty">読み込みに失敗しました。</div>';
     console.error(err);
   });
+
+function renderList() {
+  if (!lastDocs.length) {
+    itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📢</div><div class="cs-text"><div class="jp">お知らせはまだありません</div></div></div>';
+    itemCount.textContent = '0';
+    return;
+  }
+  itemCount.textContent = lastDocs.length + '/∞';
+  itemList.innerHTML = '';
+  lastDocs.forEach((d, i) => {
+    const date = d.createdAt ? d.createdAt.toDate() : new Date();
+    const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+    const div = document.createElement('div');
+    div.className = 'notice-item';
+    const tagClass = (i === 0 && d.tag === 'NEW') ? '' : 'muted';
+    div.innerHTML = `
+      <span class="tag ${tagClass}">${escapeHtml(d.tag || 'お知らせ')}</span>
+      <div class="notice-item-body">
+        <div class="jp">${escapeHtml(d.title)}</div>
+        <div class="date">${dateStr}</div>
+      </div>
+    `;
+    if (isAdmin) {
+      const actions = document.createElement('div');
+      actions.className = 'item-actions';
+      actions.innerHTML = `<button class="icon-btn edit-btn" title="編集">✎</button><button class="icon-btn delete-btn" title="削除">🗑</button>`;
+      actions.querySelector('.edit-btn').addEventListener('click', () => startEdit(d.id));
+      actions.querySelector('.delete-btn').addEventListener('click', () => deleteItem(d.id));
+      div.appendChild(actions);
+    }
+    itemList.appendChild(div);
+  });
+}
 
 function escapeHtml(str) {
   const div = document.createElement('div');

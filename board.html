@@ -73,6 +73,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
+<script src="admin-config.js"></script>
 <script>
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -89,6 +90,8 @@ const boardList = document.getElementById('boardList');
 const postCount = document.getElementById('postCount');
 
 let lastPostTime = 0;
+let isAdmin = false;
+let lastDocs = [];
 
 document.getElementById('loginBtn').addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログインに失敗しました: ' + err.message));
@@ -99,6 +102,7 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 });
 
 auth.onAuthStateChanged(user => {
+  isAdmin = !!(user && user.uid === ADMIN_UID);
   if (user) {
     loginPrompt.style.display = 'none';
     writeBox.style.display = 'block';
@@ -108,6 +112,7 @@ auth.onAuthStateChanged(user => {
     loginPrompt.style.display = 'flex';
     writeBox.style.display = 'none';
   }
+  renderList();
 });
 
 postBtn.addEventListener('click', async () => {
@@ -142,36 +147,61 @@ postBtn.addEventListener('click', async () => {
   }
 });
 
+async function deletePost(id) {
+  if (!confirm('この投稿を削除しますか？')) return;
+  try {
+    await db.collection('posts').doc(id).delete();
+  } catch (err) {
+    alert('削除失敗: ' + err.message);
+  }
+}
+
 // 실시간 목록 구독 (최신순, 최대 100개)
 db.collection('posts').orderBy('createdAt', 'desc').limit(100)
   .onSnapshot(snapshot => {
-    if (snapshot.empty) {
-      boardList.innerHTML = '<div class="board-empty">まだ投稿がありません。最初の投稿をしてみましょう！</div>';
-      postCount.textContent = '0';
-      return;
-    }
-    postCount.textContent = snapshot.size + '/∞';
-    boardList.innerHTML = '';
-    snapshot.forEach(doc => {
-      const p = doc.data();
-      const date = p.createdAt ? p.createdAt.toDate() : new Date();
-      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
-      const div = document.createElement('div');
-      div.className = 'board-post';
-      div.innerHTML = `
-        <div class="meta">
-          <img src="${p.authorPhoto || ''}" alt="">
-          <span class="name">${escapeHtml(p.authorName || '匿名ユーザー')}</span>
-          <span class="date">${dateStr}</span>
-        </div>
-        <div class="body">${escapeHtml(p.body)}</div>
-      `;
-      boardList.appendChild(div);
-    });
+    lastDocs = snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()));
+    renderList();
   }, err => {
     boardList.innerHTML = '<div class="board-empty">読み込みに失敗しました。firebase-config.jsの設定を確認してください。</div>';
     console.error(err);
   });
+
+function renderList() {
+  if (!lastDocs.length) {
+    boardList.innerHTML = '<div class="board-empty">まだ投稿がありません。最初の投稿をしてみましょう！</div>';
+    postCount.textContent = '0';
+    return;
+  }
+  postCount.textContent = lastDocs.length + '/∞';
+  boardList.innerHTML = '';
+  lastDocs.forEach(p => {
+    const date = p.createdAt ? p.createdAt.toDate() : new Date();
+    const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+    const div = document.createElement('div');
+    div.className = 'board-post';
+    div.innerHTML = `
+      <div class="meta">
+        <img src="${p.authorPhoto || ''}" alt="">
+        <span class="name">${escapeHtml(p.authorName || '匿名ユーザー')}</span>
+        <span class="date">${dateStr}</span>
+      </div>
+      <div class="body">${escapeHtml(p.body)}</div>
+    `;
+    if (isAdmin) {
+      const actions = document.createElement('div');
+      actions.className = 'item-actions';
+      actions.style.marginTop = '8px';
+      actions.innerHTML = `<button class="icon-btn delete-btn" title="削除">🗑 削除</button>`;
+      actions.querySelector('.delete-btn').style.width = 'auto';
+      actions.querySelector('.delete-btn').style.padding = '4px 10px';
+      actions.querySelector('.delete-btn').style.borderRadius = '14px';
+      actions.querySelector('.delete-btn').style.fontSize = '10px';
+      actions.querySelector('.delete-btn').addEventListener('click', () => deletePost(p.id));
+      div.appendChild(actions);
+    }
+    boardList.appendChild(div);
+  });
+}
 
 function escapeHtml(str) {
   const div = document.createElement('div');

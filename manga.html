@@ -40,7 +40,7 @@
       </div>
 
       <div class="admin-panel" id="adminPanel" style="display:none;">
-        <h3>✎ 新しいエピソードを追加</h3>
+        <h3 id="panelTitle">✎ 新しいエピソードを追加</h3>
         <div class="admin-field"><label>回(예: 1)</label><input type="text" id="fEp" placeholder="1"></div>
         <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="人懐っこいね"></div>
         <div class="admin-field"><label>画像URL</label><input type="text" id="fImg" placeholder="https://..."></div>
@@ -52,6 +52,7 @@
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="3"><input type="text" id="fOpt3" placeholder="선택지 D"></div>
         <div class="admin-field"><label>コアラ先生のひとこと</label><textarea id="fChat" placeholder="부연 설명이나 잡담"></textarea></div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
+        <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;">編集をキャンセル</button>
       </div>
       <div class="admin-login-row" id="adminLoginRow" style="display:none;">
         <a id="adminLoginLink">管理者としてログイン</a>
@@ -83,25 +84,75 @@ const adminLoginRow = document.getElementById('adminLoginRow');
 const adminToggleBtn = document.getElementById('adminToggleBtn');
 const itemList = document.getElementById('itemList');
 const itemCount = document.getElementById('itemCount');
+const panelTitle = document.getElementById('panelTitle');
+const submitBtn = document.getElementById('submitBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
 
 let isAdmin = false;
+let lastDocs = [];
+let editingId = null;
 
 document.getElementById('adminLoginLink').addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログイン失敗: ' + err.message));
 });
 
 adminToggleBtn.addEventListener('click', () => {
-  adminPanel.style.display = (adminPanel.style.display === 'block') ? 'none' : 'block';
+  const willOpen = adminPanel.style.display !== 'block';
+  adminPanel.style.display = willOpen ? 'block' : 'none';
+  if (!willOpen) resetForm();
+});
+
+cancelEditBtn.addEventListener('click', () => {
+  resetForm();
+  adminPanel.style.display = 'none';
 });
 
 auth.onAuthStateChanged(user => {
   isAdmin = !!(user && user.uid === ADMIN_UID);
   adminToggleBtn.style.display = isAdmin ? 'flex' : 'none';
   adminLoginRow.style.display = (!user) ? 'block' : 'none';
-  if (!isAdmin) adminPanel.style.display = 'none';
+  if (!isAdmin) { adminPanel.style.display = 'none'; resetForm(); }
+  renderList();
 });
 
-document.getElementById('submitBtn').addEventListener('click', async () => {
+function resetForm() {
+  editingId = null;
+  ['fEp','fTitle','fImg','fBubble','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChat'].forEach(id => document.getElementById(id).value = '');
+  document.querySelector('input[name="correctOpt"][value="0"]').checked = true;
+  panelTitle.textContent = '✎ 新しいエピソードを追加';
+  submitBtn.textContent = '投稿する';
+  cancelEditBtn.style.display = 'none';
+}
+
+function startEdit(id) {
+  const d = lastDocs.find(x => x.id === id);
+  if (!d) return;
+  editingId = id;
+  document.getElementById('fEp').value = d.ep || '';
+  document.getElementById('fTitle').value = d.title || '';
+  document.getElementById('fImg').value = d.img || '';
+  document.getElementById('fBubble').value = d.bubble || '';
+  document.getElementById('fQuizQ').value = d.quizQ || '';
+  (d.opts || []).forEach((v, i) => { const el = document.getElementById('fOpt'+i); if (el) el.value = v || ''; });
+  document.querySelector('input[name="correctOpt"][value="' + (d.correctIdx || 0) + '"]').checked = true;
+  document.getElementById('fChat').value = d.chat || '';
+  panelTitle.textContent = '✎ エピソードを編集';
+  submitBtn.textContent = '更新する';
+  cancelEditBtn.style.display = 'inline';
+  adminPanel.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function deleteItem(id) {
+  if (!confirm('本当に削除しますか？')) return;
+  try {
+    await db.collection('manga').doc(id).delete();
+  } catch (err) {
+    alert('削除失敗: ' + err.message);
+  }
+}
+
+submitBtn.addEventListener('click', async () => {
   if (!isAdmin) return;
   const ep = document.getElementById('fEp').value.trim();
   const title = document.getElementById('fTitle').value.trim();
@@ -114,52 +165,68 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
 
   if (!title) { alert('タイトルを入力してください。'); return; }
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
+  const data = { ep, title, img, bubble, quizQ, opts, correctIdx, chat };
+  submitBtn.disabled = true;
   try {
-    await db.collection('manga').add({
-      ep, title, img, bubble, quizQ, opts, correctIdx, chat,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    ['fEp','fTitle','fImg','fBubble','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChat'].forEach(id => document.getElementById(id).value = '');
+    if (editingId) {
+      await db.collection('manga').doc(editingId).update(data);
+    } else {
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('manga').add(data);
+    }
+    resetForm();
     adminPanel.style.display = 'none';
   } catch (err) {
-    alert('投稿失敗: ' + err.message);
+    alert('保存失敗: ' + err.message);
   } finally {
-    btn.disabled = false;
+    submitBtn.disabled = false;
   }
 });
 
 db.collection('manga').orderBy('createdAt', 'desc').limit(100)
   .onSnapshot(snapshot => {
-    if (snapshot.empty) {
-      itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📝</div><div class="cs-text"><div class="jp">準備中です</div></div></div>';
-      itemCount.textContent = '0';
-      return;
-    }
-    itemCount.textContent = snapshot.size + '/∞';
-    itemList.innerHTML = '';
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const date = d.createdAt ? d.createdAt.toDate() : new Date();
-      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
-      const a = document.createElement('a');
-      a.className = 'toon-item';
-      a.href = 'manga-detail.html?id=' + doc.id;
-      a.innerHTML = `
-        <img class="thumb" src="${d.img || 'koara_logo.png'}" alt="" onerror="this.src='koara_logo.png'">
-        <div class="toon-item-body">
-          <div class="ep-tag">#${escapeHtml(d.ep || '')}</div>
-          <div class="jp">${escapeHtml(d.title)}</div>
-          <div class="date">${dateStr}</div>
-        </div>
-      `;
-      itemList.appendChild(a);
-    });
+    lastDocs = snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()));
+    renderList();
   }, err => {
     itemList.innerHTML = '<div class="board-empty">読み込みに失敗しました。</div>';
     console.error(err);
   });
+
+function renderList() {
+  if (!lastDocs.length) {
+    itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📝</div><div class="cs-text"><div class="jp">準備中です</div></div></div>';
+    itemCount.textContent = '0';
+    return;
+  }
+  itemCount.textContent = lastDocs.length + '/∞';
+  itemList.innerHTML = '';
+  lastDocs.forEach(d => {
+    const date = d.createdAt ? d.createdAt.toDate() : new Date();
+    const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+    const row = document.createElement('div');
+    row.className = 'toon-item';
+    row.style.cursor = 'pointer';
+    row.innerHTML = `
+      <img class="thumb" src="${d.img || 'koara_logo.png'}" alt="" onerror="this.src='koara_logo.png'">
+      <div class="toon-item-body">
+        <div class="ep-tag">#${escapeHtml(d.ep || '')}</div>
+        <div class="jp">${escapeHtml(d.title)}</div>
+        <div class="date">${dateStr}</div>
+      </div>
+    `;
+    row.addEventListener('click', () => { window.location.href = 'manga-detail.html?id=' + d.id; });
+
+    if (isAdmin) {
+      const actions = document.createElement('div');
+      actions.className = 'item-actions';
+      actions.innerHTML = `<button class="icon-btn edit-btn" title="編集">✎</button><button class="icon-btn delete-btn" title="削除">🗑</button>`;
+      actions.querySelector('.edit-btn').addEventListener('click', (e) => { e.stopPropagation(); startEdit(d.id); });
+      actions.querySelector('.delete-btn').addEventListener('click', (e) => { e.stopPropagation(); deleteItem(d.id); });
+      row.appendChild(actions);
+    }
+    itemList.appendChild(row);
+  });
+}
 
 function escapeHtml(str) {
   const div = document.createElement('div');

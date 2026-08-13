@@ -470,3 +470,16 @@ a { color:inherit; }
 /* ==== 관리자 카드 대량 입력 안내 ==== */
 .admin-field .hint { font-size:9.5px; color:#c2b5a6; margin-top:3px; line-height:1.5; }
 
+/* ==== 관리자 편집/삭제 아이콘 (목록 항목 공통) ==== */
+.item-actions { display:flex; gap:6px; flex:0 0 auto; margin-left:8px; }
+.icon-btn {
+  border:none; background:#F7F2EA; color:#a8795f;
+  width:28px; height:28px; border-radius:50%; font-size:12px;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.icon-btn.delete-btn { color:#c25b5b; background:#FDF3F3; }
+.admin-panel .cancel-edit-btn {
+  border:none; background:transparent; color:#a89a8c; font-size:11px;
+  text-decoration:underline; cursor:pointer; margin-left:10px;
+}
+
