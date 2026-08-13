@@ -277,3 +277,56 @@ a { color:inherit; }
 .board-post .meta .date { font-size:9px; color:#c2b5a6; margin-left:auto; }
 .board-post .body { font-size:11.5px; color:#4a3a30; line-height:1.6; white-space:pre-wrap; }
 .board-empty { text-align:center; font-size:11px; color:#c2b5a6; padding:30px 0; }
+
+/* ===================================================
+   반응형: PC/태블릿 화면 (641px 이상)
+   모바일은 위 스타일 그대로, 여기서부터 넓은 화면용 조정
+   =================================================== */
+@media (min-width: 641px) {
+  body { padding:32px 16px; }
+
+  .page {
+    max-width:1080px;
+    margin:0 auto;
+    border-radius:20px;
+    overflow:hidden;
+    min-height:auto;
+  }
+
+  .site-header, .detail-header { padding:22px 48px; }
+  .site-header .jp, .detail-title .jp { font-size:20px; }
+
+  .notice-banner { padding:14px 48px; }
+  .notice-banner .text { font-size:13px; }
+
+  .tabbar a.tab { padding:16px 8px; }
+  .tabbar a.tab .jp { font-size:14px; }
+  .tabbar a.tab .kr { font-size:10.5px; }
+
+  .breadcrumb { padding:11px 48px; font-size:11px; }
+
+  .section { padding:24px 48px 10px; }
+  .section-head .jp { font-size:15px; }
+  .section-head .kr { font-size:11px; }
+
+  .cards-grid { grid-template-columns:repeat(5, 1fr); gap:16px; }
+  .cards-grid.cols-5 { grid-template-columns:repeat(9, 1fr); }
+
+  .corner-card, .letter-card { padding:18px 10px; }
+  .corner-card .dot { width:42px; height:42px; }
+  .corner-card .jp { font-size:12.5px; }
+  .corner-card .kr { font-size:10.5px; }
+  .letter-card .ch { font-size:19px; }
+
+  .toon-frame, .toon-title, .quiz-block, .chat-block, .detail-desc, .cta-btn { margin-left:48px; margin-right:48px; }
+  .toon-title { padding-left:0; padding-right:0; }
+  .quiz-block { padding-left:0; padding-right:0; }
+  .detail-desc { padding-left:0; padding-right:0; }
+
+  .board-write { margin-left:48px; margin-right:48px; }
+}
+
+@media (min-width: 1000px) {
+  .cards-grid { grid-template-columns:repeat(6, 1fr); }
+}
+
