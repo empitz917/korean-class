@@ -572,8 +572,13 @@ a { color:inherit; }
 /* ===================================================
    사이트 전체 폰트 통일 + 크기 확대 (배너와 맞춤)
    =================================================== */
-.tabbar a.tab .jp { font-family:'Yomogi', cursive; font-weight:700; }
-.tabbar a.tab .kr { font-family:'Poor Story', cursive; font-weight:700; }
+.tabbar a.tab .jp {
+  font-family:'Yomogi', cursive; font-weight:700; font-size:14px;
+  display:inline-block; color:#7A4C3A; background:#FFF3E6;
+  border-radius:20px; padding:4px 12px; margin-bottom:2px;
+}
+.tabbar a.tab.active .jp { color:#C25B3E; background:#FFE3CC; }
+.tabbar a.tab .kr { font-family:'Poor Story', cursive; font-weight:700; font-size:11px; }
 
 /* 모바일 기준 확대 */
 .tabbar a.tab .jp { font-size:14px; }
@@ -604,7 +609,7 @@ a { color:inherit; }
 
 /* PC 화면에서는 한층 더 크게 */
 @media (min-width: 641px) {
-  .tabbar a.tab .jp { font-size:17px; }
+  .tabbar a.tab .jp { font-size:17px; padding:6px 16px; }
   .tabbar a.tab .kr { font-size:13px; }
   .section-head .jp { font-size:20px; }
   .section-head .kr { font-size:14px; }
