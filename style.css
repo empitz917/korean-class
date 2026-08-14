@@ -410,8 +410,8 @@ a { color:inherit; }
   .board-post .body { font-size:14px; }
   .board-empty { font-size:13px; padding:40px 0; }
 
-  .hero-banner { padding:52px 48px 44px; min-height:380px; }
-  .hero-banner .main-content img { width:130px !important; }
+  .hero-banner { padding:52px 48px 44px; min-height:420px; }
+  .hero-banner .main-content img { width:160px !important; }
   .hero-banner .jp { font-size:38px; }
   .hero-banner .kr { font-size:23px; }
   .hero-banner .cta-row a { font-size:14px; padding:12px 28px; }
@@ -513,7 +513,7 @@ a { color:inherit; }
   text-align:center;
   position:relative;
   overflow:hidden;
-  min-height:300px;
+  min-height:340px;
 }
 .hero-banner .k { position:absolute; z-index:1; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
 .hero-banner .k.peek { z-index:3; }
