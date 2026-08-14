@@ -46,9 +46,9 @@
         <div class="admin-field"><label>説明</label><input type="text" id="fDesc" placeholder="식당·요리 관련 기초 단어"></div>
         <div class="admin-field">
           <label>単語カード（一括入力）</label>
-          <textarea id="fCards" style="min-height:140px;" placeholder="김치 | キムチ | 김치는 맵고 맛있어요.
-비빔밥 | ビビンバ | 비빔밥을 자주 먹어요."></textarea>
-          <div class="hint">한 줄에 카드 1개씩, <b>한국어 | 일본어 | 예문</b> 형식으로 " | "(파이프)로 구분해서 입력하세요. 예문은 생략 가능해요.<br>파이프(|) 입력법 — PC/Mac 일본어 키보드: <b>Shift + ¥</b> 키 / 스마트폰: 기호(記号) 키보드에서 찾기</div>
+          <textarea id="fCards" style="min-height:140px;" placeholder="김치 | キムチ | 저는 김치찌개를 좋아해요 / 私はキムチチゲが好きです。
+비빔밥 | ビビンバ | 비빔밥을 자주 먹어요 / ビビンバをよく食べます。"></textarea>
+          <div class="hint">한 줄에 카드 1개씩, <b>한국어 | 일본어 | 한국어예문 / 일본어예문</b> 형식으로 " | "(파이프)로 구분해서 입력하세요. 예문에서 한국어와 일본어는 "/"(슬래시)로 나누면 화면에 한국어 위, 일본어 아래로 나와요. 예문은 생략 가능해요.<br>파이프(|) 입력법 — PC/Mac 일본어 키보드: <b>Shift + ¥</b> 키 / 스마트폰: 기호(記号) 키보드에서 찾기</div>
         </div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
         <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;">編集をキャンセル</button>
@@ -161,7 +161,7 @@ submitBtn.addEventListener('click', async () => {
     const parts = line.split(/[|｜¦│]/).map(p => p.trim());
     const front = parts[0] || '';
     const back = parts[1] || '';
-    const example = parts.slice(2).join(', ').trim();
+    const example = parts.slice(2).join(' / ').trim();
     return { front, back, example };
   }).filter(c => c.front);
 
