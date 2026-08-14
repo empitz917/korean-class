@@ -168,6 +168,9 @@ submitBtn.addEventListener('click', async () => {
   const chat = document.getElementById('fChat').value.trim();
 
   if (!title) { alert('タイトルを入力してください。'); return; }
+  if (!quizQ && opts.some(o => o)) {
+    if (!confirm('선택지는 입력되었는데 "퀴즈:질문" 칸이 비어있어요.\n이대로 등록하면 퀴즈 전체가 화면에 안 보여요.\n그래도 계속할까요?')) return;
+  }
 
   const data = { ep, title, img, bubble, quizQ, opts, correctIdx, chatKr, chat };
   submitBtn.disabled = true;

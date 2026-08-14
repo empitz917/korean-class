@@ -235,6 +235,7 @@ a { color:inherit; }
 .chat-block .chat-col { flex:1; min-width:0; }
 .chat-block .chat-col + .chat-col { border-left:1px solid #F0DCC2; padding-left:14px; }
 .chat-block .label2 { font-size:11px; color:#a8795f; font-weight:700; margin-bottom:6px; }
+.chat-block .label2-jp { font-weight:500; opacity:0.75; }
 .chat-block .jp { font-size:13px; color:#7A5C4C; line-height:1.6; }
 .chat-block .kr { font-family:'Poor Story', cursive; font-size:13px; color:#7A5C4C; line-height:1.6; }
 @media (max-width: 380px) {
