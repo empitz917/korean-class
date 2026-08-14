@@ -28,7 +28,7 @@ a { color:inherit; }
 }
 .site-header a.logo-link { display:flex; align-items:center; gap:10px; text-decoration:none; flex:1; }
 .site-header img { width:38px; height:38px; object-fit:contain; }
-.site-header .jp { font-family:"Single Day", cursive; font-size:17px; color:#C25B3E; line-height:1.2; }
+.site-header .jp { font-family:'Yomogi', cursive; font-weight:700; font-size:17px; color:#C25B3E; line-height:1.2; }
 
 .mail-btn {
   flex:0 0 auto;
@@ -169,7 +169,7 @@ a { color:inherit; }
 /* ==== 상세 페이지 헤더 (뒤로가기형) ==== */
 .detail-header { display:flex; align-items:center; gap:10px; background:#FFD9C0; padding:14px 18px; }
 .detail-header a.back { font-size:20px; color:#C25B3E; font-weight:700; line-height:1; text-decoration:none; }
-.detail-title .jp { font-family:"Single Day", cursive; font-size:16px; color:#C25B3E; line-height:1.2; }
+.detail-title .jp { font-family:'Yomogi', cursive; font-weight:700; font-size:16px; color:#C25B3E; line-height:1.2; }
 .detail-title .kr { font-size:9px; color:#8A5A45; }
 
 .breadcrumb { padding:9px 18px; font-size:10px; color:#a89a8c; background:#fff; border-bottom:1px solid #F0EDE4; }
@@ -185,7 +185,7 @@ a { color:inherit; }
 /* ==== 웹툰형 만화 상세 ==== */
 .toon-title { padding:14px 18px 4px; }
 .toon-title .ep { font-size:10px; color:#C25B3E; font-weight:700; letter-spacing:0.5px; }
-.toon-title .jp { font-family:"Single Day", cursive; font-size:19px; color:#4a3a30; margin-top:2px; }
+.toon-title .jp { font-family:'Yomogi', cursive; font-weight:700; font-size:19px; color:#4a3a30; margin-top:2px; }
 
 .toon-frame {
   margin:10px 18px 0;
@@ -412,8 +412,8 @@ a { color:inherit; }
 
   .hero-banner { padding:52px 48px 44px; min-height:380px; }
   .hero-banner .main-content img { width:130px !important; }
-  .hero-banner .jp { font-size:32px; }
-  .hero-banner .kr { font-size:18px; }
+  .hero-banner .jp { font-size:38px; }
+  .hero-banner .kr { font-size:23px; }
   .hero-banner .cta-row a { font-size:14px; padding:12px 28px; }
 
   .quick-grid { grid-template-columns:repeat(6, 1fr); padding:22px 48px 10px; gap:14px; }
@@ -519,8 +519,8 @@ a { color:inherit; }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .hero-banner .main-content img { object-fit:contain; margin-bottom:6px; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
-.hero-banner .jp { font-family:'Yomogi', cursive; font-size:26px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.15); margin-top:8px; }
-.hero-banner .kr { font-family:'Poor Story', cursive; font-size:15px; color:#FFF3EC; margin-top:8px; }
+.hero-banner .jp { font-family:'Yomogi', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:28px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:8px; }
+.hero-banner .kr { font-family:'Poor Story', cursive; font-size:19px; color:#FFF3EC; margin-top:10px; }
 .hero-banner .cta-row { margin-top:16px; }
 .hero-banner .cta-row a {
   display:inline-block; background:#fff; color:#E8562F; text-decoration:none;
@@ -568,4 +568,64 @@ a { color:inherit; }
 .widget-row .wr-date { margin-left:auto; font-size:9px; color:#c2b5a6; flex:0 0 auto; }
 
 .home-empty-mini { font-size:10.5px; color:#c2b5a6; text-align:center; padding:16px 0; }
+
+/* ===================================================
+   사이트 전체 폰트 통일 + 크기 확대 (배너와 맞춤)
+   =================================================== */
+.jp { font-family:'Yomogi', cursive; }
+.kr { font-family:'Poor Story', cursive; }
+
+/* 모바일 기준 확대 */
+.tabbar a.tab .jp { font-size:14px; }
+.tabbar a.tab .kr { font-size:11px; }
+.section-head .jp { font-size:16px; }
+.section-head .kr { font-size:12px; }
+.corner-card .jp { font-size:13px; }
+.corner-card .kr { font-size:11px; }
+.letter-card .ch { font-size:18px; }
+.quick-grid .jp { font-size:13px; }
+.quick-grid .kr { font-size:11px; }
+.home-widget .widget-head .jp { font-size:15px; }
+.home-widget .widget-head .kr { font-size:12px; }
+.widget-row .wr-text .jp { font-size:13.5px; }
+.widget-row .wr-text .kr { font-size:11px; }
+.notice-item-body .jp { font-size:13px; }
+.toon-item-body .jp { font-size:14px; }
+.fc-set-card .fc-info .jp { font-size:14px; }
+.fc-set-card .fc-info .kr { font-size:12px; }
+.coming-soon .cs-text .jp { font-size:15px; }
+.coming-soon .cs-text .kr { font-size:12px; }
+.chat-block .jp { font-size:13px; }
+.login-prompt .jp { font-size:13px; }
+.toon-title .jp { font-size:22px; }
+.detail-title .jp { font-size:18px; }
+.detail-title .kr { font-size:11px; }
+.site-header .jp { font-size:19px; }
+
+/* PC 화면에서는 한층 더 크게 */
+@media (min-width: 641px) {
+  .tabbar a.tab .jp { font-size:17px; }
+  .tabbar a.tab .kr { font-size:13px; }
+  .section-head .jp { font-size:20px; }
+  .section-head .kr { font-size:14px; }
+  .corner-card .jp { font-size:16px; }
+  .corner-card .kr { font-size:13px; }
+  .letter-card .ch { font-size:23px; }
+  .quick-grid .jp { font-size:15px; }
+  .quick-grid .kr { font-size:12.5px; }
+  .home-widget .widget-head .jp { font-size:18px; }
+  .home-widget .widget-head .kr { font-size:14px; }
+  .widget-row .wr-text .jp { font-size:16px; }
+  .widget-row .wr-text .kr { font-size:13px; }
+  .notice-item-body .jp, .toon-item-body .jp { font-size:16px; }
+  .fc-set-card .fc-info .jp { font-size:16px; }
+  .fc-set-card .fc-info .kr { font-size:13.5px; }
+  .coming-soon .cs-text .jp { font-size:18px; }
+  .coming-soon .cs-text .kr { font-size:14px; }
+  .chat-block .jp { font-size:16px; }
+  .login-prompt .jp { font-size:16px; }
+  .toon-title .jp { font-size:28px; }
+  .site-header .jp, .detail-title .jp { font-size:26px; }
+  .detail-title .kr { font-size:14px; }
+}
 
