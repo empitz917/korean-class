@@ -487,7 +487,7 @@ a { color:inherit; }
   perspective:1200px;
 }
 .flashcard-inner {
-  position:relative; width:100%; height:220px;
+  position:relative; width:100%; height:250px;
   transition:transform 0.5s; transform-style:preserve-3d;
 }
 .flashcard.flipped .flashcard-inner { transform:rotateY(180deg); }
@@ -502,10 +502,10 @@ a { color:inherit; }
 .flashcard-word { font-size:26px; font-weight:700; color:#C25B3E; }
 .flashcard-hint { font-size:10px; color:#c2915f; margin-top:10px; }
 .flashcard-meaning { font-size:19px; font-weight:700; color:#4a3a30; }
-.flashcard-example { font-size:12px; color:#7A5C4C; margin-top:10px; line-height:1.6; }
+.flashcard-example { font-size:16px; color:#7A5C4C; margin-top:14px; line-height:1.7; }
 .flashcard-example .ex-line { }
-.flashcard-example .ex-kr { color:#5c4636; font-weight:500; }
-.flashcard-example .ex-jp { color:#a8907a; font-size:11px; margin-top:2px; }
+.flashcard-example .ex-kr { color:#5c4636; font-weight:600; }
+.flashcard-example .ex-jp { color:#a8907a; font-size:14px; margin-top:4px; }
 
 .fc-nav { display:flex; align-items:center; justify-content:center; gap:16px; margin-top:22px; }
 .fc-nav button {
