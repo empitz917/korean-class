@@ -410,10 +410,10 @@ a { color:inherit; }
   .board-post .body { font-size:14px; }
   .board-empty { font-size:13px; padding:40px 0; }
 
-  .hero-banner { padding:44px 48px 36px; }
-  .hero-banner img { width:96px; height:96px; }
-  .hero-banner .jp { font-size:26px; }
-  .hero-banner .kr { font-size:13px; }
+  .hero-banner { padding:52px 48px 44px; min-height:380px; }
+  .hero-banner .main-content img { width:130px !important; }
+  .hero-banner .jp { font-size:32px; }
+  .hero-banner .kr { font-size:18px; }
   .hero-banner .cta-row a { font-size:14px; padding:12px 28px; }
 
   .quick-grid { grid-template-columns:repeat(6, 1fr); padding:22px 48px 10px; gap:14px; }
@@ -508,20 +508,25 @@ a { color:inherit; }
 
 /* 히어로 배너 */
 .hero-banner {
-  background:linear-gradient(155deg,#FFD9C0 0%,#FFE8D6 45%,#F6D9E8 100%);
-  padding:28px 24px 24px;
+  background:linear-gradient(155deg,#FF7A59,#4ECDC4);
+  padding:36px 20px 32px;
   text-align:center;
   position:relative;
   overflow:hidden;
+  min-height:300px;
 }
-.hero-banner img { width:76px; height:76px; object-fit:contain; margin-bottom:10px; }
-.hero-banner .jp { font-family:"Single Day", cursive; font-size:20px; color:#C25B3E; line-height:1.4; }
-.hero-banner .kr { font-size:11px; color:#8A5A45; margin-top:6px; }
+.hero-banner .k { position:absolute; z-index:1; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
+.hero-banner .k.peek { z-index:3; }
+.hero-banner .main-content { position:relative; z-index:2; }
+.hero-banner .main-content img { object-fit:contain; margin-bottom:6px; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
+.hero-banner .jp { font-family:'Yomogi', cursive; font-size:26px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.15); margin-top:8px; }
+.hero-banner .kr { font-family:'Poor Story', cursive; font-size:15px; color:#FFF3EC; margin-top:8px; }
 .hero-banner .cta-row { margin-top:16px; }
 .hero-banner .cta-row a {
-  display:inline-block; background:#C25B3E; color:#fff; text-decoration:none;
+  display:inline-block; background:#fff; color:#E8562F; text-decoration:none;
   font-size:12px; font-weight:700; padding:10px 22px; border-radius:24px;
-  box-shadow:0 4px 12px rgba(194,91,62,0.25);
+  font-family:sans-serif;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* 빠른 메뉴 그리드 */
