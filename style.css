@@ -519,10 +519,9 @@ a { color:inherit; }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
 
-/* SNS 버튼 (배너 오른쪽 위 고정) */
-.hero-banner .sns-fixed {
-  position:absolute; top:14px; right:14px; z-index:4;
-  display:flex; gap:8px;
+/* SNS 버튼 (배너 CTA 아래 나란히) */
+.hero-banner .sns-row {
+  margin-top:14px; display:flex; gap:10px; justify-content:center;
 }
 .hero-banner .icon-circle {
   width:34px; height:34px; border-radius:50%; background:#fff;
@@ -536,7 +535,8 @@ a { color:inherit; }
 .fw-particle {
   position:absolute; width:6px; height:6px; border-radius:50%;
   transform:translate(-50%, -50%);
-  animation:fw-burst 0.9s ease-out forwards;
+  animation:fw-burst 1.6s ease-out forwards;
+  box-shadow:0 0 4px rgba(255,255,255,0.6);
 }
 @keyframes fw-burst {
   0% { transform:translate(-50%, -50%) translate(0, 0) scale(1); opacity:1; }

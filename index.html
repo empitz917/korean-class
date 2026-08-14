@@ -23,16 +23,15 @@
     <img class="k" src="assets/koala-3.png" alt="" style="width:66px; top:6px; left:38%; opacity:0.4;">
     <img class="k peek" src="assets/koala-peek.png" alt="" style="width:96px; bottom:-6px; left:-16px;">
 
-    <div class="sns-fixed">
-      <a class="icon-circle" href="#" target="_blank" title="X">𝕏</a>
-      <a class="icon-circle" href="#" target="_blank" title="Instagram">📷</a>
-    </div>
-
     <div class="main-content">
       <img src="assets/koala-center.png" alt="코아라" style="width:130px;">
       <div class="jp">韓国語遊びラボ、「コアラ」</div>
       <div class="kr">놀면서 하는 한국어 공부</div>
       <div class="cta-row"><a href="games.html">🎮 게임으로 시작하기</a></div>
+      <div class="sns-row">
+        <a class="icon-circle" href="#" target="_blank" title="X">𝕏</a>
+        <a class="icon-circle" href="#" target="_blank" title="Instagram">📷</a>
+      </div>
     </div>
   </div>
 
@@ -45,8 +44,8 @@
     <a class="tab active" href="index.html"><span class="jp">ホーム</span><span class="kr">홈</span></a>
     <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
     <a class="tab" href="manga.html"><span class="jp">マンガ</span><span class="kr">만화</span></a>
-    <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
     <a class="tab" href="flashcards.html"><span class="jp">カード</span><span class="kr">카드</span></a>
+    <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
     <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
     <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
   </div>
@@ -55,8 +54,8 @@
   <div class="quick-grid">
     <a href="games.html"><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="jp">ゲーム</div><div class="kr">게임</div></a>
     <a href="manga.html"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">マンガ</div><div class="kr">만화</div></a>
-    <a href="materials.html"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
     <a href="flashcards.html"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">カード</div><div class="kr">카드</div></a>
+    <a href="materials.html"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
     <a href="board.html"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
     <a href="notices.html"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="jp">お知らせ</div><div class="kr">공지</div></a>
   </div>
@@ -191,19 +190,22 @@ db.collection('materials').orderBy('createdAt', 'desc').limit(3).get().then(snap
   const colors = ['#FFD9C0', '#FFF3E6', '#FF9F7A', '#B8F2E6', '#FFE066', '#fff'];
 
   function burst(cx, cy) {
-    const count = 24;
+    const count = 40;
     for (let i = 0; i < count; i++) {
       const p = document.createElement('span');
       const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
-      const dist = 60 + Math.random() * 70;
+      const dist = 80 + Math.random() * 110;
       const dx = Math.cos(angle) * dist;
       const dy = Math.sin(angle) * dist;
       p.className = 'fw-particle';
       p.style.left = cx + 'px';
       p.style.top = cy + 'px';
+      p.style.width = (4 + Math.random() * 5) + 'px';
+      p.style.height = p.style.width;
       p.style.background = colors[Math.floor(Math.random() * colors.length)];
       p.style.setProperty('--dx', dx + 'px');
       p.style.setProperty('--dy', dy + 'px');
+      p.style.animationDuration = (1.4 + Math.random() * 0.6) + 's';
       box.appendChild(p);
       p.addEventListener('animationend', () => p.remove());
     }
@@ -215,8 +217,8 @@ db.collection('materials').orderBy('createdAt', 'desc').limit(3).get().then(snap
     burst(40 + Math.random() * (w - 80), 30 + Math.random() * (h * 0.55));
   }
 
-  // 페이지 진입 시 순차적으로 몇 번 터뜨리기
-  [0, 350, 700, 1100].forEach(delay => setTimeout(randomBurst, delay));
+  // 페이지 진입 시 순차적으로 더 여러 번, 더 오래 터뜨리기
+  [0, 300, 600, 900, 1300, 1700, 2200, 2800, 3400].forEach(delay => setTimeout(randomBurst, delay));
 })();
 </script>
 </body>
