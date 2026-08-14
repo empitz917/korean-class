@@ -225,6 +225,21 @@ a { color:inherit; }
 .quiz-opt.wrong { border-color:#F6D9D9; background:#FDF3F3; }
 .quiz-opt.wrong .letter { background:#F6D9D9; color:#c25b5b; }
 .quiz-opt.disabled { pointer-events:none; }
+.quiz-opt.shake { animation:quiz-shake 0.4s; }
+@keyframes quiz-shake {
+  0%, 100% { transform:translateX(0); }
+  20% { transform:translateX(-6px); }
+  40% { transform:translateX(5px); }
+  60% { transform:translateX(-4px); }
+  80% { transform:translateX(3px); }
+}
+.speech-bubble.flip { animation:bubble-flip 0.4s ease; }
+.speech-bubble.kr-mode { font-family:'Gaegu', cursive; background:#FFF3E6; color:#C25B3E; }
+@keyframes bubble-flip {
+  0% { transform:translateX(-50%) scale(1); }
+  50% { transform:translateX(-50%) scale(0.85); opacity:0.5; }
+  100% { transform:translateX(-50%) scale(1); }
+}
 .quiz-feedback { margin-top:10px; font-size:11px; color:#a8795f; min-height:14px; }
 
 .chat-block {

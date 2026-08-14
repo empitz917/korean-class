@@ -45,7 +45,8 @@
         <div class="admin-field"><label>回(예: 1)</label><input type="text" id="fEp" placeholder="1"></div>
         <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="人懐っこいね"></div>
         <div class="admin-field"><label>画像URL</label><input type="text" id="fImg" placeholder="https://..."></div>
-        <div class="admin-field"><label>せりふ（吹き出し）</label><input type="text" id="fBubble" placeholder="어? 저 처음 봐요!"></div>
+        <div class="admin-field"><label>せりふ（吹き出し・日本語）</label><input type="text" id="fBubble" placeholder="어? 저 처음 봐요!"></div>
+        <div class="admin-field"><label>せりふ（정답 시 한국어로 전환）</label><input type="text" id="fBubbleKr" placeholder="예: 어? 처음 뵙네요!"></div>
         <div class="admin-field"><label>クイズ：質問</label><input type="text" id="fQuizQ" placeholder="말풍선 속 대사, 무슨 뜻일까요?"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="0" checked><input type="text" id="fOpt0" placeholder="선택지 A"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="1"><input type="text" id="fOpt1" placeholder="선택지 B"></div>
@@ -119,7 +120,7 @@ auth.onAuthStateChanged(user => {
 
 function resetForm() {
   editingId = null;
-  ['fEp','fTitle','fImg','fBubble','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChatKr','fChat'].forEach(id => document.getElementById(id).value = '');
+  ['fEp','fTitle','fImg','fBubble','fBubbleKr','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChatKr','fChat'].forEach(id => document.getElementById(id).value = '');
   document.querySelector('input[name="correctOpt"][value="0"]').checked = true;
   panelTitle.textContent = '✎ 新しいエピソードを追加';
   submitBtn.textContent = '投稿する';
@@ -134,6 +135,7 @@ function startEdit(id) {
   document.getElementById('fTitle').value = d.title || '';
   document.getElementById('fImg').value = d.img || '';
   document.getElementById('fBubble').value = d.bubble || '';
+  document.getElementById('fBubbleKr').value = d.bubbleKr || '';
   document.getElementById('fQuizQ').value = d.quizQ || '';
   (d.opts || []).forEach((v, i) => { const el = document.getElementById('fOpt'+i); if (el) el.value = v || ''; });
   document.querySelector('input[name="correctOpt"][value="' + (d.correctIdx || 0) + '"]').checked = true;
@@ -161,6 +163,7 @@ submitBtn.addEventListener('click', async () => {
   const title = document.getElementById('fTitle').value.trim();
   const img = document.getElementById('fImg').value.trim();
   const bubble = document.getElementById('fBubble').value.trim();
+  const bubbleKr = document.getElementById('fBubbleKr').value.trim();
   const quizQ = document.getElementById('fQuizQ').value.trim();
   const opts = [0,1,2,3].map(i => document.getElementById('fOpt'+i).value.trim());
   const correctIdx = Number(document.querySelector('input[name="correctOpt"]:checked').value);
@@ -172,7 +175,7 @@ submitBtn.addEventListener('click', async () => {
     if (!confirm('선택지는 입력되었는데 "퀴즈:질문" 칸이 비어있어요.\n이대로 등록하면 퀴즈 전체가 화면에 안 보여요.\n그래도 계속할까요?')) return;
   }
 
-  const data = { ep, title, img, bubble, quizQ, opts, correctIdx, chatKr, chat };
+  const data = { ep, title, img, bubble, bubbleKr, quizQ, opts, correctIdx, chatKr, chat };
   submitBtn.disabled = true;
   try {
     if (editingId) {

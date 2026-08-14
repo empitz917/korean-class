@@ -64,7 +64,7 @@ if (!id) {
       </div>
 
       <div class="toon-frame">
-        ${d.bubble ? `<div class="speech-bubble">${escapeHtml(d.bubble)}</div>` : ''}
+        ${d.bubble ? `<div class="speech-bubble" id="speechBubble" data-jp="${escapeHtml(d.bubble)}" data-kr="${escapeHtml(d.bubbleKr || '')}">${escapeHtml(d.bubble)}</div>` : ''}
         <img src="${d.img || 'koara_logo.png'}" alt="" onerror="this.src='koara_logo.png'">
       </div>
 
@@ -98,17 +98,37 @@ if (!id) {
 }
 
 function answerQuiz(el) {
+  // 이미 정답을 맞혀서 완료된 상태면 더 이상 반응하지 않음
+  if (document.getElementById('quizOptions').classList.contains('quiz-solved')) return;
+
   const opts = document.querySelectorAll('#quizOptions .quiz-opt');
   const isCorrect = el.getAttribute('data-correct') === 'true';
-  opts.forEach(o => {
-    o.classList.add('disabled');
-    if (o.getAttribute('data-correct') === 'true') {
-      o.classList.add('correct');
-    } else if (o === el) {
-      o.classList.add('wrong');
+
+  if (isCorrect) {
+    // 정답: 전체 잠금 + 정답 초록 표시
+    document.getElementById('quizOptions').classList.add('quiz-solved');
+    opts.forEach(o => {
+      o.classList.add('disabled');
+      if (o.getAttribute('data-correct') === 'true') o.classList.add('correct');
+    });
+    document.getElementById('quizFeedback').textContent = '정답이에요! 🎉';
+
+    // 말풍선 대사를 한국어로 전환
+    const bubble = document.getElementById('speechBubble');
+    if (bubble && bubble.dataset.kr) {
+      bubble.classList.add('flip');
+      setTimeout(() => {
+        bubble.textContent = bubble.dataset.kr;
+        bubble.classList.add('kr-mode');
+      }, 200);
     }
-  });
-  document.getElementById('quizFeedback').textContent = isCorrect ? '정답이에요! 🎉' : '아쉬워요, 다시 도전해보세요!';
+  } else {
+    // 오답: 흔들림 표시 후 다시 시도 가능 (다른 옵션은 그대로 클릭 가능)
+    el.classList.remove('shake');
+    void el.offsetWidth; // 애니메이션 재시작을 위한 리플로우
+    el.classList.add('wrong', 'shake');
+    document.getElementById('quizFeedback').textContent = '間違いです！もう一度挑戦してみてね。';
+  }
 }
 
 function escapeHtml(str) {
