@@ -237,7 +237,7 @@ a { color:inherit; }
 .chat-block .label2 { font-size:11px; color:#a8795f; font-weight:700; margin-bottom:6px; }
 .chat-block .label2-jp { font-weight:500; opacity:0.75; }
 .chat-block .jp { font-size:13px; color:#7A5C4C; line-height:1.6; }
-.chat-block .kr { font-family:'Poor Story', cursive; font-size:13px; color:#7A5C4C; line-height:1.6; }
+.chat-block .kr { font-family:'Gaegu', cursive; font-size:14px; color:#7A5C4C; line-height:1.6; }
 @media (max-width: 380px) {
   .chat-block .chat-cols { flex-direction:column; gap:10px; }
   .chat-block .chat-col + .chat-col { border-left:none; padding-left:0; border-top:1px solid #F0DCC2; padding-top:10px; }
@@ -556,7 +556,7 @@ a { color:inherit; }
 }
 .hero-banner .main-content img { width:88px; object-fit:contain; margin-bottom:4px; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
 .hero-banner .jp { font-family:'Yomogi', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:27px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:6px; }
-.hero-banner .kr { font-family:'Poor Story', cursive; font-size:19px; color:#FFF3EC; margin-top:8px; }
+.hero-banner .kr { font-family:'Gaegu', cursive; font-weight:700; font-size:19px; color:#FFF3EC; margin-top:8px; }
 .hero-banner .cta-row { margin-top:16px; }
 .hero-banner .cta-row a {
   display:inline-block; background:#fff; color:#E8562F; text-decoration:none;
@@ -614,7 +614,7 @@ a { color:inherit; }
   border-radius:20px; padding:4px 12px; margin-bottom:2px;
 }
 .tabbar a.tab.active .jp { color:#C25B3E; background:#FFE3CC; }
-.tabbar a.tab .kr { font-family:'Poor Story', cursive; font-weight:700; font-size:11px; display:block; }
+.tabbar a.tab .kr { font-family:'Gaegu', cursive; font-weight:700; font-size:12px; display:block; }
 
 /* 모바일 기준 확대 */
 .tabbar a.tab .jp { font-size:14px; }
