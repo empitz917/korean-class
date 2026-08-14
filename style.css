@@ -578,7 +578,7 @@ a { color:inherit; }
   border-radius:20px; padding:4px 12px; margin-bottom:2px;
 }
 .tabbar a.tab.active .jp { color:#C25B3E; background:#FFE3CC; }
-.tabbar a.tab .kr { font-family:'Poor Story', cursive; font-weight:700; font-size:11px; }
+.tabbar a.tab .kr { font-family:'Poor Story', cursive; font-weight:700; font-size:11px; display:block; }
 
 /* 모바일 기준 확대 */
 .tabbar a.tab .jp { font-size:14px; }
