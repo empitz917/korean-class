@@ -572,6 +572,14 @@ a { color:inherit; }
   100% { transform:translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0.2); opacity:0; }
 }
 .hero-banner .main-content img { width:88px; object-fit:contain; margin-bottom:4px; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
+.hero-banner .main-content img#mainKoala { transition:transform 0.15s; }
+.hero-banner .main-content img#mainKoala:active { transform:scale(0.9); }
+.koala-pop { animation:koala-pop 0.5s cubic-bezier(.34,1.56,.64,1); }
+@keyframes koala-pop {
+  0% { transform:scale(0.4) rotate(-8deg); opacity:0.4; }
+  60% { transform:scale(1.15) rotate(4deg); opacity:1; }
+  100% { transform:scale(1) rotate(0deg); }
+}
 .hero-banner .jp { font-family:'Yomogi', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:27px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:6px; }
 .hero-banner .kr { font-family:'Do Hyeon', sans-serif; font-weight:700; font-size:21px; color:#FFF3EC; margin-top:8px; }
 .hero-banner .cta-row { margin-top:16px; }

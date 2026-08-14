@@ -24,7 +24,7 @@
     <img class="k peek" src="assets/koala-peek.png" alt="" style="width:68px; bottom:-4px; left:-12px;">
 
     <div class="main-content">
-      <img src="assets/koala-center.png" alt="코아라" style="width:130px;">
+      <img id="mainKoala" src="assets/koala-center.png" alt="코아라" style="width:130px; cursor:pointer;" onclick="transformKoala()">
       <div class="jp">韓国語遊びラボ、「コアラ」</div>
       <div class="kr">놀면서 하는 한국어 공부</div>
       <div class="sns-row">
@@ -219,6 +219,26 @@ db.collection('materials').orderBy('createdAt', 'desc').limit(3).get().then(snap
   // 페이지 진입 시 순차적으로 더 여러 번, 더 오래 터뜨리기
   [0, 300, 600, 900, 1300, 1700, 2200, 2800, 3400].forEach(delay => setTimeout(randomBurst, delay));
 })();
+
+// 가운데 코알라 클릭하면 다른 포즈로 변신
+const koalaForms = [
+  'assets/koala-center.png',
+  'assets/koala-namu.png',
+  'assets/koala-4b.png',
+  'assets/koala-peek.png',
+  'assets/koala-6.png',
+  'assets/koala-9.png'
+];
+let koalaIdx = 0;
+function transformKoala() {
+  const el = document.getElementById('mainKoala');
+  if (!el) return;
+  koalaIdx = (koalaIdx + 1) % koalaForms.length;
+  el.classList.remove('koala-pop');
+  void el.offsetWidth;
+  el.src = koalaForms[koalaIdx];
+  el.classList.add('koala-pop');
+}
 </script>
 </body>
 </html>
