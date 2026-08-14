@@ -70,7 +70,7 @@ if (!id) {
 
       ${d.quizQ ? `
       <div class="quiz-block">
-        <div class="quiz-q">Q. ${escapeHtml(d.quizQ)}</div>
+        <div class="quiz-q">${escapeHtml(d.quizQ)}</div>
         <div class="quiz-options" id="quizOptions">${optsHtml}</div>
         <div class="quiz-feedback" id="quizFeedback"></div>
       </div>` : ''}
@@ -78,14 +78,15 @@ if (!id) {
       ${(d.chat || d.chatKr) ? `
       <div class="chat-block">
         <img src="koara_logo.png" alt="코아라">
-        <div class="chat-cols">
-          <div class="chat-col">
-            <div class="label2">한마디 (한국어)</div>
-            <div class="kr">${escapeHtml(d.chatKr || '')}</div>
-          </div>
-          <div class="chat-col">
-            <div class="label2">コアラ先生のひとこと</div>
-            <div class="jp">${escapeHtml(d.chat || '')}</div>
+        <div style="flex:1; min-width:0;">
+          <div class="label2">코알라샘의 한마디</div>
+          <div class="chat-cols">
+            <div class="chat-col">
+              <div class="kr">${escapeHtml(d.chatKr || '')}</div>
+            </div>
+            <div class="chat-col">
+              <div class="jp">${escapeHtml(d.chat || '')}</div>
+            </div>
           </div>
         </div>
       </div>` : ''}
