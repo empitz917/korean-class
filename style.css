@@ -518,6 +518,30 @@ a { color:inherit; }
 .hero-banner .k { position:absolute; z-index:1; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
+
+/* SNS 버튼 (배너 오른쪽 위 고정) */
+.hero-banner .sns-fixed {
+  position:absolute; top:14px; right:14px; z-index:4;
+  display:flex; gap:8px;
+}
+.hero-banner .icon-circle {
+  width:34px; height:34px; border-radius:50%; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; text-decoration:none; color:#4a3a30;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* 불꽃놀이 */
+.fireworks { position:absolute; inset:0; pointer-events:none; z-index:1; overflow:visible; }
+.fw-particle {
+  position:absolute; width:6px; height:6px; border-radius:50%;
+  transform:translate(-50%, -50%);
+  animation:fw-burst 0.9s ease-out forwards;
+}
+@keyframes fw-burst {
+  0% { transform:translate(-50%, -50%) translate(0, 0) scale(1); opacity:1; }
+  100% { transform:translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0.2); opacity:0; }
+}
 .hero-banner .main-content img { object-fit:contain; margin-bottom:6px; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
 .hero-banner .jp { font-family:'Yomogi', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:28px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:8px; }
 .hero-banner .kr { font-family:'Poor Story', cursive; font-size:19px; color:#FFF3EC; margin-top:10px; }
