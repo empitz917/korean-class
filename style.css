@@ -190,10 +190,10 @@ a { color:inherit; }
 .toon-frame {
   margin:10px 18px 0;
   background:linear-gradient(160deg,#FFE8D6,#F6D9E8);
-  border-radius:14px; padding:26px 16px 20px; position:relative;
-  min-height:200px; display:flex; align-items:flex-end; justify-content:center;
+  border-radius:14px; padding:16px; position:relative;
+  min-height:200px; display:flex; align-items:center; justify-content:center;
 }
-.toon-frame img { width:110px; height:110px; object-fit:contain; }
+.toon-frame img { width:100%; max-width:100%; height:auto; display:block; border-radius:8px; object-fit:contain; }
 
 .speech-bubble {
   position:absolute; top:18px; left:50%; transform:translateX(-50%);
@@ -230,8 +230,16 @@ a { color:inherit; }
   margin:18px 18px 4px; background:#FFF3E6; border-radius:14px; padding:12px 14px; display:flex; gap:9px;
 }
 .chat-block img { width:30px; height:30px; object-fit:contain; flex:0 0 auto; }
+.chat-block .chat-cols { display:flex; gap:14px; flex:1; min-width:0; }
+.chat-block .chat-col { flex:1; min-width:0; }
+.chat-block .chat-col + .chat-col { border-left:1px solid #F0DCC2; padding-left:14px; }
 .chat-block .label2 { font-size:9px; color:#a8795f; font-weight:700; margin-bottom:3px; }
 .chat-block .jp { font-size:11px; color:#7A5C4C; line-height:1.6; }
+.chat-block .kr { font-family:'Poor Story', cursive; font-size:11px; color:#7A5C4C; line-height:1.6; }
+@media (max-width: 380px) {
+  .chat-block .chat-cols { flex-direction:column; gap:10px; }
+  .chat-block .chat-col + .chat-col { border-left:none; padding-left:0; border-top:1px solid #F0DCC2; padding-top:10px; }
+}
 
 /* ==== 게시판 ==== */
 .board-write {
@@ -369,6 +377,7 @@ a { color:inherit; }
   .corner-card.add-new .plus { font-size:22px; }
 
   .toon-frame, .toon-title, .quiz-block, .chat-block, .detail-desc, .cta-btn { margin-left:48px; margin-right:48px; }
+  .toon-frame img { max-width:480px; margin:0 auto; }
   .toon-title { padding-left:0; padding-right:0; }
   .toon-title .ep { font-size:12px; }
   .toon-title .jp { font-size:24px; }

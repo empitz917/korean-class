@@ -75,12 +75,18 @@ if (!id) {
         <div class="quiz-feedback" id="quizFeedback"></div>
       </div>` : ''}
 
-      ${d.chat ? `
+      ${(d.chat || d.chatKr) ? `
       <div class="chat-block">
         <img src="koara_logo.png" alt="코아라">
-        <div>
-          <div class="label2">コアラ先生のひとこと</div>
-          <div class="jp">${escapeHtml(d.chat)}</div>
+        <div class="chat-cols">
+          <div class="chat-col">
+            <div class="label2">한마디 (한국어)</div>
+            <div class="kr">${escapeHtml(d.chatKr || '')}</div>
+          </div>
+          <div class="chat-col">
+            <div class="label2">コアラ先生のひとこと</div>
+            <div class="jp">${escapeHtml(d.chat || '')}</div>
+          </div>
         </div>
       </div>` : ''}
     `;

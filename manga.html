@@ -51,7 +51,8 @@
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="1"><input type="text" id="fOpt1" placeholder="선택지 B"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="2"><input type="text" id="fOpt2" placeholder="선택지 C"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="3"><input type="text" id="fOpt3" placeholder="선택지 D"></div>
-        <div class="admin-field"><label>コアラ先生のひとこと</label><textarea id="fChat" placeholder="부연 설명이나 잡담"></textarea></div>
+        <div class="admin-field"><label>コアラ先生のひとこと (한국어)</label><textarea id="fChatKr" placeholder="예: 붙임성 좋은 사람 보면 부럽다..."></textarea></div>
+        <div class="admin-field"><label>コアラ先生のひとこと（日本語）</label><textarea id="fChat" placeholder="例: 人懐っこい人ってうらやましい..."></textarea></div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
         <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;">編集をキャンセル</button>
       </div>
@@ -118,7 +119,7 @@ auth.onAuthStateChanged(user => {
 
 function resetForm() {
   editingId = null;
-  ['fEp','fTitle','fImg','fBubble','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChat'].forEach(id => document.getElementById(id).value = '');
+  ['fEp','fTitle','fImg','fBubble','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChatKr','fChat'].forEach(id => document.getElementById(id).value = '');
   document.querySelector('input[name="correctOpt"][value="0"]').checked = true;
   panelTitle.textContent = '✎ 新しいエピソードを追加';
   submitBtn.textContent = '投稿する';
@@ -136,6 +137,7 @@ function startEdit(id) {
   document.getElementById('fQuizQ').value = d.quizQ || '';
   (d.opts || []).forEach((v, i) => { const el = document.getElementById('fOpt'+i); if (el) el.value = v || ''; });
   document.querySelector('input[name="correctOpt"][value="' + (d.correctIdx || 0) + '"]').checked = true;
+  document.getElementById('fChatKr').value = d.chatKr || '';
   document.getElementById('fChat').value = d.chat || '';
   panelTitle.textContent = '✎ エピソードを編集';
   submitBtn.textContent = '更新する';
@@ -162,11 +164,12 @@ submitBtn.addEventListener('click', async () => {
   const quizQ = document.getElementById('fQuizQ').value.trim();
   const opts = [0,1,2,3].map(i => document.getElementById('fOpt'+i).value.trim());
   const correctIdx = Number(document.querySelector('input[name="correctOpt"]:checked').value);
+  const chatKr = document.getElementById('fChatKr').value.trim();
   const chat = document.getElementById('fChat').value.trim();
 
   if (!title) { alert('タイトルを入力してください。'); return; }
 
-  const data = { ep, title, img, bubble, quizQ, opts, correctIdx, chat };
+  const data = { ep, title, img, bubble, quizQ, opts, correctIdx, chatKr, chat };
   submitBtn.disabled = true;
   try {
     if (editingId) {
