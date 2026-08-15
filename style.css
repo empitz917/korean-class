@@ -165,7 +165,8 @@ a { color:inherit; }
 }
 .notice-item .tag.muted { background:#EFE6DA; color:#a8907a; }
 .notice-item-body .jp { font-size:11px; color:#4a3a30; font-weight:500; line-height:1.4; }
-.notice-item-body .date { font-size:9px; color:#c2b5a6; margin-top:3px; }
+.notice-item-body .notice-body-text { font-size:10.5px; color:#7A5C4C; line-height:1.6; margin-top:5px; white-space:pre-line; }
+.notice-item-body .date { font-size:9px; color:#c2b5a6; margin-top:5px; }
 
 /* ==== 만화 리스트 ==== */
 .toon-item {
@@ -713,6 +714,7 @@ a { color:inherit; }
   .widget-row .wr-text .jp { font-size:16px; }
   .widget-row .wr-text .kr { font-size:13px; }
   .notice-item-body .jp, .toon-item-body .jp { font-size:16px; }
+  .notice-item-body .notice-body-text { font-size:13.5px; }
   .fc-set-card .fc-info .jp { font-size:16px; }
   .fc-set-card .fc-info .kr { font-size:13.5px; }
   .coming-soon .cs-text .jp { font-size:18px; }

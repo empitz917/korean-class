@@ -43,6 +43,7 @@
       <div class="admin-panel" id="adminPanel" style="display:none;">
         <h3 id="panelTitle">✎ 新しいお知らせを追加</h3>
         <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="発音特訓ワークショップ 参加者募集中！"></div>
+        <div class="admin-field"><label>本文（선택, 여러 줄 가능）</label><textarea id="fBody" placeholder="자세한 내용을 여기에 적어주세요."></textarea></div>
         <div class="admin-field">
           <label>タグ</label>
           <select id="fTag">
@@ -117,6 +118,7 @@ auth.onAuthStateChanged(user => {
 function resetForm() {
   editingId = null;
   document.getElementById('fTitle').value = '';
+  document.getElementById('fBody').value = '';
   document.getElementById('fTag').value = 'NEW';
   panelTitle.textContent = '✎ 新しいお知らせを追加';
   submitBtn.textContent = '投稿する';
@@ -128,6 +130,7 @@ function startEdit(id) {
   if (!d) return;
   editingId = id;
   document.getElementById('fTitle').value = d.title || '';
+  document.getElementById('fBody').value = d.body || '';
   document.getElementById('fTag').value = d.tag || 'NEW';
   panelTitle.textContent = '✎ お知らせを編集';
   submitBtn.textContent = '更新する';
@@ -148,11 +151,12 @@ async function deleteItem(id) {
 submitBtn.addEventListener('click', async () => {
   if (!isAdmin) return;
   const title = document.getElementById('fTitle').value.trim();
+  const body = document.getElementById('fBody').value.trim();
   const tag = document.getElementById('fTag').value;
 
   if (!title) { alert('タイトルを入力してください。'); return; }
 
-  const data = { title, tag };
+  const data = { title, body, tag };
   submitBtn.disabled = true;
   try {
     if (editingId) {
@@ -197,6 +201,7 @@ function renderList() {
       <span class="tag ${tagClass}">${escapeHtml(d.tag || 'お知らせ')}</span>
       <div class="notice-item-body">
         <div class="jp">${escapeHtml(d.title)}</div>
+        ${d.body ? `<div class="notice-body-text">${escapeHtml(d.body)}</div>` : ''}
         <div class="date">${dateStr}</div>
       </div>
     `;
