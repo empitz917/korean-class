@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <div class="notice-banner" style="opacity:0.6;">
+  <div class="notice-banner" id="topNoticeBanner" style="opacity:0.6;">
     <span class="badge" style="background:#c2b5a6;">-</span>
     <span class="text">お知らせは準備中です</span>
   </div>
@@ -178,6 +178,17 @@ db.collection('notices').orderBy('createdAt', 'desc').limit(3).get().then(snap =
       <span class="wr-date">${fmtDate(d.createdAt)}</span>
     </a>`;
   }).join('');
+
+  // 최상단 배너도 최신 공지 1건으로 갱신
+  const banner = document.getElementById('topNoticeBanner');
+  if (banner) {
+    const top = snap.docs[0].data();
+    banner.style.opacity = '1';
+    banner.innerHTML = `
+      <span class="badge" style="background:${top.tag === 'NEW' ? '#FF7A59' : '#c2b5a6'}; color:#fff;">${top.tag === 'NEW' ? 'NEW' : '📢'}</span>
+      <a class="text" href="notices.html" style="color:inherit; text-decoration:none;">${escapeHtml(top.title)}</a>
+    `;
+  }
 }).catch(() => { document.getElementById('widgetNotices').innerHTML = '<div class="home-empty-mini">読み込みに失敗しました</div>'; });
 
 // 최신 마화 2건
