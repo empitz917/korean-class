@@ -17,7 +17,7 @@
     </a>
   </div>
 
-  <div class="notice-banner" style="opacity:0.6;">
+  <div class="notice-banner" id="topNoticeBanner" style="opacity:0.6;">
     <span class="badge" style="background:#c2b5a6;">-</span>
     <span class="text">お知らせは準備中です</span>
   </div>
@@ -232,6 +232,19 @@ function escapeHtml(str) {
   div.textContent = str;
   return div.innerHTML;
 }
+
+// 최상단 공지 배너 (최신 공지 1건)
+db.collection('notices').orderBy('createdAt', 'desc').limit(1).get().then(snap => {
+  const banner = document.getElementById('topNoticeBanner');
+  if (!banner || snap.empty) return;
+  const top = snap.docs[0].data();
+  const esc = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+  banner.style.opacity = '1';
+  banner.innerHTML = `
+    <span class="badge" style="background:${top.tag === 'NEW' ? '#FF7A59' : '#c2b5a6'}; color:#fff;">${top.tag === 'NEW' ? 'NEW' : '📢'}</span>
+    <a class="text" href="notices.html" style="color:inherit; text-decoration:none;">${esc(top.title)}</a>
+  `;
+}).catch(() => {});
 </script>
 </body>
 </html>
