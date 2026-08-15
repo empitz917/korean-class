@@ -68,9 +68,9 @@ if (!id) {
         <img src="${d.img || 'koara_logo.png'}" alt="" onerror="this.src='koara_logo.png'">
       </div>
 
-      ${d.quizQ ? `
+      ${(d.quizQ || opts.some(o => o)) ? `
       <div class="quiz-block">
-        <div class="quiz-q">Q. ${escapeHtml(d.quizQ)}</div>
+        <div class="quiz-q">Q. ${escapeHtml(d.quizQ || '韓国語で何て言う？')}</div>
         <div class="quiz-options" id="quizOptions">${optsHtml}</div>
         <div class="quiz-feedback" id="quizFeedback"></div>
       </div>` : ''}

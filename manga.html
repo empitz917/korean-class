@@ -47,7 +47,7 @@
         <div class="admin-field"><label>画像URL</label><input type="text" id="fImg" placeholder="https://..."></div>
         <div class="admin-field"><label>せりふ（吹き出し・日本語）</label><input type="text" id="fBubble" placeholder="어? 저 처음 봐요!"></div>
         <div class="admin-field"><label>せりふ（정답 시 한국어로 전환）</label><input type="text" id="fBubbleKr" placeholder="예: 어? 처음 뵙네요!"></div>
-        <div class="admin-field"><label>クイズ：質問</label><input type="text" id="fQuizQ" placeholder="말풍선 속 대사, 무슨 뜻일까요?"></div>
+        <div class="admin-field"><label>クイズ：質問（비워두면 자동으로 "韓国語で何て言う？"）</label><input type="text" id="fQuizQ" placeholder="韓国語で何て言う？（기본값, 다른 질문 쓰려면 여기에 입력）"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="0" checked><input type="text" id="fOpt0" placeholder="선택지 A"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="1"><input type="text" id="fOpt1" placeholder="선택지 B"></div>
         <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="2"><input type="text" id="fOpt2" placeholder="선택지 C"></div>
@@ -171,9 +171,6 @@ submitBtn.addEventListener('click', async () => {
   const chat = document.getElementById('fChat').value.trim();
 
   if (!title) { alert('タイトルを入力してください。'); return; }
-  if (!quizQ && opts.some(o => o)) {
-    if (!confirm('선택지는 입력되었는데 "퀴즈:질문" 칸이 비어있어요.\n이대로 등록하면 퀴즈 전체가 화면에 안 보여요.\n그래도 계속할까요?')) return;
-  }
 
   const data = { ep, title, img, bubble, bubbleKr, quizQ, opts, correctIdx, chatKr, chat };
   submitBtn.disabled = true;
