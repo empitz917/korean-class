@@ -73,7 +73,7 @@ a { color:inherit; }
 
 /* ==== 탭바 ==== */
 .tabbar {
-  display:flex; background:#fff; border-bottom:1px solid #F0EDE4;
+  display:flex; justify-content:space-between; background:#fff; border-bottom:1px solid #F0EDE4;
   overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
 }
 .tabbar::-webkit-scrollbar { display:none; }
