@@ -639,6 +639,9 @@ a { color:inherit; }
 .home-widget .widget-head .jp { font-size:13px; font-weight:700; color:#5c4636; }
 .home-widget .widget-head .kr { font-size:10px; color:#a89a8c; }
 .home-widget .widget-head .more { margin-left:auto; font-size:10px; color:#c2915f; text-decoration:none; }
+.about-intro { margin:-2px 0 12px; }
+.about-intro .jp { font-size:11px; color:#7A5C4C; font-weight:500; }
+.about-intro .kr { font-size:9.5px; color:#a89a8c; margin-top:2px; }
 .home-widget .widget-body { display:flex; flex-direction:column; gap:8px; }
 
 .widget-row {
@@ -705,6 +708,8 @@ a { color:inherit; }
   .quick-grid .kr { font-size:12.5px; }
   .home-widget .widget-head .jp { font-size:18px; }
   .home-widget .widget-head .kr { font-size:14px; }
+  .about-intro .jp { font-size:13.5px; }
+  .about-intro .kr { font-size:11.5px; }
   .widget-row .wr-text .jp { font-size:16px; }
   .widget-row .wr-text .kr { font-size:13px; }
   .notice-item-body .jp, .toon-item-body .jp { font-size:16px; }
