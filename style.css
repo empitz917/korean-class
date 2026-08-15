@@ -470,7 +470,7 @@ a { color:inherit; }
 
   .hero-banner { padding:34px 32px 28px; min-height:300px; }
   .hero-banner .main-content img { width:105px !important; }
-  .banner-bubble-round { font-size:16px; padding:14px 22px; top:6px; left:56%; }
+  .banner-bubble-round { font-size:16px; padding:16px 24px; top:30px; left:56%; }
   .hero-banner .main-content img#mainKoala { height:105px !important; }
   .hero-banner .jp { font-size:36px; }
   .hero-banner .kr { font-size:22px; }
@@ -579,13 +579,19 @@ a { color:inherit; }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .banner-bubble-round {
-  position:absolute; top:4px; left:54%; z-index:4;
-  border-radius:22px;
+  position:absolute; top:24px; left:54%; z-index:4;
+  border-radius:50% 50% 50% 45% / 55% 55% 45% 45%;
   background:#fff; display:flex; align-items:center; justify-content:center;
-  text-align:center; padding:10px 16px; white-space:nowrap;
+  text-align:center; padding:12px 18px; white-space:nowrap;
   font-size:12px; font-weight:700; color:#4a3a30; line-height:1.4;
   box-shadow:0 3px 8px rgba(0,0,0,0.15);
 }
+.banner-bubble-round .cloud-bump {
+  position:absolute; background:#fff; border-radius:50%;
+}
+.banner-bubble-round .b1 { width:18px; height:18px; top:-8px; left:16px; }
+.banner-bubble-round .b2 { width:13px; height:13px; top:-13px; left:34px; }
+.banner-bubble-round .b3 { width:15px; height:15px; bottom:-7px; right:20px; }
 .banner-bubble-round::after {
   content:""; position:absolute; bottom:-8px; left:30px;
   border-width:9px 8px 0 0; border-style:solid; border-color:#fff transparent transparent transparent;
@@ -658,7 +664,12 @@ a { color:inherit; }
 }
 .home-widget .widget-head .jp { font-size:13px; font-weight:700; color:#5c4636; }
 .home-widget .widget-head .kr { font-size:10px; color:#a89a8c; }
-.home-widget .widget-head .more { margin-left:auto; font-size:10px; color:#c2915f; text-decoration:none; }
+.home-widget .widget-head .more {
+  margin-left:auto; width:20px; height:20px; border-radius:50%;
+  background:#FFE3CC; color:#c2915f; font-size:13px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  text-decoration:none; line-height:1;
+}
 .about-intro { margin:-2px 0 12px; }
 .about-intro .jp { font-size:11px; color:#7A5C4C; font-weight:500; }
 .about-intro .kr { font-size:9.5px; color:#a89a8c; margin-top:2px; }
