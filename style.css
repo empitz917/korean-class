@@ -96,6 +96,12 @@ a { color:inherit; }
 
 .cards-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
 .cards-grid.cols-5 { grid-template-columns:repeat(5,1fr); }
+.cards-grid.scroll-row {
+  display:flex; flex-wrap:nowrap; overflow-x:auto; gap:10px;
+  padding-bottom:6px; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.cards-grid.scroll-row::-webkit-scrollbar { display:none; }
+.cards-grid.scroll-row .corner-card { flex:0 0 auto; width:84px; }
 
 .corner-card, .letter-card {
   background:#fff;
@@ -384,6 +390,7 @@ a { color:inherit; }
   .section-head .count { font-size:11px; }
 
   .cards-grid { grid-template-columns:repeat(5, 1fr); gap:16px; }
+  .cards-grid.scroll-row .corner-card { width:110px; }
   .cards-grid.cols-5 { grid-template-columns:repeat(9, 1fr); }
 
   .corner-card, .letter-card { padding:20px 12px; }
