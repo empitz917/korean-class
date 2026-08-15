@@ -470,7 +470,7 @@ a { color:inherit; }
 
   .hero-banner { padding:34px 32px 28px; min-height:300px; }
   .hero-banner .main-content img { width:105px !important; }
-  .banner-bubble-round { width:110px; height:110px; font-size:12px; top:16px; right:14px; }
+  .banner-bubble-round { font-size:16px; padding:14px 22px; top:14px; right:12px; }
   .hero-banner .main-content img#mainKoala { height:105px !important; }
   .hero-banner .jp { font-size:36px; }
   .hero-banner .kr { font-size:22px; }
@@ -579,17 +579,17 @@ a { color:inherit; }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .banner-bubble-round {
-  position:absolute; top:10px; right:8px; z-index:4;
-  width:88px; height:88px; border-radius:50%;
+  position:absolute; top:8px; right:6px; z-index:4;
+  border-radius:22px;
   background:#fff; display:flex; align-items:center; justify-content:center;
-  text-align:center; padding:6px;
-  font-size:9.5px; font-weight:700; color:#4a3a30; line-height:1.35;
+  text-align:center; padding:10px 16px; white-space:nowrap;
+  font-size:12px; font-weight:700; color:#4a3a30; line-height:1.4;
   box-shadow:0 3px 8px rgba(0,0,0,0.15);
 }
 .banner-bubble-round::after {
-  content:""; position:absolute; bottom:-6px; left:26px;
-  border-width:7px 6px 0 0; border-style:solid; border-color:#fff transparent transparent transparent;
-  transform:rotate(20deg);
+  content:""; position:absolute; bottom:-8px; left:34px;
+  border-width:9px 8px 0 0; border-style:solid; border-color:#fff transparent transparent transparent;
+  transform:rotate(35deg);
 }
 
 /* SNS 버튼 (배너 CTA 아래 나란히) */
