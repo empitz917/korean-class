@@ -470,6 +470,7 @@ a { color:inherit; }
 
   .hero-banner { padding:34px 32px 28px; min-height:300px; }
   .hero-banner .main-content img { width:105px !important; }
+  .banner-bubble { font-size:14px; padding:10px 18px; max-width:280px; }
   .hero-banner .main-content img#mainKoala { height:105px !important; }
   .hero-banner .jp { font-size:36px; }
   .hero-banner .kr { font-size:22px; }
@@ -577,6 +578,16 @@ a { color:inherit; }
 .hero-banner .k { position:absolute; z-index:1; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
+.banner-bubble {
+  position:relative; display:inline-block; margin:0 auto 6px; max-width:220px;
+  background:#fff; border-radius:16px; padding:8px 14px;
+  font-size:11px; font-weight:700; color:#4a3a30; line-height:1.4;
+  box-shadow:0 3px 8px rgba(0,0,0,0.12);
+}
+.banner-bubble::after {
+  content:""; position:absolute; bottom:-7px; left:50%; margin-left:-7px;
+  border-width:8px 7px 0 7px; border-style:solid; border-color:#fff transparent transparent transparent;
+}
 
 /* SNS 버튼 (배너 CTA 아래 나란히) */
 .hero-banner .sns-row {
