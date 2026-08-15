@@ -72,19 +72,24 @@ a { color:inherit; }
 .notice-banner .more { flex:0 0 auto; font-size:10px; color:#a8795f; }
 
 /* ==== 탭바 ==== */
-.tabbar { display:flex; background:#fff; border-bottom:1px solid #F0EDE4; }
+.tabbar {
+  display:flex; background:#fff; border-bottom:1px solid #F0EDE4;
+  overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.tabbar::-webkit-scrollbar { display:none; }
 .tabbar a.tab {
-  flex:1;
+  flex:0 0 auto;
   text-align:center;
-  padding:11px 4px;
+  padding:11px 14px;
   font-size:11px;
   color:#8A5A45;
   border-bottom:3px solid transparent;
   text-decoration:none;
+  white-space:nowrap;
 }
 .tabbar a.tab.active { color:#C25B3E; border-bottom:3px solid #FFD9C0; font-weight:700; }
-.tabbar a.tab .jp { font-size:12px; display:block; }
-.tabbar a.tab .kr { font-size:9px; opacity:0.75; }
+.tabbar a.tab .jp { font-size:12px; display:block; white-space:nowrap; }
+.tabbar a.tab .kr { font-size:9px; opacity:0.75; white-space:nowrap; }
 
 /* ==== 섹션 / 카드 그리드 ==== */
 .content { background:#FFF8F0; padding:6px 0 4px; min-height:60vh; }
@@ -664,10 +669,10 @@ a { color:inherit; }
 .tabbar a.tab .jp {
   font-family:'Yomogi', cursive; font-weight:700; font-size:14px;
   display:inline-block; color:#7A4C3A; background:#FFF3E6;
-  border-radius:20px; padding:4px 12px; margin-bottom:2px;
+  border-radius:20px; padding:4px 12px; margin-bottom:2px; white-space:nowrap;
 }
 .tabbar a.tab.active .jp { color:#C25B3E; background:#FFE3CC; }
-.tabbar a.tab .kr { font-family:'Do Hyeon', sans-serif; font-weight:700; font-size:12px; display:block; }
+.tabbar a.tab .kr { font-family:'Do Hyeon', sans-serif; font-weight:700; font-size:12px; display:block; white-space:nowrap; }
 
 /* 모바일 기준 확대 */
 .tabbar a.tab .jp { font-size:14px; }
