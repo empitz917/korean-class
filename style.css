@@ -484,6 +484,7 @@ a { color:inherit; }
   .quick-grid .kr { font-size:10.5px; }
 
   .home-widget { padding:20px 48px 6px; }
+  .home-widget .widget-head .wh-icon { font-size:13px; }
   .home-widget .widget-head .jp { font-size:15px; }
   .home-widget .widget-head .kr { font-size:11px; }
   .widget-row { padding:13px 16px; }
@@ -671,6 +672,7 @@ a { color:inherit; }
 .home-widget .widget-head {
   display:flex; align-items:baseline; gap:6px; margin-bottom:10px;
 }
+.home-widget .widget-head .wh-icon { font-size:11px; color:#D8865A; }
 .home-widget .widget-head .jp { font-size:13px; font-weight:700; color:#5c4636; }
 .home-widget .widget-head .kr { font-size:10px; color:#a89a8c; }
 .home-widget .widget-head .more {
