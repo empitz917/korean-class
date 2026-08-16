@@ -38,27 +38,20 @@
         <span class="jp">掲示板</span>
         <span class="kr">게시판</span>
         <span class="count" id="postCount">-</span>
+        <span id="adminArea" style="margin-left:auto; font-size:10px; color:#c2b5a6;">
+          <span id="adminLoginBtn" style="cursor:pointer; text-decoration:underline;">管理者</span>
+          <span id="adminLoggedIn" style="display:none;">
+            <span id="adminName" style="color:#a89a8c;"></span>
+            <span id="adminLogoutBtn" style="cursor:pointer; text-decoration:underline; margin-left:6px;">ログアウト</span>
+          </span>
+        </span>
       </div>
 
-      <!-- 글쓰기 영역 -->
+      <!-- 글쓰기 영역 (로그인 불필요, 누구나 작성 가능) -->
       <div class="board-write" id="writeArea">
-        <div class="login-prompt" id="loginPrompt">
-          <div class="jp">書き込むにはGoogleログインが必要です</div>
-          <button class="google-btn" id="loginBtn">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
-            Googleでログイン
-          </button>
-        </div>
-
-        <div id="writeBox" style="display:none;">
-          <div class="board-userbar">
-            <img id="userPhoto" src="" alt="">
-            <span class="name" id="userName"></span>
-            <span class="logout" id="logoutBtn">ログアウト</span>
-          </div>
-          <textarea id="postBody" placeholder="自由に書き込んでください（韓国語・日本語どちらでもOK）"></textarea>
-          <button class="post-btn" id="postBtn">投稿する</button>
-        </div>
+        <input type="text" id="nicknameInput" placeholder="ニックネーム（空欄なら匿名）" style="width:100%; box-sizing:border-box; margin-bottom:8px; padding:10px 12px; border-radius:10px; border:1px solid #eee0d2; font-family:inherit; font-size:12px;">
+        <textarea id="postBody" placeholder="自由に書き込んでください（韓国語・日本語どちらでもOK）"></textarea>
+        <button class="post-btn" id="postBtn">投稿する</button>
       </div>
 
       <!-- 글 목록 -->
@@ -81,37 +74,38 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-const loginPrompt = document.getElementById('loginPrompt');
-const writeBox = document.getElementById('writeBox');
-const userPhoto = document.getElementById('userPhoto');
-const userName = document.getElementById('userName');
+const nicknameInput = document.getElementById('nicknameInput');
 const postBody = document.getElementById('postBody');
 const postBtn = document.getElementById('postBtn');
 const boardList = document.getElementById('boardList');
 const postCount = document.getElementById('postCount');
+const adminLoginBtn = document.getElementById('adminLoginBtn');
+const adminLoggedIn = document.getElementById('adminLoggedIn');
+const adminName = document.getElementById('adminName');
+const adminLogoutBtn = document.getElementById('adminLogoutBtn');
 
 let lastPostTime = 0;
 let isAdmin = false;
 let lastDocs = [];
 
-document.getElementById('loginBtn').addEventListener('click', () => {
+// 관리자 전용 로그인 (삭제 권한 확인용, 글쓰기와는 무관)
+adminLoginBtn.addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログインに失敗しました: ' + err.message));
 });
 
-document.getElementById('logoutBtn').addEventListener('click', () => {
+adminLogoutBtn.addEventListener('click', () => {
   auth.signOut();
 });
 
 auth.onAuthStateChanged(user => {
   isAdmin = !!(user && user.uid === ADMIN_UID);
-  if (user) {
-    loginPrompt.style.display = 'none';
-    writeBox.style.display = 'block';
-    userPhoto.src = user.photoURL || '';
-    userName.textContent = user.displayName || '匿名ユーザー';
+  if (isAdmin) {
+    adminLoginBtn.style.display = 'none';
+    adminLoggedIn.style.display = 'inline';
+    adminName.textContent = user.displayName || '管理者';
   } else {
-    loginPrompt.style.display = 'flex';
-    writeBox.style.display = 'none';
+    adminLoginBtn.style.display = 'inline';
+    adminLoggedIn.style.display = 'none';
   }
   renderList();
 });
@@ -127,16 +121,14 @@ postBtn.addEventListener('click', async () => {
     return;
   }
 
-  const user = auth.currentUser;
-  if (!user) return;
+  const nickname = nicknameInput.value.trim();
 
   postBtn.disabled = true;
   try {
     await db.collection('posts').add({
       body: text,
-      authorName: user.displayName || '匿名ユーザー',
-      authorPhoto: user.photoURL || '',
-      uid: user.uid,
+      authorName: nickname || '匿名',
+      authorPhoto: '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     postBody.value = '';
@@ -182,8 +174,8 @@ function renderList() {
     div.className = 'board-post';
     div.innerHTML = `
       <div class="meta">
-        <img src="${p.authorPhoto || ''}" alt="">
-        <span class="name">${escapeHtml(p.authorName || '匿名ユーザー')}</span>
+        ${p.authorPhoto ? `<img src="${p.authorPhoto}" alt="">` : ''}
+        <span class="name">${escapeHtml(p.authorName || '匿名')}</span>
         <span class="date">${dateStr}</span>
       </div>
       <div class="body">${escapeHtml(p.body)}</div>
