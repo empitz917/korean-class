@@ -470,8 +470,8 @@ a { color:inherit; }
 
   .hero-banner { padding:34px 32px 28px; min-height:300px; }
   .hero-banner .main-content img { width:105px !important; }
-  .banner-bubble-round { font-size:16px; padding:16px 24px; top:30px; left:56%; }
-  .teacher-tag { font-size:34px; top:8%; left:5%; }
+  .banner-bubble-round { font-size:16px; padding:16px 24px; top:19%; left:60%; }
+  .teacher-tag { font-size:68px; top:9%; left:9%; }
   .hero-banner .main-content img#mainKoala { height:105px !important; }
   .hero-banner .jp { font-size:36px; }
   .hero-banner .kr { font-size:22px; }
@@ -580,14 +580,14 @@ a { color:inherit; }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .teacher-tag {
-  position:absolute; top:10%; left:4%; z-index:4;
-  font-family:'East Sea Dokdo', cursive; font-size:26px; color:#fff;
+  position:absolute; top:12%; left:7%; z-index:4;
+  font-family:'East Sea Dokdo', cursive; font-size:52px; color:#fff;
   transform:rotate(-10deg); text-shadow:0 2px 6px rgba(0,0,0,0.25);
   text-align:center;
 }
-.teacher-tag svg { display:block; margin:0 auto -2px 24px; }
+.teacher-tag svg { display:block; margin:0 auto -2px; }
 .banner-bubble-round {
-  position:absolute; top:24px; left:54%; z-index:4;
+  position:absolute; top:20%; left:58%; z-index:4;
   border-radius:50% 50% 50% 45% / 55% 55% 45% 45%;
   background:#fff; display:flex; align-items:center; justify-content:center;
   text-align:center; padding:12px 18px; white-space:nowrap;
