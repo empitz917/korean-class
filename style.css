@@ -366,6 +366,10 @@ a { color:inherit; }
 .board-post .meta { display:flex; align-items:center; gap:7px; margin-bottom:6px; }
 .board-post .meta img { width:20px; height:20px; border-radius:50%; }
 .board-post .meta .name { font-size:10.5px; font-weight:700; color:#5c4636; }
+.board-post .meta .new-badge {
+  font-size:8.5px; font-weight:800; color:#fff; background:#F0997B;
+  padding:2px 6px; border-radius:8px; letter-spacing:0.3px;
+}
 .board-post .meta .date { font-size:9px; color:#c2b5a6; margin-left:auto; }
 .board-post .body { font-size:11.5px; color:#4a3a30; line-height:1.6; white-space:pre-wrap; }
 .board-empty { text-align:center; font-size:11px; color:#c2b5a6; padding:30px 0; }
@@ -464,6 +468,7 @@ a { color:inherit; }
   .board-post { padding:16px 18px; }
   .board-post .meta img { width:26px; height:26px; }
   .board-post .meta .name { font-size:13px; }
+  .board-post .meta .new-badge { font-size:10px; padding:2px 8px; }
   .board-post .meta .date { font-size:11px; }
   .board-post .body { font-size:14px; }
   .board-empty { font-size:13px; padding:40px 0; }
