@@ -219,6 +219,7 @@ function renderList() {
   lastDocs.forEach(d => {
     const date = d.createdAt ? d.createdAt.toDate() : new Date();
     const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
+    const isNew = (Date.now() - date.getTime()) < 24 * 60 * 60 * 1000;
     const row = document.createElement('div');
     row.className = 'toon-item';
     row.style.cursor = 'pointer';
@@ -227,7 +228,7 @@ function renderList() {
       <div class="toon-item-body">
         <div class="ep-tag">#${escapeHtml(d.ep || '')}</div>
         <div class="jp">${escapeHtml(d.title)}</div>
-        <div class="date">${dateStr}</div>
+        <div class="date">${isNew ? '<span class="new-badge">NEW</span> ' : ''}${dateStr}</div>
       </div>
     `;
     row.addEventListener('click', () => { window.location.href = 'manga-detail.html?id=' + d.id; });

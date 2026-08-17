@@ -193,13 +193,15 @@ function renderList() {
   itemCount.textContent = lastDocs.length + '/∞';
   itemList.innerHTML = '';
   lastDocs.forEach(d => {
+    const createdDate = d.createdAt ? d.createdAt.toDate() : new Date();
+    const isNew = (Date.now() - createdDate.getTime()) < 24 * 60 * 60 * 1000;
     const row = document.createElement('div');
     row.className = 'toon-item';
     row.style.cursor = 'pointer';
     row.innerHTML = `
       <div class="thumb placeholder">📄</div>
       <div class="toon-item-body">
-        <div class="jp">${escapeHtml(d.title)}</div>
+        <div class="jp">${escapeHtml(d.title)} ${isNew ? '<span class="new-badge">NEW</span>' : ''}</div>
         <div class="date">${escapeHtml(d.desc || '')}</div>
       </div>
     `;

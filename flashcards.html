@@ -211,13 +211,15 @@ function renderList() {
   itemList.innerHTML = '';
   lastDocs.forEach(d => {
     const count = (d.cards || []).length;
+    const createdDate = d.createdAt ? d.createdAt.toDate() : new Date();
+    const isNew = (Date.now() - createdDate.getTime()) < 24 * 60 * 60 * 1000;
     const row = document.createElement('div');
     row.className = 'fc-set-card';
     row.style.cursor = 'pointer';
     row.innerHTML = `
       <div class="fc-icon">🗂️</div>
       <div class="fc-info">
-        <div class="jp">${escapeHtml(d.title)}</div>
+        <div class="jp">${escapeHtml(d.title)} ${isNew ? '<span class="new-badge">NEW</span>' : ''}</div>
         <div class="kr">${escapeHtml(d.desc || '')}</div>
       </div>
       <div class="fc-count">${count}枚</div>

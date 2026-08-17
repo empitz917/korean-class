@@ -195,6 +195,10 @@ function fmtDate(ts) {
   const d = ts ? ts.toDate() : new Date();
   return d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0');
 }
+function isNewItem(ts) {
+  const d = ts ? ts.toDate() : new Date();
+  return (Date.now() - d.getTime()) < 24 * 60 * 60 * 1000;
+}
 
 // 최신 공지 3건
 db.collection('notices').orderBy('createdAt', 'desc').limit(3).get().then(snap => {
@@ -205,7 +209,10 @@ db.collection('notices').orderBy('createdAt', 'desc').limit(3).get().then(snap =
     return `<a class="widget-row" href="notices.html">
       <span class="wr-icon">${d.tag === 'NEW' ? '🆕' : '📢'}</span>
       <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div></div>
-      <span class="wr-date">${fmtDate(d.createdAt)}</span>
+      <span class="wr-right">
+        ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+        <span class="wr-date">${fmtDate(d.createdAt)}</span>
+      </span>
     </a>`;
   }).join('');
 
@@ -230,7 +237,10 @@ db.collection('manga').orderBy('createdAt', 'desc').limit(2).get().then(snap => 
     return `<a class="widget-row" href="manga-detail.html?id=${doc.id}">
       <img class="wr-thumb" src="${d.img || 'koara_logo.png'}" onerror="this.src='koara_logo.png'">
       <div class="wr-text"><div class="jp">#${escapeHtml(d.ep)} ${escapeHtml(d.title)}</div></div>
-      <span class="wr-date">${fmtDate(d.createdAt)}</span>
+      <span class="wr-right">
+        ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+        <span class="wr-date">${fmtDate(d.createdAt)}</span>
+      </span>
     </a>`;
   }).join('');
 }).catch(() => { document.getElementById('widgetManga').innerHTML = '<div class="home-empty-mini">読み込みに失敗しました</div>'; });
@@ -245,7 +255,10 @@ db.collection('flashcardSets').orderBy('createdAt', 'desc').limit(3).get().then(
     return `<a class="widget-row" href="flashcards-detail.html?id=${doc.id}">
       <span class="wr-icon">🗂️</span>
       <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div><div class="kr">${escapeHtml(d.desc || '')}</div></div>
-      <span class="wr-date">${count}枚</span>
+      <span class="wr-right">
+        ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+        <span class="wr-date">${count}枚</span>
+      </span>
     </a>`;
   }).join('');
 }).catch(() => { document.getElementById('widgetCards').innerHTML = '<div class="home-empty-mini">読み込みに失敗しました</div>'; });
@@ -259,6 +272,7 @@ db.collection('materials').orderBy('createdAt', 'desc').limit(3).get().then(snap
     return `<a class="widget-row" href="${d.link || 'materials.html'}" target="${d.link ? '_blank' : '_self'}">
       <span class="wr-icon">📄</span>
       <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div></div>
+      ${isNewItem(d.createdAt) ? '<span class="wr-right"><span class="new-badge">NEW</span></span>' : ''}
     </a>`;
   }).join('');
 }).catch(() => { document.getElementById('widgetMaterials').innerHTML = '<div class="home-empty-mini">読み込みに失敗しました</div>'; });
