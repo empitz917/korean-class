@@ -77,11 +77,11 @@
   <!-- 빠른 메뉴 -->
   <div class="quick-grid">
     <a href="games.html"><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="jp">ゲーム</div><div class="kr">게임</div></a>
-    <a href="manga.html"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></a>
-    <a href="flashcards.html"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
-    <a href="materials.html"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
-    <a href="board.html"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
-    <a href="notices.html"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="jp">お知らせ</div><div class="kr">공지</div></a>
+    <a href="manga.html" id="qgManga"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></a>
+    <a href="flashcards.html" id="qgCards"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
+    <a href="materials.html" id="qgMaterials"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
+    <a href="board.html" id="qgBoard"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
+    <a href="notices.html" id="qgNotices"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="jp">お知らせ</div><div class="kr">공지</div></a>
   </div>
 
   <!-- 최신 공지 위젯 -->
@@ -199,6 +199,23 @@ function isNewItem(ts) {
   const d = ts ? ts.toDate() : new Date();
   return (Date.now() - d.getTime()) < 24 * 60 * 60 * 1000;
 }
+
+// 배너 밑 퀵메뉴 타일에 NEW 점 표시 (각 카테고리 최신 항목이 24시간 이내면)
+function markTileNew(tileId, collectionName) {
+  db.collection(collectionName).orderBy('createdAt', 'desc').limit(1).get().then(snap => {
+    if (snap.empty) return;
+    const d = snap.docs[0].data();
+    if (isNewItem(d.createdAt)) {
+      const tile = document.getElementById(tileId);
+      if (tile) tile.querySelector('.qg-icon').insertAdjacentHTML('beforeend', '<span class="qg-new-dot"></span>');
+    }
+  }).catch(() => {});
+}
+markTileNew('qgManga', 'manga');
+markTileNew('qgCards', 'flashcardSets');
+markTileNew('qgMaterials', 'materials');
+markTileNew('qgBoard', 'posts');
+markTileNew('qgNotices', 'notices');
 
 // 최신 공지 3건
 db.collection('notices').orderBy('createdAt', 'desc').limit(3).get().then(snap => {

@@ -182,6 +182,17 @@ function renderList() {
     const isNew = (Date.now() - date.getTime()) < 24 * 60 * 60 * 1000;
     const div = document.createElement('div');
     div.className = 'board-post';
+    const replies = p.replies || [];
+    const repliesHtml = replies.map(r => {
+      const rDate = r.createdAt ? new Date(r.createdAt) : new Date();
+      const rDateStr = rDate.getFullYear() + '.' + String(rDate.getMonth()+1).padStart(2,'0') + '.' + String(rDate.getDate()).padStart(2,'0');
+      return `
+        <div class="reply-item">
+          <span class="reply-name">${escapeHtml(r.name || '匿名')}</span>
+          <span class="reply-date">${rDateStr}</span>
+          <div class="reply-body">${escapeHtml(r.body)}</div>
+        </div>`;
+    }).join('');
     div.innerHTML = `
       <div class="meta">
         ${p.authorPhoto ? `<img src="${p.authorPhoto}" alt="">` : ''}
@@ -190,6 +201,13 @@ function renderList() {
         <span class="date">${dateStr}</span>
       </div>
       <div class="body">${escapeHtml(p.body)}</div>
+      ${replies.length ? `<div class="reply-list">${repliesHtml}</div>` : ''}
+      <div class="reply-toggle" data-id="${p.id}">返信する</div>
+      <div class="reply-form" id="replyForm-${p.id}" style="display:none;">
+        <input type="text" class="reply-nickname" placeholder="ニックネーム（空欄なら匿名）">
+        <textarea class="reply-textarea" placeholder="返信を入力"></textarea>
+        <button class="reply-submit-btn" data-id="${p.id}">送信</button>
+      </div>
     `;
     if (isAdmin) {
       const actions = document.createElement('div');
@@ -204,6 +222,39 @@ function renderList() {
       div.appendChild(actions);
     }
     boardList.appendChild(div);
+  });
+
+  // 返信する 토글
+  boardList.querySelectorAll('.reply-toggle').forEach(el => {
+    el.addEventListener('click', () => {
+      const form = document.getElementById('replyForm-' + el.dataset.id);
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+
+  // 返信 제출
+  boardList.querySelectorAll('.reply-submit-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const form = document.getElementById('replyForm-' + id);
+      const nickname = form.querySelector('.reply-nickname').value.trim();
+      const body = form.querySelector('.reply-textarea').value.trim();
+      if (!body) return;
+      btn.disabled = true;
+      try {
+        await db.collection('posts').doc(id).update({
+          replies: firebase.firestore.FieldValue.arrayUnion({
+            name: nickname || '匿名',
+            body: body,
+            createdAt: Date.now()
+          })
+        });
+      } catch (err) {
+        alert('返信に失敗しました: ' + err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    });
   });
 }
 
