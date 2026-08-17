@@ -207,7 +207,7 @@ function markTileNew(tileId, collectionName) {
     const d = snap.docs[0].data();
     if (isNewItem(d.createdAt)) {
       const tile = document.getElementById(tileId);
-      if (tile) tile.querySelector('.qg-icon').insertAdjacentHTML('beforeend', '<span class="qg-new-dot"></span>');
+      if (tile) tile.insertAdjacentHTML('afterbegin', '<span class="qg-new-badge">NEW</span>');
     }
   }).catch(() => {});
 }

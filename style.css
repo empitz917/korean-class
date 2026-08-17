@@ -701,10 +701,13 @@ a { color:inherit; }
   width:38px; height:38px; border-radius:50%;
   display:flex; align-items:center; justify-content:center; font-size:17px;
 }
-.qg-new-dot {
-  position:absolute; top:-2px; right:-2px;
-  width:10px; height:10px; border-radius:50%;
-  background:#F0997B; border:2px solid #fff;
+.quick-grid a {
+  position:relative;
+}
+.qg-new-badge {
+  position:absolute; top:6px; right:8px;
+  font-size:7.5px; font-weight:800; color:#fff; background:#F0997B;
+  padding:2px 5px; border-radius:6px; letter-spacing:0.2px; z-index:2;
 }
 .quick-grid .jp { font-size:11px; font-weight:700; color:#4a3a30; }
 .quick-grid .kr { font-size:9px; color:#a89a8c; }
