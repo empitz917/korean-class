@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://empitz917.github.io/korean-class/sitemap.xml
