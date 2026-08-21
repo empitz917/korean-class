@@ -234,11 +234,11 @@ a { color:inherit; }
 }
 
 .quiz-block { padding:16px 18px 4px; }
-.quiz-q { font-size:12px; color:#5c4636; font-weight:700; margin-bottom:10px; }
+.quiz-q { font-size:15px; color:#5c4636; font-weight:700; margin-bottom:10px; }
 .quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .quiz-opt {
   background:#fff; border:1.5px solid #F0E6D8; border-radius:10px; padding:9px 8px;
-  font-size:10.5px; color:#7A5C4C; display:flex; align-items:center; gap:6px; cursor:pointer;
+  font-size:13px; color:#7A5C4C; display:flex; align-items:center; gap:6px; cursor:pointer;
   transition:all .15s;
 }
 .quiz-opt .letter {
@@ -277,8 +277,8 @@ a { color:inherit; }
 .chat-block .chat-col + .chat-col { border-left:1px solid #F0DCC2; padding-left:14px; }
 .chat-block .label2 { font-size:11px; color:#a8795f; font-weight:700; margin-bottom:6px; }
 .chat-block .label2-jp { font-weight:500; opacity:0.75; }
-.chat-block .jp { font-size:13px; color:#7A5C4C; line-height:1.6; white-space:pre-line; }
-.chat-block .kr { font-family:'Do Hyeon', sans-serif; font-size:14px; color:#7A5C4C; line-height:1.6; white-space:pre-line; }
+.chat-block .jp { font-size:15px; color:#7A5C4C; line-height:1.6; white-space:pre-line; }
+.chat-block .kr { font-family:'Do Hyeon', sans-serif; font-size:16px; color:#7A5C4C; line-height:1.6; white-space:pre-line; }
 @media (max-width: 380px) {
   .chat-block .chat-cols { flex-direction:column; gap:10px; }
   .chat-block .chat-col + .chat-col { border-left:none; padding-left:0; border-top:1px solid #F0DCC2; padding-top:10px; }
@@ -459,13 +459,13 @@ a { color:inherit; }
   .toon-title .ep { font-size:12px; }
   .toon-title .jp { font-size:24px; }
   .quiz-block { padding-left:0; padding-right:0; }
-  .quiz-q { font-size:15px; }
-  .quiz-opt { font-size:13px; padding:12px 10px; }
+  .quiz-q { font-size:18px; }
+  .quiz-opt { font-size:15px; padding:12px 10px; }
   .quiz-opt .letter { width:20px; height:20px; font-size:11px; }
   .quiz-feedback { font-size:13px; }
   .detail-desc { padding-left:0; padding-right:0; font-size:14px; }
   .cta-btn { font-size:14px; padding:13px; }
-  .chat-block .jp, .chat-block .kr { font-size:14px; }
+  .chat-block .jp, .chat-block .kr { font-size:16px; }
   .chat-block .label2 { font-size:11px; }
   .speech-bubble { font-size:18px; padding:14px 22px; }
 
@@ -780,7 +780,7 @@ a { color:inherit; }
 .fc-set-card .fc-info .kr { font-size:12px; }
 .coming-soon .cs-text .jp { font-size:15px; }
 .coming-soon .cs-text .kr { font-size:12px; }
-.chat-block .jp { font-size:13px; }
+.chat-block .jp { font-size:15px; }
 .login-prompt .jp { font-size:13px; }
 .toon-title .jp { font-size:22px; }
 .detail-title .jp { font-size:18px; }
@@ -810,7 +810,7 @@ a { color:inherit; }
   .fc-set-card .fc-info .kr { font-size:13.5px; }
   .coming-soon .cs-text .jp { font-size:18px; }
   .coming-soon .cs-text .kr { font-size:14px; }
-  .chat-block .jp, .chat-block .kr { font-size:16px; }
+  .chat-block .jp, .chat-block .kr { font-size:18px; }
   .login-prompt .jp { font-size:16px; }
   .toon-title .jp { font-size:28px; }
   .site-header .jp, .detail-title .jp { font-size:26px; }
