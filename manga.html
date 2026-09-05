@@ -227,7 +227,7 @@ function renderList() {
   lastDocs.forEach(d => {
     const date = d.createdAt ? d.createdAt.toDate() : new Date();
     const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
-    const isNew = (Date.now() - date.getTime()) < 24 * 60 * 60 * 1000;
+    const isNew = (Date.now() - date.getTime()) < 7 * 24 * 60 * 60 * 1000; 
     const row = document.createElement('div');
     row.className = 'toon-item';
     row.style.cursor = 'pointer';
