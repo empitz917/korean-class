@@ -202,7 +202,7 @@ function renderList() {
   itemList.innerHTML = '';
   lastDocs.forEach(d => {
     const createdDate = d.createdAt ? d.createdAt.toDate() : new Date();
-    const isNew = (Date.now() - createdDate.getTime()) < 24 * 60 * 60 * 1000;
+    const isNew = (Date.now() - createdDate.getTime()) <  7 * 24 * 60 * 60 * 1000; 
     const row = document.createElement('div');
     row.className = 'toon-item';
     row.style.cursor = 'pointer';
