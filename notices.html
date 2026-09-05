@@ -216,7 +216,7 @@ function renderList() {
     div.className = 'notice-item';
     const tagClass = (i === 0 && d.tag === 'NEW' && isNew) ? '' : 'muted';
     div.innerHTML = `
-      <span class="tag ${tagClass}">${escapeHtml(d.tag || 'お知らせ')}</span>
+      <span class="tag ${tagClass}">${escapeHtml(isNew && d.tag === 'NEW' ? 'NEW' : 'お知らせ')}</span>
       <div class="notice-item-body">
         <div class="jp">${escapeHtml(d.title)}</div>
         ${d.body ? `<div class="notice-body-text">${escapeHtml(d.body)}</div>` : ''}
