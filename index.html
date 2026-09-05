@@ -205,7 +205,7 @@ function fmtDate(ts) {
 }
 function isNewItem(ts) {
   const d = ts ? ts.toDate() : new Date();
-  return (Date.now() - d.getTime()) < 24 * 60 * 60 * 1000;
+  return (Date.now() - d.getTime()) < 7 * 24 * 60 * 60 * 1000;
 }
 
 // 배너 밑 퀵메뉴 타일에 NEW 점 표시 (각 카테고리 최신 항목이 24시간 이내면)
