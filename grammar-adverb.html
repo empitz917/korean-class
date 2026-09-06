@@ -278,9 +278,23 @@ function renderList() {
             ${isNew ? '<span class="new-badge">NEW</span>' : ''}
           </div>
           <div class="lex-collapse-inner">
+            ${d.type === 'adverb' ? `
+            <div class="lex-bilingual">
+              <div class="lb-col lb-kr">
+                <div class="lb-caption">한국어</div>
+                ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
+                ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
+              </div>
+              ${d.jaTrans ? `
+              <div class="lb-col lb-jp">
+                <div class="lb-caption">日本語</div>
+                <div class="lb-jp-text">${escapeHtml(d.jaTrans)}</div>
+              </div>` : ''}
+            </div>
+            ` : `
             ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
             ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
-            ${(d.type === 'adverb' && d.jaTrans) ? `<div class="lex-jatrans-label">日本語訳</div><div class="lex-jatrans">${escapeHtml(d.jaTrans)}</div>` : ''}
+            `}
           </div>
           <button class="lex-toggle">続きを読む ▾</button>
           ${d.prompt ? `<div class="lex-prompt">

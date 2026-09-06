@@ -868,6 +868,21 @@ a { color:inherit; }
   line-height:1.7; white-space:pre-line; margin-top:2px;
 }
 
+/* 부사 - 한국어/일본어 좌우 2단 */
+.lex-bilingual { display:flex; gap:10px; align-items:flex-start; }
+.lex-bilingual .lb-col { flex:1 1 50%; min-width:0; }
+.lex-bilingual .lb-col.lb-kr { }
+.lex-bilingual .lb-col.lb-jp { border-left:1.5px dashed #F0E6D8; padding-left:10px; }
+.lex-bilingual .lb-caption {
+  font-family:'Do Hyeon', sans-serif; font-size:10px; color:#c2b5a6; margin-bottom:4px;
+}
+.lex-bilingual .lb-col.lb-kr .desc,
+.lex-bilingual .lb-col.lb-kr .ex { font-size:13.5px; }
+.lex-bilingual .lb-jp-text {
+  font-family:'Noto Sans JP','Noto Sans KR',sans-serif; font-size:13px; color:#8b7565;
+  line-height:1.7; white-space:pre-line;
+}
+
 .lex-collapse-inner { max-height:130px; overflow:hidden; position:relative; }
 .lex-collapse-inner.expanded { max-height:none; }
 .lex-collapse-inner:not(.expanded)::after {
