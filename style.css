@@ -859,6 +859,14 @@ a { color:inherit; }
 .lex-body .jp-word { font-size:14px; color:#a8907a; }
 .lex-body .desc { font-size:14.5px; color:#7a5c4c; margin-top:3px; line-height:1.7; white-space:pre-line; }
 .lex-body .ex { font-size:14px; color:#C25B3E; margin-top:5px; background:#FFF3E6; border-radius:8px; padding:7px 10px; white-space:pre-line; line-height:1.7; }
+.lex-jatrans-label {
+  font-family:'Do Hyeon', sans-serif; font-size:10.5px; color:#a8907a; margin-top:8px;
+  padding-top:8px; border-top:1px dashed #F0E6D8;
+}
+.lex-jatrans {
+  font-family:'Noto Sans JP','Noto Sans KR',sans-serif; font-size:13.5px; color:#8b7565;
+  line-height:1.7; white-space:pre-line; margin-top:2px;
+}
 
 .lex-collapse-inner { max-height:130px; overflow:hidden; position:relative; }
 .lex-collapse-inner.expanded { max-height:none; }
