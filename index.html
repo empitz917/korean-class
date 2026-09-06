@@ -77,6 +77,7 @@
     <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
     <a class="tab" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
     <a class="tab" href="flashcards.html"><span class="jp">フラッシュカード</span><span class="kr">플래시카드</span></a>
+    <a class="tab" href="grammar-adverb.html"><span class="jp">文法・副詞</span><span class="kr">문법・부사</span></a>
     <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
     <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
     <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
@@ -87,6 +88,7 @@
     <a href="games.html" id="qgGames"><span class="qg-new-badge" data-new-until="2026-09-12">NEW</span><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="jp">ゲーム</div><div class="kr">게임</div></a>
     <a href="manga.html" id="qgManga"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></a>
     <a href="flashcards.html" id="qgCards"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
+    <a href="grammar-adverb.html" id="qgLexicon"><div class="qg-icon" style="background:#EAE0F6;">🔍</div><div class="jp">文法・副詞</div><div class="kr">문법・부사</div></a>
     <a href="materials.html" id="qgMaterials"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
     <a href="board.html" id="qgBoard"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
     <a href="notices.html" id="qgNotices"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="jp">お知らせ</div><div class="kr">공지</div></a>
@@ -127,6 +129,19 @@
       <a class="more" href="flashcards.html">+</a>
     </div>
     <div class="widget-body" id="widgetCards">
+      <div class="home-empty-mini">読み込み中...</div>
+    </div>
+  </div>
+
+  <!-- 최신 문법·부사 돋보기 위젯 -->
+  <div class="home-widget">
+    <div class="widget-head">
+      <span class="wh-icon">◆</span>
+      <span class="jp">文法・副詞コーナー</span>
+      <span class="kr">문법・부사 돋보기</span>
+      <a class="more" href="grammar-adverb.html">+</a>
+    </div>
+    <div class="widget-body" id="widgetLexicon">
       <div class="home-empty-mini">読み込み中...</div>
     </div>
   </div>
@@ -221,6 +236,7 @@ function markTileNew(tileId, collectionName) {
 }
 markTileNew('qgManga', 'manga');
 markTileNew('qgCards', 'flashcardSets');
+markTileNew('qgLexicon', 'lexiconEntries');
 markTileNew('qgMaterials', 'materials');
 markTileNew('qgBoard', 'posts');
 markTileNew('qgNotices', 'notices');
@@ -289,6 +305,24 @@ db.collection('flashcardSets').orderBy('createdAt', 'desc').limit(3).get().then(
     </a>`;
   }).join('');
 }).catch(() => { document.getElementById('widgetCards').innerHTML = '<div class="home-empty-mini">読み込みに失敗しました</div>'; });
+
+// 최신 문법・부사 돋보기 3건
+db.collection('lexiconEntries').orderBy('createdAt', 'desc').limit(3).get().then(snap => {
+  const el = document.getElementById('widgetLexicon');
+  if (snap.empty) { el.innerHTML = '<div class="home-empty-mini">準備中です</div>'; return; }
+  el.innerHTML = snap.docs.map(doc => {
+    const d = doc.data();
+    const tagLabel = d.type === 'adverb' ? '副詞' : '文法';
+    return `<a class="widget-row" href="grammar-adverb.html">
+      <span class="wr-icon">🔍</span>
+      <div class="wr-text"><div class="jp">[${tagLabel}] ${escapeHtml(d.headword)}</div><div class="kr">${escapeHtml(d.meaningJp || '')}</div></div>
+      <span class="wr-right">
+        ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+        <span class="wr-date">${fmtDate(d.createdAt)}</span>
+      </span>
+    </a>`;
+  }).join('');
+}).catch(() => { document.getElementById('widgetLexicon').innerHTML = '<div class="home-empty-mini">読み込みに失敗しました</div>'; });
 
 // 최신 자료실 3건
 db.collection('materials').orderBy('createdAt', 'desc').limit(3).get().then(snap => {

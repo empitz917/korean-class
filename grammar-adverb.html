@@ -12,13 +12,13 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1コマ漫画クイズ | 韓国語遊びラボ、「コアラ」</title>
-<meta name="description" content="韓国語の1コマ漫画を読んでクイズに挑戦。日常表現やニュアンスを楽しく学べるコアラ(KOARA)のコンテンツです。">
+<title>文法・副詞コーナー | 韓国語遊びラボ、「コアラ」</title>
+<meta name="description" content="日本人学習者がよく迷う韓国語の文法と副詞を、コアラ先生がやさしく解説。質問や体験も投稿できます。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="1コマ漫画クイズ | 韓国語遊びラボ、「コアラ」">
-<meta property="og:description" content="韓国語の1コマ漫画を読んでクイズに挑戦。日常表現やニュアンスを楽しく学べるコアラ(KOARA)のコンテンツです。">
+<meta property="og:title" content="文法・副詞コーナー | 韓国語遊びラボ、「コアラ」">
+<meta property="og:description" content="日本人学習者がよく迷う韓国語の文法と副詞を、コアラ先生がやさしく解説。質問や体験も投稿できます。">
 <meta property="og:image" content="https://empitz917.github.io/korean-class/koara_logo.png">
-<meta property="og:url" content="https://empitz917.github.io/korean-class/manga.html">
+<meta property="og:url" content="https://empitz917.github.io/korean-class/grammar-adverb.html">
 <meta property="og:site_name" content="コアラ(KOARA)">
 <meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Single+Day&family=Noto+Sans+JP:wght@400;500;700&family=Gaegu:wght@400;700&family=Do+Hyeon&family=Yomogi&family=Poor+Story&display=swap" rel="stylesheet">
@@ -42,9 +42,9 @@
   <div class="tabbar">
     <a class="tab" href="index.html"><span class="jp">ホーム</span><span class="kr">홈</span></a>
     <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
-    <a class="tab active" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
+    <a class="tab" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
     <a class="tab" href="flashcards.html"><span class="jp">フラッシュカード</span><span class="kr">플래시카드</span></a>
-    <a class="tab" href="grammar-adverb.html"><span class="jp">文法・副詞</span><span class="kr">문법・부사</span></a>
+    <a class="tab active" href="grammar-adverb.html"><span class="jp">文法・副詞</span><span class="kr">문법・부사</span></a>
     <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
     <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
     <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
@@ -53,25 +53,29 @@
   <div class="content">
     <div class="section">
       <div class="section-head">
-        <span class="jp">1コマ漫画クイズ</span>
-        <span class="kr">한 컷 만화 퀴즈</span>
+        <span class="jp" id="sectionHeadJp">文法コーナー</span>
+        <span class="kr" id="sectionHeadKr">문법 돋보기</span>
         <span class="count" id="itemCount">-</span>
       </div>
 
+      <div class="lex-filter">
+        <button class="on" id="filterGrammar">文法 문법</button>
+        <button id="filterAdverb">副詞 부사</button>
+      </div>
+
       <div class="admin-panel" id="adminPanel" style="display:none;">
-        <h3 id="panelTitle">✎ 新しいエピソードを追加</h3>
-        <div class="admin-field"><label>回(예: 1)</label><input type="text" id="fEp" placeholder="1"></div>
-        <div class="admin-field"><label>タイトル</label><input type="text" id="fTitle" placeholder="人懐っこいね"></div>
-        <div class="admin-field"><label>画像URL</label><input type="text" id="fImg" placeholder="https://..."></div>
-        <div class="admin-field"><label>せりふ（吹き出し・日本語）</label><input type="text" id="fBubble" placeholder="어? 저 처음 봐요!"></div>
-        <div class="admin-field"><label>せりふ（정답 시 한국어로 전환）</label><input type="text" id="fBubbleKr" placeholder="예: 어? 처음 뵙네요!"></div>
-        <div class="admin-field"><label>クイズ：質問（비워두면 자동으로 "韓国語で何て言う？"）</label><input type="text" id="fQuizQ" placeholder="韓国語で何て言う？（기본값, 다른 질문 쓰려면 여기에 입력）"></div>
-        <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="0" checked><input type="text" id="fOpt0" placeholder="선택지 A"></div>
-        <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="1"><input type="text" id="fOpt1" placeholder="선택지 B"></div>
-        <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="2"><input type="text" id="fOpt2" placeholder="선택지 C"></div>
-        <div class="admin-field quiz-row"><input type="radio" name="correctOpt" value="3"><input type="text" id="fOpt3" placeholder="선택지 D"></div>
-        <div class="admin-field"><label>コアラ先生のひとこと (한국어)</label><textarea id="fChatKr" placeholder="예: 붙임성 좋은 사람 보면 부럽다..."></textarea></div>
-        <div class="admin-field"><label>コアラ先生のひとこと（日本語）</label><textarea id="fChat" placeholder="例: 人懐っこい人ってうらやましい..."></textarea></div>
+        <h3 id="panelTitle">✎ 新しい項目を追加</h3>
+        <div class="admin-field">
+          <label>種類</label>
+          <select id="fType" style="width:100%; padding:8px 10px; border-radius:8px; border:1px solid #eee0d2; font-family:inherit; font-size:12px;">
+            <option value="grammar">文法（문법）</option>
+            <option value="adverb">副詞（부사）</option>
+          </select>
+        </div>
+        <div class="admin-field"><label>見出し語（韓国語）</label><input type="text" id="fHeadword" placeholder="-더니"></div>
+        <div class="admin-field"><label>意味・要約（日本語）</label><input type="text" id="fMeaningJp" placeholder="観察→変化・結果"></div>
+        <div class="admin-field"><label>説明（日本語）</label><textarea id="fDesc" placeholder="観察した事実の後に続く変化や結果を表す。"></textarea></div>
+        <div class="admin-field"><label>例文（韓国語）</label><input type="text" id="fExample" placeholder="아까는 춥더니 지금은 덥네요."></div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
         <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;">編集をキャンセル</button>
       </div>
@@ -108,10 +112,15 @@ const itemCount = document.getElementById('itemCount');
 const panelTitle = document.getElementById('panelTitle');
 const submitBtn = document.getElementById('submitBtn');
 const cancelEditBtn = document.getElementById('cancelEditBtn');
+const sectionHeadJp = document.getElementById('sectionHeadJp');
+const sectionHeadKr = document.getElementById('sectionHeadKr');
+const filterGrammarBtn = document.getElementById('filterGrammar');
+const filterAdverbBtn = document.getElementById('filterAdverb');
 
 let isAdmin = false;
 let lastDocs = [];
 let editingId = null;
+let currentFilter = 'grammar'; // 'grammar' | 'adverb'
 
 document.getElementById('adminLoginLink').addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログイン失敗: ' + err.message));
@@ -128,6 +137,18 @@ cancelEditBtn.addEventListener('click', () => {
   adminPanel.style.display = 'none';
 });
 
+filterGrammarBtn.addEventListener('click', () => setFilter('grammar'));
+filterAdverbBtn.addEventListener('click', () => setFilter('adverb'));
+
+function setFilter(type) {
+  currentFilter = type;
+  filterGrammarBtn.classList.toggle('on', type === 'grammar');
+  filterAdverbBtn.classList.toggle('on', type === 'adverb');
+  sectionHeadJp.textContent = type === 'grammar' ? '文法コーナー' : '副詞コーナー';
+  sectionHeadKr.textContent = type === 'grammar' ? '문법 돋보기' : '부사 돋보기';
+  renderList();
+}
+
 auth.onAuthStateChanged(user => {
   isAdmin = !!(user && user.uid === ADMIN_UID);
   adminToggleBtn.style.display = isAdmin ? 'flex' : 'none';
@@ -138,9 +159,12 @@ auth.onAuthStateChanged(user => {
 
 function resetForm() {
   editingId = null;
-  ['fEp','fTitle','fImg','fBubble','fBubbleKr','fQuizQ','fOpt0','fOpt1','fOpt2','fOpt3','fChatKr','fChat'].forEach(id => document.getElementById(id).value = '');
-  document.querySelector('input[name="correctOpt"][value="0"]').checked = true;
-  panelTitle.textContent = '✎ 新しいエピソードを追加';
+  document.getElementById('fType').value = currentFilter;
+  document.getElementById('fHeadword').value = '';
+  document.getElementById('fMeaningJp').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('fExample').value = '';
+  panelTitle.textContent = '✎ 新しい項目を追加';
   submitBtn.textContent = '投稿する';
   cancelEditBtn.style.display = 'none';
 }
@@ -149,17 +173,12 @@ function startEdit(id) {
   const d = lastDocs.find(x => x.id === id);
   if (!d) return;
   editingId = id;
-  document.getElementById('fEp').value = d.ep || '';
-  document.getElementById('fTitle').value = d.title || '';
-  document.getElementById('fImg').value = d.img || '';
-  document.getElementById('fBubble').value = d.bubble || '';
-  document.getElementById('fBubbleKr').value = d.bubbleKr || '';
-  document.getElementById('fQuizQ').value = d.quizQ || '';
-  (d.opts || []).forEach((v, i) => { const el = document.getElementById('fOpt'+i); if (el) el.value = v || ''; });
-  document.querySelector('input[name="correctOpt"][value="' + (d.correctIdx || 0) + '"]').checked = true;
-  document.getElementById('fChatKr').value = d.chatKr || '';
-  document.getElementById('fChat').value = d.chat || '';
-  panelTitle.textContent = '✎ エピソードを編集';
+  document.getElementById('fType').value = d.type || 'grammar';
+  document.getElementById('fHeadword').value = d.headword || '';
+  document.getElementById('fMeaningJp').value = d.meaningJp || '';
+  document.getElementById('fDesc').value = d.desc || '';
+  document.getElementById('fExample').value = d.example || '';
+  panelTitle.textContent = '✎ 項目を編集';
   submitBtn.textContent = '更新する';
   cancelEditBtn.style.display = 'inline';
   adminPanel.style.display = 'block';
@@ -169,7 +188,7 @@ function startEdit(id) {
 async function deleteItem(id) {
   if (!confirm('本当に削除しますか？')) return;
   try {
-    await db.collection('manga').doc(id).delete();
+    await db.collection('lexiconEntries').doc(id).delete();
   } catch (err) {
     alert('削除失敗: ' + err.message);
   }
@@ -177,27 +196,23 @@ async function deleteItem(id) {
 
 submitBtn.addEventListener('click', async () => {
   if (!isAdmin) return;
-  const ep = document.getElementById('fEp').value.trim();
-  const title = document.getElementById('fTitle').value.trim();
-  const img = document.getElementById('fImg').value.trim();
-  const bubble = document.getElementById('fBubble').value.trim();
-  const bubbleKr = document.getElementById('fBubbleKr').value.trim();
-  const quizQ = document.getElementById('fQuizQ').value.trim();
-  const opts = [0,1,2,3].map(i => document.getElementById('fOpt'+i).value.trim());
-  const correctIdx = Number(document.querySelector('input[name="correctOpt"]:checked').value);
-  const chatKr = document.getElementById('fChatKr').value.trim();
-  const chat = document.getElementById('fChat').value.trim();
+  const type = document.getElementById('fType').value;
+  const headword = document.getElementById('fHeadword').value.trim();
+  const meaningJp = document.getElementById('fMeaningJp').value.trim();
+  const desc = document.getElementById('fDesc').value.trim();
+  const example = document.getElementById('fExample').value.trim();
 
-  if (!title) { alert('タイトルを入力してください。'); return; }
+  if (!headword) { alert('見出し語を入力してください。'); return; }
+  if (!meaningJp) { alert('意味・要約を入力してください。'); return; }
 
-  const data = { ep, title, img, bubble, bubbleKr, quizQ, opts, correctIdx, chatKr, chat };
+  const data = { type, headword, meaningJp, desc, example };
   submitBtn.disabled = true;
   try {
     if (editingId) {
-      await db.collection('manga').doc(editingId).update(data);
+      await db.collection('lexiconEntries').doc(editingId).update(data);
     } else {
       data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      await db.collection('manga').add(data);
+      await db.collection('lexiconEntries').add(data);
     }
     resetForm();
     adminPanel.style.display = 'none';
@@ -208,7 +223,7 @@ submitBtn.addEventListener('click', async () => {
   }
 });
 
-db.collection('manga').orderBy('createdAt', 'desc').limit(100)
+db.collection('lexiconEntries').orderBy('createdAt', 'desc').limit(200)
   .onSnapshot(snapshot => {
     lastDocs = snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()));
     renderList();
@@ -218,45 +233,58 @@ db.collection('manga').orderBy('createdAt', 'desc').limit(100)
   });
 
 function renderList() {
-  if (!lastDocs.length) {
-    itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">📝</div><div class="cs-text"><div class="jp">準備中です</div></div></div>';
+  const filtered = lastDocs.filter(d => (d.type || 'grammar') === currentFilter);
+
+  if (!filtered.length) {
+    itemList.innerHTML = '<div class="coming-soon"><div class="cs-icon">🔍</div><div class="cs-text"><div class="jp">準備中です</div></div></div>';
     itemCount.textContent = '0';
     return;
   }
-  itemCount.textContent = lastDocs.length + '/∞';
+  itemCount.textContent = filtered.length + '/∞';
   itemList.innerHTML = '';
-  lastDocs.forEach(d => {
-    const date = d.createdAt ? d.createdAt.toDate() : new Date();
-    const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0');
-    const isNew = (Date.now() - date.getTime()) < 7 * 24 * 60 * 60 * 1000; 
-    const row = document.createElement('div');
-    row.className = 'toon-item';
-    row.style.cursor = 'pointer';
-    row.innerHTML = `
-      <img class="thumb" src="${d.img || 'koara_logo.png'}" alt="" onerror="this.src='koara_logo.png'">
-      <div class="toon-item-body">
-        <div class="ep-tag">#${escapeHtml(d.ep || '')}</div>
-        <div class="jp">${escapeHtml(d.title)}</div>
-        <div class="date">${isNew ? '<span class="new-badge">NEW</span> ' : ''}${dateStr}</div>
+  filtered.forEach(d => {
+    const isNew = d.createdAt && (Date.now() - d.createdAt.toDate().getTime()) < 7 * 24 * 60 * 60 * 1000;
+    const card = document.createElement('div');
+    card.className = 'lex-card';
+    const tagClass = d.type === 'adverb' ? 'adverb' : 'grammar';
+    const tagLabel = d.type === 'adverb' ? '副詞' : '文法';
+    const askUrl = 'board.html?tag=' + encodeURIComponent(d.headword || '');
+    card.innerHTML = `
+      <div class="lex-top">
+        <span class="lex-tag ${tagClass}">${tagLabel}</span>
+        <div class="lex-body">
+          <div class="head-row">
+            <span class="kr-word">${escapeHtml(d.headword)}</span>
+            <span class="jp-word">${escapeHtml(d.meaningJp || '')}</span>
+            ${isNew ? '<span class="new-badge">NEW</span>' : ''}
+          </div>
+          ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
+          ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
+        </div>
+      </div>
+      <div class="lex-actions">
+        <a class="ask-btn" href="${askUrl}">🙋 質問・体験を書く</a>
+        <span class="ask-caption">わからないことを質問したり、迷った体験を教えてください。</span>
       </div>
     `;
-    row.addEventListener('click', () => { window.location.href = 'manga-detail.html?id=' + d.id; });
-
     if (isAdmin) {
       const actions = document.createElement('div');
       actions.className = 'item-actions';
+      actions.style.position = 'absolute';
+      actions.style.top = '10px';
+      actions.style.right = '10px';
       actions.innerHTML = `<button class="icon-btn edit-btn" title="編集">✎</button><button class="icon-btn delete-btn" title="削除">🗑</button>`;
-      actions.querySelector('.edit-btn').addEventListener('click', (e) => { e.stopPropagation(); startEdit(d.id); });
-      actions.querySelector('.delete-btn').addEventListener('click', (e) => { e.stopPropagation(); deleteItem(d.id); });
-      row.appendChild(actions);
+      actions.querySelector('.edit-btn').addEventListener('click', () => startEdit(d.id));
+      actions.querySelector('.delete-btn').addEventListener('click', () => deleteItem(d.id));
+      card.appendChild(actions);
     }
-    itemList.appendChild(row);
+    itemList.appendChild(card);
   });
 }
 
 function escapeHtml(str) {
   const div = document.createElement('div');
-  div.textContent = str;
+  div.textContent = str || '';
   return div.innerHTML;
 }
 
@@ -264,7 +292,7 @@ function escapeHtml(str) {
 db.collection('notices').orderBy('createdAt', 'desc').limit(1).get().then(snap => {
   const banner = document.getElementById('topNoticeBanner');
   if (!banner || snap.empty) return;
-    const top = snap.docs[0].data();
+  const top = snap.docs[0].data();
   const esc = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
   const createdMs = top.createdAt ? top.createdAt.toDate().getTime() : 0;
   const isNew = top.tag === 'NEW' && (Date.now() - createdMs) < 7 * 24 * 60 * 60 * 1000;

@@ -44,6 +44,7 @@
     <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
     <a class="tab" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
     <a class="tab" href="flashcards.html"><span class="jp">フラッシュカード</span><span class="kr">플래시카드</span></a>
+    <a class="tab" href="grammar-adverb.html"><span class="jp">文法・副詞</span><span class="kr">문법・부사</span></a>
     <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
     <a class="tab active" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
     <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
@@ -66,6 +67,7 @@
 
       <!-- 글쓰기 영역 (로그인 불필요, 누구나 작성 가능) -->
       <div class="board-write" id="writeArea">
+        <span class="board-tag-chip" id="tagChip" style="display:none;"></span>
         <input type="text" id="nicknameInput" placeholder="ニックネーム（空欄なら匿名）" style="width:100%; box-sizing:border-box; margin-bottom:8px; padding:10px 12px; border-radius:10px; border:1px solid #eee0d2; font-family:inherit; font-size:12px;">
         <textarea id="postBody" placeholder="自由に書き込んでください（韓国語・日本語どちらでもOK）"></textarea>
         <button class="post-btn" id="postBtn">投稿する</button>
@@ -105,6 +107,15 @@ let lastPostTime = 0;
 let isAdmin = false;
 let lastDocs = [];
 
+// 문법·부사 코너에서 태그를 달고 넘어온 경우 처리
+const urlTag = new URLSearchParams(location.search).get('tag');
+const tagChip = document.getElementById('tagChip');
+if (urlTag) {
+  tagChip.style.display = 'inline-flex';
+  tagChip.textContent = '🏷 ' + urlTag + ' 関連';
+  postBody.placeholder = 'この表現について、質問や体験を書いてください。（韓国語・日本語どちらでも大丈夫です）';
+}
+
 // 관리자 전용 로그인 (삭제 권한 확인용, 글쓰기와는 무관)
 adminLoginBtn.addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログインに失敗しました: ' + err.message));
@@ -142,12 +153,14 @@ postBtn.addEventListener('click', async () => {
 
   postBtn.disabled = true;
   try {
-    await db.collection('posts').add({
+    const postData = {
       body: text,
       authorName: nickname || '匿名',
       authorPhoto: '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    };
+    if (urlTag) postData.tag = urlTag;
+    await db.collection('posts').add(postData);
     postBody.value = '';
     lastPostTime = now;
   } catch (err) {
@@ -208,7 +221,7 @@ function renderList() {
         ${isNew ? '<span class="new-badge">NEW</span>' : ''}
         <span class="date">${dateStr}</span>
       </div>
-      <div class="body">${escapeHtml(p.body)}</div>
+      <div class="body">${p.tag ? `<span class="post-tag-badge">🏷 ${escapeHtml(p.tag)}</span>` : ''}${escapeHtml(p.body)}</div>
       ${replies.length ? `<div class="reply-list">${repliesHtml}</div>` : ''}
       <div class="reply-toggle" data-id="${p.id}">返信する</div>
       <div class="reply-form" id="replyForm-${p.id}" style="display:none;">

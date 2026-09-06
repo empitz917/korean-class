@@ -833,3 +833,50 @@ a { color:inherit; }
   .book-meta { font-size:11.5px; }
 }
 
+
+/* ===== 文法・副詞コーナー（돋보기） ===== */
+.lex-filter { display:flex; gap:8px; margin-bottom:14px; }
+.lex-filter button {
+  flex:1; border:1.5px solid #E3D6C6; background:#fff; border-radius:20px; padding:9px 0;
+  font-family:'Do Hyeon', sans-serif; font-size:13px; color:#a8907a; cursor:pointer;
+}
+.lex-filter button.on { background:#C25B3E; border-color:#C25B3E; color:#fff; }
+
+.lex-card {
+  display:flex; flex-direction:column; gap:8px; background:#fff; border:1.5px solid #F0E6D8;
+  border-radius:12px; padding:12px; position:relative;
+}
+.lex-top { display:flex; align-items:flex-start; gap:10px; }
+.lex-tag {
+  flex:0 0 auto; font-size:9px; font-weight:800; color:#fff; border-radius:8px; padding:4px 8px;
+  font-family:'Do Hyeon', sans-serif;
+}
+.lex-tag.grammar { background:#C25B3E; }
+.lex-tag.adverb { background:#8B7BC7; }
+.lex-body { flex:1; min-width:0; }
+.lex-body .head-row { display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+.lex-body .kr-word { font-family:'Do Hyeon', sans-serif; font-size:15px; color:#4a3a30; }
+.lex-body .jp-word { font-size:10.5px; color:#a8907a; }
+.lex-body .desc { font-size:11px; color:#7a5c4c; margin-top:3px; line-height:1.5; }
+.lex-body .ex { font-size:10.5px; color:#C25B3E; margin-top:5px; background:#FFF3E6; border-radius:8px; padding:5px 8px; }
+
+.lex-actions {
+  display:flex; flex-direction:column; align-items:flex-end; gap:4px;
+  border-top:1px dashed #F0E6D8; padding-top:8px;
+}
+.ask-btn {
+  display:inline-flex; align-items:center; gap:4px; font-family:'Do Hyeon', sans-serif; font-size:11.5px;
+  color:#C25B3E; background:#FFF3E6; border:1.5px solid #F6D9C0; border-radius:16px; padding:6px 12px;
+  cursor:pointer; text-decoration:none;
+}
+.ask-caption { font-size:9.5px; color:#a8907a; line-height:1.4; text-align:right; }
+
+/* 게시판 - 문법·부사 코너에서 태그를 달고 넘어왔을 때 */
+.board-tag-chip {
+  display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:800; color:#fff;
+  background:#8B7BC7; border-radius:8px; padding:4px 9px; margin-bottom:8px; font-family:'Do Hyeon', sans-serif;
+}
+.post-tag-badge {
+  display:inline-block; font-size:9px; font-weight:800; color:#fff; background:#8B7BC7; border-radius:6px;
+  padding:2px 7px; margin-right:6px; font-family:'Do Hyeon', sans-serif;
+}
