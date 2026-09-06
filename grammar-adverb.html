@@ -258,8 +258,11 @@ function renderList() {
             <span class="jp-word">${escapeHtml(d.meaningJp || '')}</span>
             ${isNew ? '<span class="new-badge">NEW</span>' : ''}
           </div>
-          ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
-          ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
+          <div class="lex-collapse-inner">
+            ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
+            ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
+          </div>
+          <button class="lex-toggle">続きを読む ▾</button>
         </div>
       </div>
       <div class="lex-actions">
@@ -279,6 +282,18 @@ function renderList() {
       card.appendChild(actions);
     }
     itemList.appendChild(card);
+
+    const collapseInner = card.querySelector('.lex-collapse-inner');
+    const toggleBtn = card.querySelector('.lex-toggle');
+    if (collapseInner && toggleBtn) {
+      if (collapseInner.scrollHeight > collapseInner.clientHeight + 4) {
+        toggleBtn.style.display = 'block';
+        toggleBtn.addEventListener('click', () => {
+          const expanded = collapseInner.classList.toggle('expanded');
+          toggleBtn.textContent = expanded ? '閉じる ▴' : '続きを読む ▾';
+        });
+      }
+    }
   });
 }
 

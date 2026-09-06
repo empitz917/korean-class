@@ -838,7 +838,7 @@ a { color:inherit; }
 .lex-filter { display:flex; gap:8px; margin-bottom:14px; }
 .lex-filter button {
   flex:1; border:1.5px solid #E3D6C6; background:#fff; border-radius:20px; padding:9px 0;
-  font-family:'Do Hyeon', sans-serif; font-size:13px; color:#a8907a; cursor:pointer;
+  font-family:'Do Hyeon', sans-serif; font-size:16px; color:#a8907a; cursor:pointer;
 }
 .lex-filter button.on { background:#C25B3E; border-color:#C25B3E; color:#fff; }
 
@@ -848,35 +848,47 @@ a { color:inherit; }
 }
 .lex-top { display:flex; align-items:flex-start; gap:10px; }
 .lex-tag {
-  flex:0 0 auto; font-size:9px; font-weight:800; color:#fff; border-radius:8px; padding:4px 8px;
+  flex:0 0 auto; font-size:12px; font-weight:800; color:#fff; border-radius:8px; padding:4px 9px;
   font-family:'Do Hyeon', sans-serif;
 }
 .lex-tag.grammar { background:#C25B3E; }
 .lex-tag.adverb { background:#8B7BC7; }
 .lex-body { flex:1; min-width:0; }
-.lex-body .head-row { display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
-.lex-body .kr-word { font-family:'Do Hyeon', sans-serif; font-size:15px; color:#4a3a30; }
-.lex-body .jp-word { font-size:10.5px; color:#a8907a; }
-.lex-body .desc { font-size:11px; color:#7a5c4c; margin-top:3px; line-height:1.5; }
-.lex-body .ex { font-size:10.5px; color:#C25B3E; margin-top:5px; background:#FFF3E6; border-radius:8px; padding:5px 8px; }
+.lex-body .head-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.lex-body .kr-word { font-family:'Do Hyeon', sans-serif; font-size:20px; color:#4a3a30; }
+.lex-body .jp-word { font-size:14px; color:#a8907a; }
+.lex-body .desc { font-size:14.5px; color:#7a5c4c; margin-top:3px; line-height:1.7; white-space:pre-line; }
+.lex-body .ex { font-size:14px; color:#C25B3E; margin-top:5px; background:#FFF3E6; border-radius:8px; padding:7px 10px; white-space:pre-line; line-height:1.7; }
+
+.lex-collapse-inner { max-height:130px; overflow:hidden; position:relative; }
+.lex-collapse-inner.expanded { max-height:none; }
+.lex-collapse-inner:not(.expanded)::after {
+  content:''; position:absolute; left:0; right:0; bottom:0; height:30px;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), #fff);
+  pointer-events:none;
+}
+.lex-toggle {
+  display:none; margin-top:6px; font-family:'Do Hyeon', sans-serif; font-size:14px; color:#C25B3E;
+  background:none; border:none; padding:0; cursor:pointer;
+}
 
 .lex-actions {
   display:flex; flex-direction:column; align-items:flex-end; gap:4px;
   border-top:1px dashed #F0E6D8; padding-top:8px;
 }
 .ask-btn {
-  display:inline-flex; align-items:center; gap:4px; font-family:'Do Hyeon', sans-serif; font-size:11.5px;
-  color:#C25B3E; background:#FFF3E6; border:1.5px solid #F6D9C0; border-radius:16px; padding:6px 12px;
+  display:inline-flex; align-items:center; gap:4px; font-family:'Do Hyeon', sans-serif; font-size:14px;
+  color:#C25B3E; background:#FFF3E6; border:1.5px solid #F6D9C0; border-radius:16px; padding:7px 14px;
   cursor:pointer; text-decoration:none;
 }
-.ask-caption { font-size:9.5px; color:#a8907a; line-height:1.4; text-align:right; }
+.ask-caption { font-size:12.5px; color:#a8907a; line-height:1.5; text-align:right; }
 
 /* 게시판 - 문법·부사 코너에서 태그를 달고 넘어왔을 때 */
 .board-tag-chip {
-  display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:800; color:#fff;
-  background:#8B7BC7; border-radius:8px; padding:4px 9px; margin-bottom:8px; font-family:'Do Hyeon', sans-serif;
+  display:inline-flex; align-items:center; gap:4px; font-size:13px; font-weight:800; color:#fff;
+  background:#8B7BC7; border-radius:8px; padding:5px 11px; margin-bottom:8px; font-family:'Do Hyeon', sans-serif;
 }
 .post-tag-badge {
-  display:inline-block; font-size:9px; font-weight:800; color:#fff; background:#8B7BC7; border-radius:6px;
-  padding:2px 7px; margin-right:6px; font-family:'Do Hyeon', sans-serif;
+  display:inline-block; font-size:12px; font-weight:800; color:#fff; background:#8B7BC7; border-radius:6px;
+  padding:3px 9px; margin-right:6px; font-family:'Do Hyeon', sans-serif;
 }
