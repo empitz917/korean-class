@@ -362,5 +362,6 @@ function transformKoala() {
   el.classList.add('koala-pop');
 }
 </script>
+  <script> document.querySelectorAll('.qg-new-badge[data-new-until]').forEach(function(el){ var until = new Date(el.dataset.newUntil + 'T23:59:59'); if (new Date() > until) { el.style.display = 'none'; } }); </script>
 </body>
 </html>
