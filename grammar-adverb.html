@@ -76,6 +76,7 @@
         <div class="admin-field"><label>意味・要約（日本語）</label><input type="text" id="fMeaningJp" placeholder="観察→変化・結果"></div>
         <div class="admin-field"><label>説明（日本語）</label><textarea id="fDesc" placeholder="観察した事実の後に続く変化や結果を表す。"></textarea></div>
         <div class="admin-field"><label>例文（韓国語）</label><input type="text" id="fExample" placeholder="아까는 춥더니 지금은 덥네요."></div>
+        <div class="admin-field"><label>参加を促す一言（任意）</label><input type="text" id="fPrompt" placeholder="여러분은 어떤 문장을 만드셨어요?"></div>
         <button class="admin-submit-btn" id="submitBtn">投稿する</button>
         <button class="cancel-edit-btn" id="cancelEditBtn" style="display:none;">編集をキャンセル</button>
       </div>
@@ -164,6 +165,7 @@ function resetForm() {
   document.getElementById('fMeaningJp').value = '';
   document.getElementById('fDesc').value = '';
   document.getElementById('fExample').value = '';
+  document.getElementById('fPrompt').value = '';
   panelTitle.textContent = '✎ 新しい項目を追加';
   submitBtn.textContent = '投稿する';
   cancelEditBtn.style.display = 'none';
@@ -178,6 +180,7 @@ function startEdit(id) {
   document.getElementById('fMeaningJp').value = d.meaningJp || '';
   document.getElementById('fDesc').value = d.desc || '';
   document.getElementById('fExample').value = d.example || '';
+  document.getElementById('fPrompt').value = d.prompt || '';
   panelTitle.textContent = '✎ 項目を編集';
   submitBtn.textContent = '更新する';
   cancelEditBtn.style.display = 'inline';
@@ -201,11 +204,12 @@ submitBtn.addEventListener('click', async () => {
   const meaningJp = document.getElementById('fMeaningJp').value.trim();
   const desc = document.getElementById('fDesc').value.trim();
   const example = document.getElementById('fExample').value.trim();
+  const prompt = document.getElementById('fPrompt').value.trim();
 
   if (!headword) { alert('見出し語を入力してください。'); return; }
   if (!meaningJp) { alert('意味・要約を入力してください。'); return; }
 
-  const data = { type, headword, meaningJp, desc, example };
+  const data = { type, headword, meaningJp, desc, example, prompt };
   submitBtn.disabled = true;
   try {
     if (editingId) {
@@ -263,6 +267,7 @@ function renderList() {
             ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
           </div>
           <button class="lex-toggle">続きを読む ▾</button>
+          ${d.prompt ? `<div class="lex-prompt"><span class="lp-icon">💭</span><span>${escapeHtml(d.prompt)}</span></div>` : ''}
         </div>
       </div>
       <div class="lex-actions">

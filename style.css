@@ -871,6 +871,12 @@ a { color:inherit; }
   display:none; margin-top:6px; font-family:'Do Hyeon', sans-serif; font-size:14px; color:#C25B3E;
   background:none; border:none; padding:0; cursor:pointer;
 }
+.lex-prompt {
+  display:flex; align-items:center; gap:7px; background:#EAE0F6; border:1.5px solid #D8C4F0;
+  border-radius:10px; padding:10px 13px; margin-top:8px;
+  font-family:'Do Hyeon', sans-serif; font-size:15px; color:#6B4FA0; line-height:1.5;
+}
+.lex-prompt .lp-icon { font-size:17px; flex:0 0 auto; }
 
 .lex-actions {
   display:flex; flex-direction:column; align-items:flex-end; gap:4px;
