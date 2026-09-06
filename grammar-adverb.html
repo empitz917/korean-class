@@ -278,20 +278,7 @@ function renderList() {
             ${isNew ? '<span class="new-badge">NEW</span>' : ''}
           </div>
           <div class="lex-collapse-inner">
-            ${d.type === 'adverb' ? `
-            <div class="lex-bilingual">
-              <div class="lb-col lb-kr">
-                <div class="lb-caption">한국어</div>
-                ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
-                ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
-              </div>
-              ${d.jaTrans ? `
-              <div class="lb-col lb-jp">
-                <div class="lb-caption">日本語</div>
-                <div class="lb-jp-text">${escapeHtml(d.jaTrans)}</div>
-              </div>` : ''}
-            </div>
-            ` : `
+            ${d.type === 'adverb' ? buildBilingualGrid(d) : `
             ${d.desc ? `<div class="desc">${escapeHtml(d.desc)}</div>` : ''}
             ${d.example ? `<div class="ex">${escapeHtml(d.example)}</div>` : ''}
             `}
@@ -336,6 +323,24 @@ function renderList() {
       }
     }
   });
+}
+
+function splitParagraphs(text) {
+  return (text || '').split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+}
+
+function buildBilingualGrid(d) {
+  const krText = [d.desc, d.example].filter(Boolean).join('\n\n');
+  const krParas = splitParagraphs(krText);
+  const jpParas = splitParagraphs(d.jaTrans);
+  if (!krParas.length && !jpParas.length) return '';
+
+  const rows = Math.max(krParas.length, jpParas.length);
+  let cells = `<div class="lb-caption">한국어</div><div class="lb-caption">日本語</div>`;
+  for (let i = 0; i < rows; i++) {
+    cells += `<div class="lb-kr-line">${escapeHtml(krParas[i] || '')}</div><div class="lb-jp-line">${escapeHtml(jpParas[i] || '')}</div>`;
+  }
+  return `<div class="lex-bilingual-grid">${cells}</div>`;
 }
 
 function escapeHtml(str) {
