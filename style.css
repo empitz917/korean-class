@@ -424,6 +424,8 @@ a { color:inherit; }
   }
   /* 본문(퀵메뉴+목록+소개)만 가운데 정렬 폭 제한 */
   .page-home .home-wrap { max-width:1080px; margin:0 auto; }
+  /* 탭 항목끼리 화면 끝까지 벌어지지 않도록 가운데로 모음 (풀블리드라 space-between이면 간격이 과해짐) */
+  .page-home .tabbar { justify-content:center; }
 
   .site-header, .detail-header { padding:24px 48px; }
   .site-header .jp, .detail-title .jp { font-size:24px; }
@@ -524,11 +526,6 @@ a { color:inherit; }
   .hero-banner .jp { font-size:36px; }
   .hero-banner .kr { font-size:22px; }
   .hero-banner .cta-row a { font-size:14px; padding:12px 28px; }
-
-  .quick-grid { grid-template-columns:repeat(6, 1fr); padding:22px 48px 10px; gap:14px; }
-  .quick-grid .qg-icon { width:46px; height:46px; font-size:20px; }
-  .quick-grid .jp { font-size:12.5px; }
-  .quick-grid .kr { font-size:10.5px; }
 
   .home-widget { padding:20px 48px 6px; }
   .home-widget .widget-head .wh-icon { font-size:13px; }
@@ -714,31 +711,29 @@ a { color:inherit; }
   box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* 빠른 메뉴 그리드 */
+/* 빠른 메뉴 그리드 — 화면 폭에 맞춰 자연스럽게 줄 수가 늘어나는 작고 깔끔한 카드 */
 .quick-grid {
-  display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;
-  padding:18px 18px 6px; background:#FFF8F0;
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(92px, 1fr)); gap:8px;
+  padding:16px 18px 6px; background:#FFF8F0;
 }
 .quick-grid a {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  background:#fff; border-radius:14px; padding:14px 6px;
-  text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  background:#fff; border-radius:12px; padding:12px 6px 10px;
+  text-decoration:none; box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  position:relative;
 }
 .quick-grid .qg-icon {
   position:relative;
-  width:38px; height:38px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; font-size:17px;
-}
-.quick-grid a {
-  position:relative;
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-size:14px;
 }
 .qg-new-badge {
   position:absolute; top:6px; right:8px;
   font-size:7.5px; font-weight:800; color:#fff; background:#F0997B;
   padding:2px 5px; border-radius:6px; letter-spacing:0.2px; z-index:2;
 }
-.quick-grid .jp { font-size:11px; font-weight:700; color:#4a3a30; }
-.quick-grid .kr { font-size:9px; color:#a89a8c; }
+.quick-grid .jp { font-size:10.5px; font-weight:700; color:#4a3a30; }
+.quick-grid .kr { font-size:8.5px; color:#a89a8c; }
 
 /* 퀵메뉴 = 카테고리 선택 탭: 선택된 항목 표시 */
 .quick-grid a.active .qg-icon { box-shadow:0 0 0 2px #C25B3E; }
@@ -803,8 +798,6 @@ a { color:inherit; }
 .corner-card .jp { font-size:13px; }
 .corner-card .kr { font-size:11px; }
 .letter-card .ch { font-size:18px; }
-.quick-grid .jp { font-size:13px; }
-.quick-grid .kr { font-size:11px; }
 .home-widget .widget-head .jp { font-size:15px; }
 .home-widget .widget-head .kr { font-size:12px; }
 .widget-row .wr-text .jp { font-size:13.5px; }
@@ -831,8 +824,6 @@ a { color:inherit; }
   .corner-card .jp { font-size:16px; }
   .corner-card .kr { font-size:13px; }
   .letter-card .ch { font-size:23px; }
-  .quick-grid .jp { font-size:15px; }
-  .quick-grid .kr { font-size:12.5px; }
   .home-widget .widget-head .jp { font-size:18px; }
   .home-widget .widget-head .kr { font-size:14px; }
   .about-intro .jp { font-size:13.5px; }
