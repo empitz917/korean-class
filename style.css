@@ -859,7 +859,7 @@ a { color:inherit; }
 }
 
 
-/* ===== 文法・副詞コーナー（돋보기） ===== */
+/* ===== 文法 / 副詞コーナー（돋보기） ===== */
 .lex-filter { display:flex; gap:8px; margin-bottom:14px; }
 .lex-filter button {
   flex:1; border:1.5px solid #E3D6C6; background:#fff; border-radius:20px; padding:9px 0;
