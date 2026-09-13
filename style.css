@@ -632,7 +632,7 @@ a { color:inherit; }
 .hero-banner .k.peek { z-index:3; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .teacher-tag {
-  position:absolute; top:12%; left:calc(50% - 164px); z-index:4;
+  position:absolute; top:6%; left:calc(50% - 164px); z-index:4;
   font-family:'Single Day', cursive; font-size:52px; color:#fff;
   transform:rotate(-10deg); text-shadow:0 2px 6px rgba(0,0,0,0.25);
   text-align:center;
