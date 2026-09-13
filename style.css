@@ -28,7 +28,7 @@ a { color:inherit; }
 }
 .site-header a.logo-link { display:flex; align-items:center; gap:10px; text-decoration:none; flex:1; }
 .site-header img { width:38px; height:38px; object-fit:contain; }
-.site-header .jp { font-family:"Single Day", cursive; font-size:17px; color:#C25B3E; line-height:1.2; }
+.site-header .jp { font-family:"Noto Sans JP", sans-serif; font-size:17px; color:#C25B3E; line-height:1.2; }
 
 .mail-btn {
   flex:0 0 auto;
@@ -194,7 +194,7 @@ a { color:inherit; }
 /* ==== 상세 페이지 헤더 (뒤로가기형) ==== */
 .detail-header { display:flex; align-items:center; gap:10px; background:#FFD9C0; padding:14px 18px; }
 .detail-header a.back { font-size:20px; color:#C25B3E; font-weight:700; line-height:1; text-decoration:none; }
-.detail-title .jp { font-family:"Single Day", cursive; font-size:16px; color:#C25B3E; line-height:1.2; }
+.detail-title .jp { font-family:"Noto Sans JP", sans-serif; font-size:16px; color:#C25B3E; line-height:1.2; }
 .detail-title .kr { font-size:9px; color:#8A5A45; }
 
 .breadcrumb { padding:9px 18px; font-size:10px; color:#a89a8c; background:#fff; border-bottom:1px solid #F0EDE4; }
@@ -210,7 +210,7 @@ a { color:inherit; }
 /* ==== 웹툰형 만화 상세 ==== */
 .toon-title { padding:14px 18px 4px; }
 .toon-title .ep { font-size:10px; color:#C25B3E; font-weight:700; letter-spacing:0.5px; }
-.toon-title .jp { font-family:"Single Day", cursive; font-size:19px; color:#4a3a30; margin-top:2px; }
+.toon-title .jp { font-family:"Noto Sans JP", sans-serif; font-size:19px; color:#4a3a30; margin-top:2px; }
 
 .toon-frame {
   margin:10px 18px 0;
@@ -633,7 +633,7 @@ a { color:inherit; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .teacher-tag {
   position:absolute; top:6%; left:calc(50% - 164px); z-index:4;
-  font-family:'Single Day', cursive; font-size:52px; color:#fff;
+  font-family:'Noto Sans JP', sans-serif; font-size:52px; color:#fff;
   transform:rotate(-10deg); text-shadow:0 2px 6px rgba(0,0,0,0.25);
   text-align:center;
 }
@@ -701,7 +701,7 @@ a { color:inherit; }
   60% { transform:scale(1.15) rotate(4deg); opacity:1; }
   100% { transform:scale(1) rotate(0deg); }
 }
-.hero-banner .jp { font-family:'Single Day', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:27px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:6px; }
+.hero-banner .jp { font-family:'Noto Sans JP', sans-serif; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:27px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:6px; }
 .hero-banner .kr { font-family:'Noto Sans KR', sans-serif; font-weight:700; font-size:21px; color:#FFF3EC; margin-top:8px; }
 .hero-banner .cta-row { margin-top:16px; }
 .hero-banner .cta-row a {
@@ -783,12 +783,12 @@ a { color:inherit; }
    사이트 전체 폰트 통일 + 크기 확대 (배너와 맞춤)
    =================================================== */
 .tabbar a.tab .jp {
-  font-family:'Single Day', cursive; font-weight:700; font-size:14px;
+  font-family:'Noto Sans JP', sans-serif; font-weight:700; font-size:14px;
   display:inline-block; color:#7A4C3A; background:#FFF3E6;
   border-radius:20px; padding:4px 12px; margin-bottom:2px; white-space:nowrap;
 }
 .tabbar a.tab.active .jp { color:#C25B3E; background:#FFE3CC; }
-.tabbar a.tab .kr { font-family:'Do Hyeon', sans-serif; font-weight:700; font-size:12px; line-height:1.3; display:block; white-space:nowrap; }
+.tabbar a.tab .kr { font-family:'Noto Sans KR', sans-serif; font-weight:700; font-size:12px; line-height:1.3; display:block; white-space:nowrap; }
 
 /* 모바일 기준 확대 */
 .tabbar a.tab .jp { font-size:14px; }
@@ -863,7 +863,7 @@ a { color:inherit; }
 .lex-filter { display:flex; gap:8px; margin-bottom:14px; }
 .lex-filter button {
   flex:1; border:1.5px solid #E3D6C6; background:#fff; border-radius:20px; padding:9px 0;
-  font-family:'Do Hyeon', sans-serif; font-size:16px; color:#a8907a; cursor:pointer;
+  font-family:'Noto Sans KR', sans-serif; font-size:16px; color:#a8907a; cursor:pointer;
 }
 .lex-filter button.on { background:#C25B3E; border-color:#C25B3E; color:#fff; }
 
@@ -874,18 +874,18 @@ a { color:inherit; }
 .lex-top { display:flex; align-items:flex-start; gap:10px; }
 .lex-tag {
   flex:0 0 auto; font-size:12px; font-weight:800; color:#fff; border-radius:8px; padding:4px 9px;
-  font-family:'Do Hyeon', sans-serif;
+  font-family:'Noto Sans KR', sans-serif;
 }
 .lex-tag.grammar { background:#C25B3E; }
 .lex-tag.adverb { background:#8B7BC7; }
 .lex-body { flex:1; min-width:0; }
 .lex-body .head-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
-.lex-body .kr-word { font-family:'Do Hyeon', sans-serif; font-size:20px; color:#4a3a30; }
+.lex-body .kr-word { font-family:'Noto Sans KR', sans-serif; font-size:20px; color:#4a3a30; }
 .lex-body .jp-word { font-size:14px; color:#a8907a; }
 .lex-body .desc { font-size:14.5px; color:#7a5c4c; margin-top:3px; line-height:1.7; white-space:pre-line; }
 .lex-body .ex { font-size:14px; color:#C25B3E; margin-top:5px; background:#FFF3E6; border-radius:8px; padding:7px 10px; white-space:pre-line; line-height:1.7; }
 .lex-jatrans-label {
-  font-family:'Do Hyeon', sans-serif; font-size:10.5px; color:#a8907a; margin-top:8px;
+  font-family:'Noto Sans KR', sans-serif; font-size:10.5px; color:#a8907a; margin-top:8px;
   padding-top:8px; border-top:1px dashed #F0E6D8;
 }
 .lex-jatrans {
@@ -898,7 +898,7 @@ a { color:inherit; }
   display:grid; grid-template-columns:1fr 1fr; column-gap:14px; row-gap:14px; margin-top:4px;
 }
 .lex-bilingual-grid .lb-caption {
-  font-family:'Do Hyeon', sans-serif; font-size:11px; color:#c2b5a6;
+  font-family:'Noto Sans KR', sans-serif; font-size:11px; color:#c2b5a6;
 }
 .lex-bilingual-grid .lb-kr-line {
   font-size:16px; color:#4a3a30; line-height:1.75; white-space:pre-line;
@@ -916,7 +916,7 @@ a { color:inherit; }
   pointer-events:none;
 }
 .lex-toggle {
-  display:none; margin-top:6px; font-family:'Do Hyeon', sans-serif; font-size:14px; color:#C25B3E;
+  display:none; margin-top:6px; font-family:'Noto Sans KR', sans-serif; font-size:14px; color:#C25B3E;
   background:none; border:none; padding:0; cursor:pointer;
 }
 .lex-prompt {
@@ -939,7 +939,7 @@ a { color:inherit; }
   border-top:1px dashed #F0E6D8; padding-top:8px;
 }
 .ask-btn {
-  display:inline-flex; align-items:center; gap:4px; font-family:'Do Hyeon', sans-serif; font-size:14px;
+  display:inline-flex; align-items:center; gap:4px; font-family:'Noto Sans KR', sans-serif; font-size:14px;
   color:#C25B3E; background:#FFF3E6; border:1.5px solid #F6D9C0; border-radius:16px; padding:7px 14px;
   cursor:pointer; text-decoration:none;
 }
@@ -948,9 +948,9 @@ a { color:inherit; }
 /* 게시판 - 문법·부사 코너에서 태그를 달고 넘어왔을 때 */
 .board-tag-chip {
   display:inline-flex; align-items:center; gap:4px; font-size:13px; font-weight:800; color:#fff;
-  background:#8B7BC7; border-radius:8px; padding:5px 11px; margin-bottom:8px; font-family:'Do Hyeon', sans-serif;
+  background:#8B7BC7; border-radius:8px; padding:5px 11px; margin-bottom:8px; font-family:'Noto Sans KR', sans-serif;
 }
 .post-tag-badge {
   display:inline-block; font-size:12px; font-weight:800; color:#fff; background:#8B7BC7; border-radius:6px;
-  padding:3px 9px; margin-right:6px; font-family:'Do Hyeon', sans-serif;
+  padding:3px 9px; margin-right:6px; font-family:'Noto Sans KR', sans-serif;
 }
