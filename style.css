@@ -261,7 +261,7 @@ a { color:inherit; }
   80% { transform:translateX(3px); }
 }
 .speech-bubble.flip { animation:bubble-flip 0.4s ease; }
-.speech-bubble.kr-mode { font-family:'Nanum Gothic', sans-serif; font-weight:400; background:#FFF3E6; color:#C25B3E; }
+.speech-bubble.kr-mode { font-family:'Noto Sans KR', sans-serif; font-weight:400; background:#FFF3E6; color:#C25B3E; }
 @keyframes bubble-flip {
   0% { transform:scale(1); }
   50% { transform:scale(0.85); opacity:0.5; }
@@ -414,6 +414,16 @@ a { color:inherit; }
     overflow:hidden;
     min-height:auto;
   }
+
+  /* 홈만 예외: 히어로/탭바가 화면 끝까지 꽉 차는 풀블리드 레이아웃 */
+  body:has(.page-home) { padding:0; }
+  .page-home {
+    max-width:none;
+    border-radius:0;
+    box-shadow:none;
+  }
+  /* 본문(퀵메뉴+목록+소개)만 가운데 정렬 폭 제한 */
+  .page-home .home-wrap { max-width:1080px; margin:0 auto; }
 
   .site-header, .detail-header { padding:24px 48px; }
   .site-header .jp, .detail-title .jp { font-size:24px; }
@@ -620,7 +630,7 @@ a { color:inherit; }
 .hero-banner .main-content { position:relative; z-index:2; }
 .teacher-tag {
   position:absolute; top:18%; left:calc(50% - 164px); z-index:4;
-  font-family:'East Sea Dokdo', cursive; font-size:52px; color:#fff;
+  font-family:'Single Day', cursive; font-size:52px; color:#fff;
   transform:rotate(-10deg); text-shadow:0 2px 6px rgba(0,0,0,0.25);
   text-align:center;
 }
@@ -645,16 +655,27 @@ a { color:inherit; }
   transform:rotate(35deg);
 }
 
-/* SNS 버튼 (배너 CTA 아래 나란히) */
+/* SNS 버튼 (배너 CTA 아래 나란히) — 브랜드 색상 + 라벨로 한눈에 구분되도록 */
 .hero-banner .sns-row {
-  margin-top:12px; display:flex; gap:10px; justify-content:center;
+  margin-top:14px; display:flex; gap:10px; justify-content:center;
 }
-.hero-banner .icon-circle {
-  width:34px; height:34px; border-radius:50%; background:#fff;
-  display:flex; align-items:center; justify-content:center;
-  font-size:15px; text-decoration:none; color:#4a3a30;
-  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+.hero-banner .sns-btn {
+  display:flex; align-items:center; gap:7px;
+  padding:6px 14px 6px 8px; border-radius:20px;
+  text-decoration:none; color:#fff; font-size:12px; font-weight:700;
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+  transition:transform 0.15s ease;
 }
+.hero-banner .sns-btn:hover { transform:translateY(-2px); }
+.hero-banner .sns-btn .sns-ic {
+  width:22px; height:22px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+}
+.hero-banner .sns-btn .sns-ic svg { width:13px; height:13px; }
+.hero-banner .sns-x { background:#111; }
+.hero-banner .sns-x .sns-ic { background:rgba(255,255,255,0.15); }
+.hero-banner .sns-ig { background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7); }
+.hero-banner .sns-ig .sns-ic { background:rgba(255,255,255,0.25); }
 
 /* 불꽃놀이 */
 .fireworks { position:absolute; inset:0; pointer-events:none; z-index:1; overflow:visible; }
@@ -677,7 +698,7 @@ a { color:inherit; }
   60% { transform:scale(1.15) rotate(4deg); opacity:1; }
   100% { transform:scale(1) rotate(0deg); }
 }
-.hero-banner .jp { font-family:'Yomogi', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:27px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:6px; }
+.hero-banner .jp { font-family:'Single Day', cursive; font-weight:700; -webkit-text-stroke:0.6px #fff; font-size:27px; color:#fff; line-height:1.4; text-shadow:0 2px 6px rgba(0,0,0,0.2); margin-top:6px; }
 .hero-banner .kr { font-family:'Noto Sans KR', sans-serif; font-weight:700; font-size:21px; color:#FFF3EC; margin-top:8px; }
 .hero-banner .cta-row { margin-top:16px; }
 .hero-banner .cta-row a {
@@ -712,6 +733,13 @@ a { color:inherit; }
 }
 .quick-grid .jp { font-size:11px; font-weight:700; color:#4a3a30; }
 .quick-grid .kr { font-size:9px; color:#a89a8c; }
+
+/* 퀵메뉴 = 카테고리 선택 탭: 선택된 항목 표시 */
+.quick-grid a.active .qg-icon { box-shadow:0 0 0 2px #C25B3E; }
+.quick-grid a.active .jp { color:#C25B3E; }
+
+/* 히어로/탭바는 화면 전체 폭, 본문(퀵메뉴+목록+소개)만 가운데 정렬된 폭으로 감싸는 래퍼 */
+.home-wrap { }
 
 /* 홈 위젯 섹션 */
 .home-widget { padding:16px 18px 4px; background:#FFF8F0; }
@@ -754,7 +782,7 @@ a { color:inherit; }
    사이트 전체 폰트 통일 + 크기 확대 (배너와 맞춤)
    =================================================== */
 .tabbar a.tab .jp {
-  font-family:'Yomogi', cursive; font-weight:700; font-size:14px;
+  font-family:'Single Day', cursive; font-weight:700; font-size:14px;
   display:inline-block; color:#7A4C3A; background:#FFF3E6;
   border-radius:20px; padding:4px 12px; margin-bottom:2px; white-space:nowrap;
 }
