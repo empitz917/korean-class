@@ -539,6 +539,28 @@ a { color:inherit; }
   .widget-row .wr-thumb { width:44px; height:44px; }
 }
 
+/* ===================================================
+   홈 화면 전용: 900px 이상에서 퀵메뉴(왼쪽)/목록(오른쪽) 2단 레이아웃
+   폭이 넓은 화면에서 좌우 여백 대신 폭 자체를 활용
+   =================================================== */
+@media (min-width: 900px) {
+  .page-home .home-grid {
+    display:grid; grid-template-columns:260px 1fr; gap:24px; align-items:start;
+  }
+  .page-home .home-grid .quick-grid {
+    grid-template-columns:1fr; gap:8px; padding:0; background:transparent;
+  }
+  .page-home .home-grid .quick-grid a {
+    flex-direction:row; align-items:center; justify-content:flex-start;
+    text-align:left; gap:12px; padding:11px 14px;
+  }
+  .page-home .home-grid .quick-grid .qg-text { display:flex; flex-direction:column; gap:1px; }
+  .page-home .home-grid .quick-grid .qg-icon { width:40px; height:40px; font-size:18px; }
+  .page-home .home-grid .quick-grid .jp { font-size:13px; }
+  .page-home .home-grid .quick-grid .kr { font-size:10.5px; }
+  .page-home .home-grid .home-widget { padding:0; background:transparent; }
+}
+
 @media (min-width: 1000px) {
   .cards-grid { grid-template-columns:repeat(6, 1fr); }
 }
@@ -733,6 +755,7 @@ a { color:inherit; }
 }
 .quick-grid .jp { font-size:11px; font-weight:700; color:#4a3a30; }
 .quick-grid .kr { font-size:9px; color:#a89a8c; }
+.qg-text { display:contents; } /* 900px 미만: 기존과 동일하게 아이콘 아래 세로 텍스트 */
 
 /* 퀵메뉴 = 카테고리 선택 탭: 선택된 항목 표시 */
 .quick-grid a.active .qg-icon { box-shadow:0 0 0 2px #C25B3E; }
@@ -740,6 +763,7 @@ a { color:inherit; }
 
 /* 히어로/탭바는 화면 전체 폭, 본문(퀵메뉴+목록+소개)만 가운데 정렬된 폭으로 감싸는 래퍼 */
 .home-wrap { }
+.home-grid { }
 
 /* 홈 위젯 섹션 */
 .home-widget { padding:16px 18px 4px; background:#FFF8F0; }

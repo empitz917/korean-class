@@ -86,14 +86,15 @@
 
   <!-- 빠른 메뉴 (선택 시 아래 목록도 함께 전환되는 카테고리 탭 역할 겸용) -->
   <div class="home-wrap">
+  <div class="home-grid">
   <div class="quick-grid">
-    <a href="games.html" id="qgGames" data-cat="games"><span class="qg-new-badge" data-new-until="2026-09-12">NEW</span><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="jp">ゲーム</div><div class="kr">게임</div></a>
-    <a href="manga.html" id="qgManga" data-cat="manga"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></a>
-    <a href="flashcards.html" id="qgCards" data-cat="cards"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
-    <a href="grammar-adverb.html" id="qgLexicon" data-cat="grammar"><div class="qg-icon" style="background:#EAE0F6;">🔍</div><div class="jp">文法・副詞</div><div class="kr">문법・부사</div></a>
-    <a href="materials.html" id="qgMaterials" data-cat="materials"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
-    <a href="board.html" id="qgBoard" data-cat="board"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
-    <a href="notices.html" id="qgNotices" data-cat="notice"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="jp">お知らせ</div><div class="kr">공지</div></a>
+    <a href="games.html" id="qgGames" data-cat="games"><span class="qg-new-badge" data-new-until="2026-09-12">NEW</span><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="qg-text"><div class="jp">ゲーム</div><div class="kr">게임</div></div></a>
+    <a href="manga.html" id="qgManga" data-cat="manga"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="qg-text"><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></div></a>
+    <a href="flashcards.html" id="qgCards" data-cat="cards"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="qg-text"><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></div></a>
+    <a href="grammar-adverb.html" id="qgLexicon" data-cat="grammar"><div class="qg-icon" style="background:#EAE0F6;">🔍</div><div class="qg-text"><div class="jp">文法・副詞</div><div class="kr">문법・부사</div></div></a>
+    <a href="materials.html" id="qgMaterials" data-cat="materials"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="qg-text"><div class="jp">資料室</div><div class="kr">자료실</div></div></a>
+    <a href="board.html" id="qgBoard" data-cat="board"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="qg-text"><div class="jp">掲示板</div><div class="kr">게시판</div></div></a>
+    <a href="notices.html" id="qgNotices" data-cat="notice"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="qg-text"><div class="jp">お知らせ</div><div class="kr">공지</div></div></a>
   </div>
 
   <!-- 선택된 카테고리의 최신 소식만 표시하는 통합 위젯 -->
@@ -107,6 +108,7 @@
     <div class="widget-body" id="feedBody">
       <div class="home-empty-mini">読み込み中...</div>
     </div>
+  </div>
   </div>
 
   <!-- 선생님이 계신 곳 -->
@@ -227,7 +229,7 @@ function loadCategory(tileId, collectionName, cat, limit, rowBuilder, emptyText)
   });
 }
 
-loadCategory('qgNotices', 'notices', 'notice', 3, doc => {
+loadCategory('qgNotices', 'notices', 'notice', 5, doc => {
   const d = doc.data();
   return `<a class="widget-row" href="notices.html">
     <span class="wr-icon">${d.tag === 'NEW' ? '🆕' : '📢'}</span>
@@ -239,7 +241,7 @@ loadCategory('qgNotices', 'notices', 'notice', 3, doc => {
   </a>`;
 }, 'お知らせはまだありません');
 
-loadCategory('qgManga', 'manga', 'manga', 3, doc => {
+loadCategory('qgManga', 'manga', 'manga', 5, doc => {
   const d = doc.data();
   return `<a class="widget-row" href="manga-detail.html?id=${doc.id}">
     <img class="wr-thumb" src="${d.img || 'koara_logo.png'}" onerror="this.src='koara_logo.png'">
@@ -251,7 +253,7 @@ loadCategory('qgManga', 'manga', 'manga', 3, doc => {
   </a>`;
 }, '準備中です');
 
-loadCategory('qgCards', 'flashcardSets', 'cards', 3, doc => {
+loadCategory('qgCards', 'flashcardSets', 'cards', 5, doc => {
   const d = doc.data();
   const count = (d.cards || []).length;
   return `<a class="widget-row" href="flashcards-detail.html?id=${doc.id}">
@@ -264,7 +266,7 @@ loadCategory('qgCards', 'flashcardSets', 'cards', 3, doc => {
   </a>`;
 }, '準備中です');
 
-loadCategory('qgLexicon', 'lexiconEntries', 'grammar', 3, doc => {
+loadCategory('qgLexicon', 'lexiconEntries', 'grammar', 5, doc => {
   const d = doc.data();
   const tagLabel = d.type === 'adverb' ? '副詞' : '文法';
   return `<a class="widget-row" href="grammar-adverb.html">
@@ -277,7 +279,7 @@ loadCategory('qgLexicon', 'lexiconEntries', 'grammar', 3, doc => {
   </a>`;
 }, '準備中です');
 
-loadCategory('qgMaterials', 'materials', 'materials', 3, doc => {
+loadCategory('qgMaterials', 'materials', 'materials', 5, doc => {
   const d = doc.data();
   return `<a class="widget-row" href="${d.link || 'materials.html'}" target="${d.link ? '_blank' : '_self'}">
     <span class="wr-icon">📄</span>
