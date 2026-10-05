@@ -232,7 +232,7 @@ function loadCategory(tileId, collectionName, cat, limit, rowBuilder, emptyText)
 loadCategory('qgNotices', 'notices', 'notice', 5, doc => {
   const d = doc.data();
   return `<a class="widget-row" href="notices.html">
-    <span class="wr-icon">${d.tag === 'NEW' ? '🆕' : '📢'}</span>
+       <span class="wr-icon">${d.tag === 'NEW' && isNewItem(d.createdAt) ? '🆕' : '📢'}</span>
     <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div></div>
     <span class="wr-right">
       ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
