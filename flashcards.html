@@ -79,7 +79,7 @@
       <a class="fc-set-card" href="flashcards-shokyu1.html" style="text-decoration:none; color:inherit; margin-bottom:10px;">
         <div class="fc-icon">📘</div>
         <div class="fc-info">
-          <div class="jp">初級1 単語フラッシュカード <span class="new-badge">NEW</span></div>
+          <div class="jp">初級1 単語フラッシュカード <span class="new-badge" data-new-until="2026-10-22">NEW</span></div>
           <div class="kr">授業テキスト 第1〜6課 · 課ごとに練習</div>
         </div>
         <div class="fc-count">290枚</div>
@@ -278,5 +278,6 @@ db.collection('notices').orderBy('createdAt', 'desc').limit(1).get().then(snap =
   `;
 }).catch(() => {});
 </script>
+<script>document.querySelectorAll('.new-badge[data-new-until]').forEach(function(el){if(new Date()>new Date(el.dataset.newUntil+'T23:59:59'))el.style.display='none';});</script>
 </body>
 </html>

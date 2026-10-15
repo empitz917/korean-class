@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-375P0F1EVY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-375P0F1EVY');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韓国語遊びラボ、「コアラ」</title>
+<meta name="description" content="コアラ(KOARA)は日本人のための韓国語学習サイト。1コマ漫画クイズ、フラッシュカード、単語ゲームなど楽しく学べるコンテンツを無料で提供しています。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="韓国語遊びラボ、「コアラ」">
+<meta property="og:description" content="コアラ(KOARA)は日本人のための韓国語学習サイト。1コマ漫画クイズ、フラッシュカード、単語ゲームなど楽しく学べるコンテンツを無料で提供しています。">
+<meta property="og:image" content="https://empitz917.github.io/korean-class/koara_logo.png">
+<meta property="og:url" content="https://empitz917.github.io/korean-class/index.html">
+<meta property="og:site_name" content="コアラ(KOARA)">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Gamja+Flower&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page page-home">
+
+  <!-- 히어로 배너 (배경은 화면 끝까지, 안쪽 코알라·말풍선·텍스트는 원래 폭으로 다시 묶음) -->
+  <div class="hero-banner" id="heroBanner">
+   <div class="hero-inner">
+    <div class="fireworks" id="fireworks"></div>
+
+    <img class="k" src="assets/koala-namu.png" alt="" style="width:56px; top:14px; left:8px; opacity:0.9;">
+    <img class="k" src="assets/koala-5.png" alt="" style="width:52px; top:16px; right:6px; opacity:0.85;">
+    <img class="k" src="assets/koala-9.png" alt="" style="width:44px; bottom:-6px; left:0px; opacity:0.85;">
+    <img class="k" src="assets/koala-6.png" alt="" style="width:52px; bottom:22px; right:40px; opacity:0.8;">
+    <img class="k" src="assets/koala-2.png" alt="" style="width:42px; top:44%; left:-6px; opacity:0.55;">
+    <img class="k" src="assets/koala-10.png" alt="" style="width:46px; top:48%; right:-8px; opacity:0.5;">
+    <img class="k" src="assets/koala-3.png" alt="" style="width:48px; top:4px; left:38%; opacity:0.4;">
+    <img class="k peek" src="assets/koala-peek.png" alt="" style="width:68px; bottom:-4px; left:-12px;">
+
+    <div class="banner-bubble-round">
+      <span class="cloud-bump b1"></span>
+      <span class="cloud-bump b2"></span>
+      <span class="cloud-bump b3"></span>
+      Korean遊びLab、<br>コアラ！イェイ〜
+    </div>
+
+    <div class="teacher-tag">
+      <svg width="45" height="24" viewBox="0 0 60 36" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+        <path d="M20 34 C17 28, 16 24, 15 18" />
+        <path d="M32 34 C31.5 27, 31.5 23, 31.5 17" />
+        <path d="M44 34 C46 28, 48 25, 50 21" />
+      </svg>
+      현주쌤
+    </div>
+
+    <div class="main-content">
+      <img id="mainKoala" src="assets/koala-center.png" alt="코아라" style="width:130px; cursor:pointer;" onclick="transformKoala()">
+      <div class="jp">韓国語遊びラボ、「コアラ」</div>
+      <div class="kr">놀면서 하는 한국어 공부</div>
+      <div class="sns-row">
+        <a class="sns-btn sns-x" href="https://x.com/yuriikaSHJ" target="_blank" rel="noopener" title="X (Twitter)">
+          <span class="sns-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-6.8L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.2L18.9 2Zm-1.2 18h1.7L7.4 4h-1.8l12.1 16Z"/></svg></span>
+          <span class="sns-label">X</span>
+        </a>
+        <a class="sns-btn sns-ig" href="https://www.instagram.com/hyunjooseung/" target="_blank" rel="noopener" title="Instagram">
+          <span class="sns-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></span>
+          <span class="sns-label">Instagram</span>
+        </a>
+      </div>
+    </div>
+   </div>
+  </div>
+
+  <div class="tabbar">
+    <a class="tab active" href="index.html"><span class="jp">ホーム</span><span class="kr">홈</span></a>
+    <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
+    <a class="tab" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
+    <a class="tab" href="flashcards.html"><span class="jp">フラッシュカード</span><span class="kr">플래시카드</span></a>
+    <a class="tab" href="grammar-adverb.html"><span class="jp">文法 / 副詞</span><span class="kr">문법 / 부사</span></a>
+    <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
+    <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
+    <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
+  </div>
+
+  <!-- 빠른 메뉴 (선택 시 아래 목록도 함께 전환되는 카테고리 탭 역할 겸용) -->
+  <div class="home-wrap">
+  <div class="quick-grid">
+    <a href="games.html" id="qgGames" data-cat="games"><span class="qg-new-badge" data-new-until="2026-09-12">NEW</span><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="jp">ゲーム</div><div class="kr">게임</div></a>
+    <a href="manga.html" id="qgManga" data-cat="manga"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></a>
+    <a href="flashcards.html" id="qgCards" data-cat="cards"><span class="qg-new-badge" data-new-until="2026-10-22">NEW</span><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
+    <a href="grammar-adverb.html" id="qgLexicon" data-cat="grammar"><div class="qg-icon" style="background:#EAE0F6;">🔍</div><div class="jp">文法 / 副詞</div><div class="kr">문법 / 부사</div></a>
+    <a href="materials.html" id="qgMaterials" data-cat="materials"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
+    <a href="board.html" id="qgBoard" data-cat="board"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
+    <a href="notices.html" id="qgNotices" data-cat="notice"><div class="qg-icon" style="background:#E4D9F6;">📢</div><div class="jp">お知らせ</div><div class="kr">공지</div></a>
+  </div>
+
+  <!-- 선택된 카테고리의 최신 소식만 표시하는 통합 위젯 -->
+  <div class="home-widget">
+    <div class="widget-head">
+      <span class="wh-icon">◆</span>
+      <span class="jp" id="feedTitleJp">最新のお知らせ</span>
+      <span class="kr" id="feedTitleKr">최신 공지</span>
+      <a class="more" id="feedMore" href="notices.html">+</a>
+    </div>
+    <div class="widget-body" id="feedBody">
+      <div class="home-empty-mini">読み込み中...</div>
+    </div>
+  </div>
+
+  <!-- 선생님이 계신 곳 -->
+  <div class="home-widget" style="padding-bottom:20px;">
+    <div class="widget-head">
+      <span class="wh-icon">◆</span>
+      <span class="jp">もっと学びたい方へ</span>
+      <span class="kr">더 배우고 싶다면</span>
+    </div>
+    <div class="about-intro">
+      <div class="jp">韓国語講師・承賢珠が作っています。</div>
+      <div class="kr">한국어 강사 승현주가 만들고 있습니다.</div>
+    </div>
+    <div class="widget-body">
+      <a class="widget-row" href="https://ac.koribun.com/" target="_blank" rel="noopener">
+        <span class="wr-icon">🏫</span>
+        <div class="wr-text"><div class="jp">コリ文語学堂</div></div>
+      </a>
+      <a class="widget-row" href="https://www.hanatas.jp/" target="_blank" rel="noopener">
+        <span class="wr-icon">📚</span>
+        <div class="wr-text"><div class="jp">hana＋（ハナタス）</div></div>
+      </a>
+
+      <details class="book-toggle">
+        <summary class="widget-row">
+          <span class="wr-icon">✍️</span>
+          <div class="wr-text"><div class="jp">著書一覧</div></div>
+          <span class="book-caret">▾</span>
+        </summary>
+        <div class="book-list">
+          <div class="book-item"><div class="book-title">ハングル検定対策3級問題集</div><div class="book-meta">共著 · 2012年5月 · 白水社</div></div>
+          <div class="book-item"><div class="book-title">韓国語単語集</div><div class="book-meta">共著 · 2013年4月 · 新星出版社</div></div>
+          <div class="book-item"><div class="book-title">「日本の衣食住」まるごと事典</div><div class="book-meta">単訳 · 2015年5月 · ハンウル(한울)</div></div>
+          <div class="book-item"><div class="book-title">東京歩き</div><div class="book-meta">監修書 · 2016年6月 · ハンウル(한울)</div></div>
+          <div class="book-item"><div class="book-title">「世界で戦える人材の条件」</div><div class="book-meta">単訳 · 2016年9月 · ハンウル(한울)</div></div>
+          <div class="book-item"><div class="book-title">chat diary ハングルで3行日記</div><div class="book-meta">共著 · 2018年12月 · アルク</div></div>
+          <div class="book-item"><div class="book-title">韓国語初級ドリル</div><div class="book-meta">共著 · 2022年3月 · HANA</div></div>
+          <div class="book-item"><div class="book-title">みんなの韓国語</div><div class="book-meta">共著 · 2024年6月 · 白水社</div></div>
+        </div>
+      </details>
+    </div>
+  </div>
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+function fmtDate(ts) {
+  const d = ts ? ts.toDate() : new Date();
+  return d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0');
+}
+function isNewItem(ts) {
+  const d = ts ? ts.toDate() : new Date();
+  return (Date.now() - d.getTime()) < 7 * 24 * 60 * 60 * 1000;
+}
+
+// 퀵메뉴가 곧 카테고리 선택 탭 — 공지/만화/카드/문법/자료실은 목록이 있는 카테고리,
+// 게임/게시판은 목록 없이 바로 해당 페이지로 이동합니다.
+const feedMeta = {
+  notice:    { titleJp:'最新のお知らせ',        titleKr:'최신 공지',        more:'notices.html' },
+  manga:     { titleJp:'1コマ漫画クイズ',        titleKr:'한 컷 만화 퀴즈',   more:'manga.html' },
+  cards:     { titleJp:'フラッシュカード',       titleKr:'플래시카드',       more:'flashcards.html' },
+  grammar:   { titleJp:'文法 / 副詞 コーナー',    titleKr:'문법 / 부사 돋보기', more:'grammar-adverb.html' },
+  materials: { titleJp:'資料室',                titleKr:'자료실',           more:'materials.html' },
+};
+const feedCache = {}; // 카테고리별로 미리 불러온 목록 HTML을 저장해두고 클릭 시 즉시 전환
+let currentCat = 'notice';
+
+function renderFeed(cat) {
+  currentCat = cat;
+  const meta = feedMeta[cat];
+  document.getElementById('feedTitleJp').textContent = meta.titleJp;
+  document.getElementById('feedTitleKr').textContent = meta.titleKr;
+  document.getElementById('feedMore').href = meta.more;
+  document.getElementById('feedBody').innerHTML = feedCache[cat] || '<div class="home-empty-mini">読み込み中...</div>';
+  document.querySelectorAll('.quick-grid a[data-cat]').forEach(a => {
+    a.classList.toggle('active', a.dataset.cat === cat);
+  });
+}
+
+// 목록이 있는 5개 카테고리 클릭 시 페이지 이동 대신 아래 목록만 갱신
+['notice','manga','cards','grammar','materials'].forEach(cat => {
+  const el = document.querySelector(`.quick-grid a[data-cat="${cat}"]`);
+  if (el) el.addEventListener('click', (e) => { e.preventDefault(); renderFeed(cat); });
+});
+// 게임 / 게시판은 목록이 없으므로 기존처럼 그대로 이동 (핸들러 없음)
+
+renderFeed('notice'); // 데이터 도착 전, 기본 선택(공지) 표시 상태를 즉시 반영
+
+// 고정 콘텐츠(Firestore 밖의 정적 페이지)를 목록 맨 위에 표시
+const PINNED_NEW_UNTIL = { shokyu1: '2026-10-22' };
+function pinnedIsNew(key) { return new Date() <= new Date(PINNED_NEW_UNTIL[key] + 'T23:59:59'); }
+const PINNED_ROWS = {
+  cards: `<a class="widget-row" href="flashcards-shokyu1.html">
+    <span class="wr-icon">📘</span>
+    <div class="wr-text"><div class="jp">初級1 単語フラッシュカード</div><div class="kr">授業テキスト 第1〜6課</div></div>
+    <span class="wr-right">
+      ${pinnedIsNew('shokyu1') ? '<span class="new-badge">NEW</span>' : ''}
+      <span class="wr-date">290枚</span>
+    </span>
+  </a>`
+};
+
+// 카테고리별 NEW 점 표시 + 목록 HTML 준비 (한 번의 조회로 둘 다 처리)
+function loadCategory(tileId, collectionName, cat, limit, rowBuilder, emptyText) {
+  db.collection(collectionName).orderBy('createdAt', 'desc').limit(limit).get().then(snap => {
+    if (snap.empty) {
+      if (cat) feedCache[cat] = PINNED_ROWS[cat] || `<div class="home-empty-mini">${emptyText}</div>`;
+    } else {
+      const top = snap.docs[0].data();
+      if (isNewItem(top.createdAt)) {
+        const tile = document.getElementById(tileId);
+        const hasBadge = tile && [...tile.querySelectorAll('.qg-new-badge')].some(b => b.style.display !== 'none');
+        if (tile && !hasBadge) tile.insertAdjacentHTML('afterbegin', '<span class="qg-new-badge">NEW</span>');
+      }
+      if (cat) feedCache[cat] = (PINNED_ROWS[cat] || '') + snap.docs.map(rowBuilder).join('');
+    }
+    if (cat === currentCat) renderFeed(cat);
+  }).catch(() => {
+    if (cat) feedCache[cat] = '<div class="home-empty-mini">読み込みに失敗しました</div>';
+    if (cat === currentCat) renderFeed(cat);
+  });
+}
+
+loadCategory('qgNotices', 'notices', 'notice', 5, doc => {
+  const d = doc.data();
+  return `<a class="widget-row" href="notices.html">
+       <span class="wr-icon">${d.tag === 'NEW' && isNewItem(d.createdAt) ? '🆕' : '📢'}</span>
+    <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div></div>
+    <span class="wr-right">
+      ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+      <span class="wr-date">${fmtDate(d.createdAt)}</span>
+    </span>
+  </a>`;
+}, 'お知らせはまだありません');
+
+loadCategory('qgManga', 'manga', 'manga', 5, doc => {
+  const d = doc.data();
+  return `<a class="widget-row" href="manga-detail.html?id=${doc.id}">
+    <img class="wr-thumb" src="${d.img || 'koara_logo.png'}" onerror="this.src='koara_logo.png'">
+    <div class="wr-text"><div class="jp">#${escapeHtml(d.ep)} ${escapeHtml(d.title)}</div></div>
+    <span class="wr-right">
+      ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+      <span class="wr-date">${fmtDate(d.createdAt)}</span>
+    </span>
+  </a>`;
+}, '準備中です');
+
+loadCategory('qgCards', 'flashcardSets', 'cards', 5, doc => {
+  const d = doc.data();
+  const count = (d.cards || []).length;
+  return `<a class="widget-row" href="flashcards-detail.html?id=${doc.id}">
+    <span class="wr-icon">🗂️</span>
+    <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div><div class="kr">${escapeHtml(d.desc || '')}</div></div>
+    <span class="wr-right">
+      ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+      <span class="wr-date">${count}枚</span>
+    </span>
+  </a>`;
+}, '準備中です');
+
+loadCategory('qgLexicon', 'lexiconEntries', 'grammar', 5, doc => {
+  const d = doc.data();
+  const tagLabel = d.type === 'adverb' ? '副詞' : '文法';
+  return `<a class="widget-row" href="grammar-adverb.html">
+    <span class="wr-icon">🔍</span>
+    <div class="wr-text"><div class="jp">[${tagLabel}] ${escapeHtml(d.headword)}</div><div class="kr">${escapeHtml(d.meaningJp || '')}</div></div>
+    <span class="wr-right">
+      ${isNewItem(d.createdAt) ? '<span class="new-badge">NEW</span>' : ''}
+      <span class="wr-date">${fmtDate(d.createdAt)}</span>
+    </span>
+  </a>`;
+}, '準備中です');
+
+loadCategory('qgMaterials', 'materials', 'materials', 5, doc => {
+  const d = doc.data();
+  return `<a class="widget-row" href="${d.link || 'materials.html'}" target="${d.link ? '_blank' : '_self'}">
+    <span class="wr-icon">📄</span>
+    <div class="wr-text"><div class="jp">${escapeHtml(d.title)}</div></div>
+    ${isNewItem(d.createdAt) ? '<span class="wr-right"><span class="new-badge">NEW</span></span>' : ''}
+  </a>`;
+}, '準備中です');
+
+// 목록은 없지만 NEW 점만 표시하는 카테고리 (게임/게시판)
+loadCategory('qgBoard', 'posts', null, 1, null, '');
+// 게임은 연결된 컬렉션이 없어 NEW 점 체크 대상에서 제외 (기존과 동일)
+
+// 배너 불꽃놀이 효과
+(function() {
+  const box = document.getElementById('fireworks');
+  if (!box) return;
+  const colors = ['#FFD9C0', '#FFF3E6', '#FF9F7A', '#B8F2E6', '#FFE066', '#fff'];
+
+  function burst(cx, cy) {
+    const count = 40;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('span');
+      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+      const dist = 80 + Math.random() * 110;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+      p.className = 'fw-particle';
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.width = (4 + Math.random() * 5) + 'px';
+      p.style.height = p.style.width;
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.setProperty('--dx', dx + 'px');
+      p.style.setProperty('--dy', dy + 'px');
+      p.style.animationDuration = (1.4 + Math.random() * 0.6) + 's';
+      box.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }
+  }
+
+  function randomBurst() {
+    const w = box.clientWidth || 380;
+    const h = box.clientHeight || 300;
+    burst(40 + Math.random() * (w - 80), 30 + Math.random() * (h * 0.55));
+  }
+
+  // 페이지 진입 시 순차적으로 더 여러 번, 더 오래 터뜨리기
+  [0, 300, 600, 900, 1300, 1700, 2200, 2800, 3400].forEach(delay => setTimeout(randomBurst, delay));
+})();
+
+// 가운데 코알라 클릭하면 다른 포즈로 변신
+const koalaForms = [
+  'assets/koala-center.png',
+  'assets/koala-namu.png',
+  'assets/koala-4b.png',
+  'assets/koala-peek.png',
+  'assets/koala-6.png',
+  'assets/koala-9.png'
+];
+let koalaIdx = 0;
+function transformKoala() {
+  const el = document.getElementById('mainKoala');
+  if (!el) return;
+  koalaIdx = (koalaIdx + 1) % koalaForms.length;
+  el.classList.remove('koala-pop');
+  void el.offsetWidth;
+  el.src = koalaForms[koalaIdx];
+  el.classList.add('koala-pop');
+}
+</script>
+  <script> document.querySelectorAll('.qg-new-badge[data-new-until]').forEach(function(el){ var until = new Date(el.dataset.newUntil + 'T23:59:59'); if (new Date() > until) { el.style.display = 'none'; } }); </script>
+</body>
+</html>
