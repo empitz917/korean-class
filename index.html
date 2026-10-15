@@ -91,7 +91,7 @@
   <div class="quick-grid">
     <a href="games.html" id="qgGames" data-cat="games"><span class="qg-new-badge" data-new-until="2026-09-12">NEW</span><div class="qg-icon" style="background:#FFD9C0;">🎮</div><div class="jp">ゲーム</div><div class="kr">게임</div></a>
     <a href="manga.html" id="qgManga" data-cat="manga"><div class="qg-icon" style="background:#F6D9E8;">📖</div><div class="jp">1コマ漫画クイズ</div><div class="kr">한 컷 만화 퀴즈</div></a>
-    <a href="flashcards.html" id="qgCards" data-cat="cards"><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
+    <a href="flashcards.html" id="qgCards" data-cat="cards"><span class="qg-new-badge" data-new-until="2026-10-22">NEW</span><div class="qg-icon" style="background:#D9E2F6;">🗂️</div><div class="jp">フラッシュカード</div><div class="kr">플래시카드</div></a>
     <a href="grammar-adverb.html" id="qgLexicon" data-cat="grammar"><div class="qg-icon" style="background:#EAE0F6;">🔍</div><div class="jp">文法 / 副詞</div><div class="kr">문법 / 부사</div></a>
     <a href="materials.html" id="qgMaterials" data-cat="materials"><div class="qg-icon" style="background:#D9F0E2;">📂</div><div class="jp">資料室</div><div class="kr">자료실</div></a>
     <a href="board.html" id="qgBoard" data-cat="board"><div class="qg-icon" style="background:#F6E9D9;">💬</div><div class="jp">掲示板</div><div class="kr">게시판</div></a>
@@ -209,18 +209,33 @@ function renderFeed(cat) {
 
 renderFeed('notice'); // 데이터 도착 전, 기본 선택(공지) 표시 상태를 즉시 반영
 
+// 고정 콘텐츠(Firestore 밖의 정적 페이지)를 목록 맨 위에 표시
+const PINNED_NEW_UNTIL = { shokyu1: '2026-10-22' };
+function pinnedIsNew(key) { return new Date() <= new Date(PINNED_NEW_UNTIL[key] + 'T23:59:59'); }
+const PINNED_ROWS = {
+  cards: `<a class="widget-row" href="flashcards-shokyu1.html">
+    <span class="wr-icon">📘</span>
+    <div class="wr-text"><div class="jp">初級1 単語フラッシュカード</div><div class="kr">授業テキスト 第1〜6課</div></div>
+    <span class="wr-right">
+      ${pinnedIsNew('shokyu1') ? '<span class="new-badge">NEW</span>' : ''}
+      <span class="wr-date">290枚</span>
+    </span>
+  </a>`
+};
+
 // 카테고리별 NEW 점 표시 + 목록 HTML 준비 (한 번의 조회로 둘 다 처리)
 function loadCategory(tileId, collectionName, cat, limit, rowBuilder, emptyText) {
   db.collection(collectionName).orderBy('createdAt', 'desc').limit(limit).get().then(snap => {
     if (snap.empty) {
-      if (cat) feedCache[cat] = `<div class="home-empty-mini">${emptyText}</div>`;
+      if (cat) feedCache[cat] = PINNED_ROWS[cat] || `<div class="home-empty-mini">${emptyText}</div>`;
     } else {
       const top = snap.docs[0].data();
       if (isNewItem(top.createdAt)) {
         const tile = document.getElementById(tileId);
-        if (tile) tile.insertAdjacentHTML('afterbegin', '<span class="qg-new-badge">NEW</span>');
+        const hasBadge = tile && [...tile.querySelectorAll('.qg-new-badge')].some(b => b.style.display !== 'none');
+        if (tile && !hasBadge) tile.insertAdjacentHTML('afterbegin', '<span class="qg-new-badge">NEW</span>');
       }
-      if (cat) feedCache[cat] = snap.docs.map(rowBuilder).join('');
+      if (cat) feedCache[cat] = (PINNED_ROWS[cat] || '') + snap.docs.map(rowBuilder).join('');
     }
     if (cat === currentCat) renderFeed(cat);
   }).catch(() => {
