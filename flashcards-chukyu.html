@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-375P0F1EVY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-375P0F1EVY');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中級 単語フラッシュカード | 韓国語遊びラボ、「コアラ」</title>
+<meta name="description" content="韓国語中級の単語を課ごとにフラッシュカードで暗記。住まい・生活サービス・健康など100語以上を韓→日／日→韓の両方向で練習できます。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="中級 単語フラッシュカード | 韓国語遊びラボ、「コアラ」">
+<meta property="og:description" content="韓国語中級の単語を課ごとにフラッシュカードで暗記。住まい・生活サービス・健康など100語以上を韓→日／日→韓の両方向で練習できます。">
+<meta property="og:image" content="https://empitz917.github.io/korean-class/koara_logo.png">
+<meta property="og:url" content="https://empitz917.github.io/korean-class/flashcards-chukyu.html">
+<meta property="og:site_name" content="コアラ(KOARA)">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* 초급1 단어 플래시카드 전용 (vc- 접두어로 style.css와 충돌 방지) */
+.vc{--vc-ink:#5c4636;--vc-sub:#a89a8c;--vc-acc:#FF7A59;--vc-acc2:#FFE8D6;--vc-ok:#3FA36B;--vc-ng:#E5883A;--vc-line:#EADFD5;max-width:560px;margin:0 auto;padding-bottom:20px;color:var(--vc-ink);font-family:"Noto Sans KR","Noto Sans JP",sans-serif;-webkit-tap-highlight-color:transparent}
+.vc-back-link{display:inline-block;font-size:12px;color:var(--vc-sub);text-decoration:none;margin-bottom:8px}
+.vc-lead{font-size:12px;color:var(--vc-sub);margin:-4px 0 12px;line-height:1.6}
+.vc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.vc-chip{border:1.5px solid var(--vc-line);background:#fff;color:var(--vc-ink);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;position:relative;overflow:hidden;font-family:inherit}
+.vc-chip.on{border-color:var(--vc-acc);background:var(--vc-acc);color:#fff;font-weight:700}
+.vc-chip .vc-bar{position:absolute;left:0;bottom:0;height:3px;background:var(--vc-ok)}
+.vc-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.vc-btn{border:1.5px solid var(--vc-line);background:#fff;color:var(--vc-ink);border-radius:10px;padding:7px 11px;font-size:12px;cursor:pointer;font-family:inherit}
+.vc-btn.on{border-color:var(--vc-acc);color:var(--vc-acc);font-weight:700}
+.vc-status{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--vc-sub);margin-bottom:6px}
+.vc-badge{background:var(--vc-ng);color:#fff;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700}
+.vc-prog{height:6px;background:var(--vc-line);border-radius:6px;overflow:hidden;margin-bottom:14px}.vc-prog i{display:block;height:100%;background:var(--vc-acc);transition:width .3s}
+.vc-stage{perspective:1200px;height:280px;margin-bottom:14px}
+.vc-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .45s;cursor:pointer}
+.vc-card.flip{transform:rotateY(180deg)}
+.vc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;border-radius:20px;box-shadow:0 6px 20px rgba(120,80,40,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.vc-face.vc-backface{transform:rotateY(180deg);background:#FFFDF9;border:2px solid var(--vc-acc2)}
+.vc-cat{position:absolute;top:14px;left:16px;font-size:11px;color:var(--vc-sub)}
+.vc-hint{position:absolute;bottom:12px;font-size:11px;color:#c2b5a6}
+.vc-ko{font-size:38px;font-weight:700;line-height:1.3;word-break:keep-all}
+.vc-ja{font-size:24px;line-height:1.4}
+.vc-small .vc-ko{font-size:27px}.vc-small .vc-ja{font-size:18px}
+.vc-judge{display:flex;gap:10px}
+.vc-judge button{flex:1;border:0;border-radius:14px;padding:14px;font-size:15px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit}
+.vc-okb{background:var(--vc-ok)}.vc-ngb{background:var(--vc-ng)}
+.vc-undo{display:block;margin:10px auto 0;border:0;background:none;color:var(--vc-sub);font-size:13px;cursor:pointer;font-family:inherit}
+.vc-done{text-align:center;padding:30px 10px;background:#fff;border-radius:20px;box-shadow:0 6px 20px rgba(120,80,40,.12)}
+.vc-done .vc-big{font-size:46px}.vc-done h2{margin:6px 0 10px;font-size:20px}
+.vc-done p{color:var(--vc-sub);font-size:13px;margin:0 0 14px}
+.vc-done button{border:0;background:var(--vc-acc);color:#fff;border-radius:12px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer;margin:4px;font-family:inherit}
+.vc-keys{text-align:center;font-size:11px;color:#c2b5a6;margin-top:14px}
+@media (hover:none){.vc-keys{display:none}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="site-header">
+    <a class="logo-link" href="index.html">
+      <img src="koara_logo.png" alt="코아라">
+      <div class="jp">韓国語遊びラボ、「コアラ」</div>
+    </a>
+  </div>
+
+  <div class="tabbar">
+    <a class="tab" href="index.html"><span class="jp">ホーム</span><span class="kr">홈</span></a>
+    <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
+    <a class="tab" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
+    <a class="tab active" href="flashcards.html"><span class="jp">フラッシュカード</span><span class="kr">플래시카드</span></a>
+    <a class="tab" href="grammar-adverb.html"><span class="jp">文法 / 副詞</span><span class="kr">문법 / 부사</span></a>
+    <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
+    <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
+    <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
+  </div>
+
+  <div class="content">
+    <div class="section vc">
+      <a class="vc-back-link" href="flashcards.html">← フラッシュカード一覧</a>
+      <div class="section-head">
+        <span class="jp">中級 単語フラッシュカード</span>
+        <span class="kr">중급 단어</span>
+        <span class="count" id="vcTotal">-</span>
+      </div>
+      <p class="vc-lead">授業テキスト 第6〜8課の単語です。覚えた単語は ✅、まだの単語は 🔁 で、🔁 の単語だけもう一度出てきます。</p>
+
+      <div class="vc-chips" id="vcChips"></div>
+      <div class="vc-row">
+        <button class="vc-btn on" id="vcKJ">韓 → 日</button><button class="vc-btn" id="vcJK">日 → 韓</button>
+        <button class="vc-btn" id="vcShuf">🔀 シャッフル</button><button class="vc-btn" id="vcReset">↺ 最初から</button>
+      </div>
+      <div id="vcMain"></div>
+      <div class="vc-keys">キーボード：スペース＝めくる　→＝覚えた　←＝まだ</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+const L=[{"n": "06", "t": "집", "words": [{"k": "관리실", "j": "管理室・管理事務所", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "수납장", "j": "収納棚", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "전자레인지", "j": "電子レンジ", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "분리되다", "j": "分かれている・分離される", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "낡다", "j": "古い・古びている", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "저렴하다", "j": "(値段が)安い", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "마음에 들다", "j": "気に入る", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "샤워기", "j": "シャワー(ヘッド)", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "욕실", "j": "浴室・バスルーム", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "택배", "j": "宅配便", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "수납하다", "j": "収納する", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "넉넉하다", "j": "ゆったりしている・十分だ", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "단독 주택", "j": "一戸建て", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "바람이 통하다", "j": "風通しがいい", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "세면대", "j": "洗面台", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "이곳저곳", "j": "あちこち", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "둘러보다", "j": "見て回る", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "틀다", "j": "(水・エアコンなどを)つける・出す", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "습하다", "j": "湿っぽい・じめじめする", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "편의 시설", "j": "生活に便利な施設", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "햇볕이 들다", "j": "日が当たる", "c": "가격 때문에 좀 더 고민해 봐야 할 것 같아요"}, {"k": "난방", "j": "暖房", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "빨대", "j": "ストロー", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "자취생", "j": "一人暮らしの学生", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "현관문", "j": "玄関のドア", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "당황하다", "j": "慌てる・うろたえる", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "이상하다", "j": "おかしい・変だ", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "갈아 끼우다", "j": "取り替える(はめ替える)", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "보일러", "j": "ボイラー(床暖房・給湯)", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "손잡이", "j": "取っ手・ドアノブ", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "전원", "j": "電源", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "깜빡거리다", "j": "点滅する・ちかちかする", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "빠지다", "j": "抜ける・外れる", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "제대로", "j": "ちゃんと・まともに", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "냄새가 심하다", "j": "においがひどい", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "비밀번호", "j": "暗証番号・パスワード", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "습도", "j": "湿度", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "제습제", "j": "除湿剤", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "끼다", "j": "(カビ・霧などが)生じる・はめる", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "후회하다", "j": "後悔する", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}, {"k": "건전지가 떨어지다", "j": "電池が切れる", "c": "비밀번호를 누를 때마다 이상한 소리가 나더라고요"}]}, {"n": "07", "t": "생활 서비스", "words": [{"k": "공과금", "j": "公共料金", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "수도", "j": "水道", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "이상", "j": "異常", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "점검", "j": "点検", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "새다", "j": "漏れる", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "공기 방울", "j": "気泡・空気の泡", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "도시가스", "j": "都市ガス", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "연결", "j": "接続・つなぐこと", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "임시", "j": "臨時", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "편명", "j": "(飛行機の)便名", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "청구되다", "j": "請求される", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "비눗물", "j": "石けん水", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "온수", "j": "お湯・温水", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "전기", "j": "電気", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "변경하다", "j": "変更する", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "가스 밸브", "j": "ガスの元栓", "c": "도시가스 요금이 많이 나와서 전화 드렸는데요"}, {"k": "계약", "j": "契約", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "박람회", "j": "博覧会・フェア", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "의료", "j": "医療", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "제공하다", "j": "提供する", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "통역 서비스", "j": "通訳サービス", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "대상", "j": "対象", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "보험", "j": "保険", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "선착순", "j": "先着順", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "진행하다", "j": "行う・進める", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "정보를 얻다", "j": "情報を得る", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "명절", "j": "(韓国の)祝日・名節", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "운전면허", "j": "運転免許", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "관련되다", "j": "関連する", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}, {"k": "문화 차이", "j": "文化の違い", "c": "외국인들을 위해 여러 가지 서비스를 제공한다고 합니다"}]}, {"n": "08", "t": "건강", "words": [{"k": "걸음걸이", "j": "歩き方", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "발가락", "j": "足の指", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "시력", "j": "視力", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "튼튼하다", "j": "丈夫だ・がっしりしている", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "활짝", "j": "ぱっと・大きく(開く様子)", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "자세가 바르다", "j": "姿勢が正しい", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "효과가 좋다", "j": "効果がある・よく効く", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "근육", "j": "筋肉", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "불규칙적", "j": "不規則", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "인스턴트식품", "j": "インスタント食品", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "꾸준히", "j": "こつこつと・根気よく", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "땅에 닿다", "j": "地面につく", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "집중력이 떨어지다", "j": "集中力が落ちる", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "뒤꿈치", "j": "かかと", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "순서", "j": "順序・順番", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "붓다", "j": "むくむ・腫れる", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "오히려", "j": "むしろ・かえって", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "여드름이 나다", "j": "ニキビができる", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "피로가 쌓이다", "j": "疲れがたまる", "c": "바른 자세로 걷는 것이 중요합니다"}, {"k": "규칙적", "j": "規則的", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "위염", "j": "胃炎", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "줄이다", "j": "減らす", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "가렵다", "j": "かゆい", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "반창고를 붙이다", "j": "絆創膏を貼る", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "소화가 안 되다", "j": "消化が悪い・胃がもたれる", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "연고를 바르다", "j": "軟膏を塗る", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "충혈이 되다", "j": "(目が)充血する", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "면역력", "j": "免疫力", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "증상", "j": "症状", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "처방하다", "j": "処方する", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "구토를 하다", "j": "吐く・嘔吐する", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "상처가 나다", "j": "傷ができる・けがをする", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "속이 쓰리다", "j": "胃がキリキリする・胸やけがする", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "주사를 맞다", "j": "注射を打ってもらう", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "영양제", "j": "サプリメント・栄養剤", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "나아지다", "j": "よくなる", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "피하다", "j": "避ける", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "두드러기가 나다", "j": "じんましんが出る", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "소독약을 바르다", "j": "消毒薬を塗る", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "안약을 넣다", "j": "目薬をさす", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}, {"k": "챙겨 먹다", "j": "忘れずに食べる(飲む)", "c": "식사를 규칙적으로 하시고 약도 잘 챙겨 드세요"}]}];
+let li=0,dir="KJ",doShuf=false,deck=[],pos=0,hist=[],missed=[],round=1,correct=0,best={};
+try{best=JSON.parse(localStorage.getItem("koara_chukyu_fc")||"{}")}catch(e){}
+const $=s=>document.querySelector(s);
+$("#vcTotal").textContent=L.reduce((a,l)=>a+l.words.length,0)+"語";
+function chips(){$("#vcChips").innerHTML=L.map((l,i)=>{const p=best[l.n]||0;return `<button class="vc-chip ${i==li?'on':''}" data-i="${i}">${parseInt(l.n)}課 ${l.t}<span class="vc-bar" style="width:${p}%"></span></button>`}).join("");
+ document.querySelectorAll(".vc-chip").forEach(b=>b.onclick=()=>{li=+b.dataset.i;start()})}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){deck=L[li].words.map((w,i)=>i);if(doShuf)shuffle(deck);pos=0;hist=[];missed=[];round=1;correct=0;chips();render()}
+function render(){
+ const words=L[li].words;
+ if(pos>=deck.length){
+  if(missed.length){deck=doShuf?shuffle([...missed]):[...missed];missed=[];pos=0;round++;hist=[];render();return}
+  const total=words.length;best[L[li].n]=100;try{localStorage.setItem("koara_chukyu_fc",JSON.stringify(best))}catch(e){}chips();
+  try{gtag('event','flashcard_complete',{set:'chukyu_'+L[li].n,rounds:round})}catch(e){}
+  $("#vcMain").innerHTML=`<div class="vc-done"><div class="vc-big">🎉</div><h2>全部覚えました！</h2><p>${parseInt(L[li].n)}課 ${L[li].t} · ${total}語${round>1?` · ${round}周`:""}</p>
+  <button id="vcAgain">↺ もう一度</button>${li<L.length-1?`<button id="vcNext">次の課へ ▶</button>`:""}</div>`;
+  $("#vcAgain").onclick=start;if($("#vcNext"))$("#vcNext").onclick=()=>{li++;start();window.scrollTo({top:0,behavior:"smooth"})};return}
+ const w=words[deck[pos]],front=dir=="KJ"?`<div class="vc-ko">${w.k}</div>`:`<div class="vc-ja">${w.j}</div>`,back=`<div class="vc-ko">${w.k}</div><div class="vc-ja" style="margin-top:10px">${w.j}</div>`;
+ const sm=w.k.length>8||w.j.length>12?"vc-small":"";
+ const pct=Math.round(pos/deck.length*100);
+ $("#vcMain").innerHTML=`<div class="vc-status"><span>${round>1?'<span class="vc-badge">🔁 復習モード</span> ':''}${pos+1} / ${deck.length}</span><span>✅ ${correct}　🔁 ${missed.length}</span></div>
+ <div class="vc-prog"><i style="width:${pct}%"></i></div>
+ <div class="vc-stage ${sm}"><div class="vc-card" id="vcCard"><div class="vc-face"><span class="vc-cat">${w.c}</span>${front}<span class="vc-hint">👆 タップでめくる</span></div>
+ <div class="vc-face vc-backface"><span class="vc-cat">${w.c}</span>${back}</div></div></div>
+ <div class="vc-judge"><button class="vc-ngb" id="vcNg">🔁 まだ</button><button class="vc-okb" id="vcOk">✅ 覚えた</button></div>
+ <button class="vc-undo" id="vcUndo" ${hist.length?"":"style='visibility:hidden'"}>↩ 前のカード</button>`;
+ $("#vcCard").onclick=()=>$("#vcCard").classList.toggle("flip");
+ $("#vcOk").onclick=()=>judge(true);$("#vcNg").onclick=()=>judge(false);
+ $("#vcUndo").onclick=()=>{if(!hist.length)return;const h=hist.pop();pos--;if(h)correct--;else missed.pop();render()};
+}
+function judge(ok){hist.push(ok);if(ok)correct++;else missed.push(deck[pos]);pos++;render()}
+$("#vcKJ").onclick=()=>{dir="KJ";$("#vcKJ").classList.add("on");$("#vcJK").classList.remove("on");render()};
+$("#vcJK").onclick=()=>{dir="JK";$("#vcJK").classList.add("on");$("#vcKJ").classList.remove("on");render()};
+$("#vcShuf").onclick=()=>{doShuf=!doShuf;$("#vcShuf").classList.toggle("on",doShuf);start()};
+$("#vcReset").onclick=start;
+document.addEventListener("keydown",e=>{if(e.key==" "){e.preventDefault();$("#vcCard")&&$("#vcCard").click()}else if(e.key=="ArrowRight")$("#vcOk")&&$("#vcOk").click();else if(e.key=="ArrowLeft")$("#vcNg")&&$("#vcNg").click()});
+start();
+</script>
+</body>
+</html>
