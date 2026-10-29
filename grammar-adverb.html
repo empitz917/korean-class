@@ -313,11 +313,14 @@ function renderList() {
     const toggleBtn = card.querySelector('.lex-toggle');
     if (collapseInner && toggleBtn) {
       if (collapseInner.scrollHeight > collapseInner.clientHeight + 4) {
+        collapseInner.classList.add('clamped');
         toggleBtn.style.display = 'block';
         toggleBtn.addEventListener('click', () => {
           const expanded = collapseInner.classList.toggle('expanded');
           toggleBtn.textContent = expanded ? '閉じる ▴' : '続きを読む ▾';
         });
+      } else {
+        collapseInner.classList.add('expanded');
       }
     }
   });

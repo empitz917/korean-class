@@ -910,7 +910,7 @@ a { color:inherit; }
 
 .lex-collapse-inner { max-height:130px; overflow:hidden; position:relative; }
 .lex-collapse-inner.expanded { max-height:none; }
-.lex-collapse-inner:not(.expanded)::after {
+.lex-collapse-inner.clamped:not(.expanded)::after {
   content:''; position:absolute; left:0; right:0; bottom:0; height:30px;
   background:linear-gradient(to bottom, rgba(255,255,255,0), #fff);
   pointer-events:none;
