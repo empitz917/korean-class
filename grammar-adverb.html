@@ -12,11 +12,11 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文法 / 副詞コーナー | 韓国語遊びラボ、「コアラ」</title>
-<meta name="description" content="日本人学習者がよく迷う韓国語の文法と副詞を、コアラ先生がやさしく解説。質問や体験も投稿できます。">
+<title>副詞コーナー | 韓国語遊びラボ、「コアラ」</title>
+<meta name="description" content="日本人学習者がよく迷う韓国語の副詞を、コアラ先生がやさしく解説。質問や体験も投稿できます。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="文法 / 副詞コーナー | 韓国語遊びラボ、「コアラ」">
-<meta property="og:description" content="日本人学習者がよく迷う韓国語の文法と副詞を、コアラ先生がやさしく解説。質問や体験も投稿できます。">
+<meta property="og:title" content="副詞コーナー | 韓国語遊びラボ、「コアラ」">
+<meta property="og:description" content="日本人学習者がよく迷う韓国語の副詞を、コアラ先生がやさしく解説。質問や体験も投稿できます。">
 <meta property="og:image" content="https://empitz917.github.io/korean-class/koara_logo.png">
 <meta property="og:url" content="https://empitz917.github.io/korean-class/grammar-adverb.html">
 <meta property="og:site_name" content="コアラ(KOARA)">
@@ -44,7 +44,7 @@
     <a class="tab" href="games.html"><span class="jp">ゲーム</span><span class="kr">게임</span></a>
     <a class="tab" href="manga.html"><span class="jp">1コマ漫画クイズ</span><span class="kr">한 컷 만화 퀴즈</span></a>
     <a class="tab" href="flashcards.html"><span class="jp">フラッシュカード</span><span class="kr">플래시카드</span></a>
-    <a class="tab active" href="grammar-adverb.html"><span class="jp">文法 / 副詞</span><span class="kr">문법 / 부사</span></a>
+    <a class="tab active" href="grammar-adverb.html"><span class="jp">副詞</span><span class="kr">부사</span></a>
     <a class="tab" href="materials.html"><span class="jp">資料室</span><span class="kr">자료실</span></a>
     <a class="tab" href="board.html"><span class="jp">掲示板</span><span class="kr">게시판</span></a>
     <a class="tab" href="notices.html"><span class="jp">お知らせ</span><span class="kr">공지</span></a>
@@ -53,14 +53,14 @@
   <div class="content">
     <div class="section">
       <div class="section-head">
-        <span class="jp" id="sectionHeadJp">文法コーナー</span>
-        <span class="kr" id="sectionHeadKr">문법 돋보기</span>
+        <span class="jp" id="sectionHeadJp">副詞コーナー</span>
+        <span class="kr" id="sectionHeadKr">부사 돋보기</span>
         <span class="count" id="itemCount">-</span>
       </div>
 
-      <div class="lex-filter">
-        <button class="on" id="filterGrammar">文法 문법</button>
-        <button id="filterAdverb">副詞 부사</button>
+      <div class="lex-filter" style="display:none;">
+        <button id="filterGrammar">文法 문법</button>
+        <button class="on" id="filterAdverb">副詞 부사</button>
       </div>
 
       <div class="admin-panel" id="adminPanel" style="display:none;">
@@ -68,7 +68,6 @@
         <div class="admin-field">
           <label>種類</label>
           <select id="fType" style="width:100%; padding:8px 10px; border-radius:8px; border:1px solid #eee0d2; font-family:inherit; font-size:12px;">
-            <option value="grammar">文法（문법）</option>
             <option value="adverb">副詞（부사）</option>
           </select>
         </div>
@@ -125,7 +124,7 @@ const filterAdverbBtn = document.getElementById('filterAdverb');
 let isAdmin = false;
 let lastDocs = [];
 let editingId = null;
-let currentFilter = 'grammar'; // 'grammar' | 'adverb'
+let currentFilter = 'adverb'; // 문법 코너 폐지 → 부사만 표시
 
 document.getElementById('adminLoginLink').addEventListener('click', () => {
   auth.signInWithPopup(provider).catch(err => alert('ログイン失敗: ' + err.message));
