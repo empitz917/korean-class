@@ -200,11 +200,6 @@ function renderFeed(cat) {
   });
 }
 
-// 목록이 있는 5개 카테고리 클릭 시 페이지 이동 대신 아래 목록만 갱신
-['notice','manga','cards','grammar','materials'].forEach(cat => {
-  const el = document.querySelector(`.quick-grid a[data-cat="${cat}"]`);
-  if (el) el.addEventListener('click', (e) => { e.preventDefault(); renderFeed(cat); });
-});
 // 게임 / 게시판은 목록이 없으므로 기존처럼 그대로 이동 (핸들러 없음)
 
 renderFeed('notice'); // 데이터 도착 전, 기본 선택(공지) 표시 상태를 즉시 반영
