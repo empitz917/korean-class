@@ -283,13 +283,13 @@ function renderList() {
             `}
           </div>
           <button class="lex-toggle">続きを読む ▾</button>
-          ${d.prompt ? `<div class="lex-prompt">
+          <div class="lex-prompt">
             <span class="lp-icon">💭</span>
             <div>
-              <div class="lp-question">${escapeHtml(d.prompt)}</div>
+              <div class="lp-question">${escapeHtml(d.prompt || 'みなさんもチャレンジしてみてください！')}</div>
               <div class="lp-guide"><span class="lp-arrow">👉</span>下の「チャレンジ」から書いてみましょう。</div>
             </div>
-          </div>` : ''}
+          </div>
         </div>
       </div>
       <div class="lex-actions">
